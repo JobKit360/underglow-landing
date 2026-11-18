@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co https://api.github.com; base-uri 'none'; form-action 'self'">
 <title>Your account · UnderGlow</title>
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
@@ -16,7 +16,7 @@
   <p id="sub" class="dim"></p>
   <form id="form" novalidate>
     <label id="emailRow">Email<input id="email" type="email" autocomplete="email" required></label>
-    <label id="passRow">Password<input id="password" type="password" minlength="8" required></label>
+    <label id="passRow">Password<input id="password" type="password" minlength="10" required></label>
     <button class="btn" id="go" type="submit">Sign in</button>
   </form>
   <p id="msg" role="status" aria-live="polite"></p>
