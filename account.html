@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co; base-uri 'none'; form-action 'self'">
+<title>Your account · UnderGlow</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="center">
+<main class="card">
+  <a class="brand" href="index.html"><img src="logo.svg" alt="" width="34" height="34">UnderGlow</a>
+  <h1 id="title">Sign in</h1>
+  <p id="sub" class="dim"></p>
+  <form id="form" novalidate>
+    <label id="emailRow">Email<input id="email" type="email" autocomplete="email" required></label>
+    <label id="passRow">Password<input id="password" type="password" minlength="8" required></label>
+    <button class="btn" id="go" type="submit">Sign in</button>
+  </form>
+  <p id="msg" role="status" aria-live="polite"></p>
+  <button class="btn ghost" id="out" type="button" hidden>Sign out</button>
+  <p class="links" id="links"></p>
+</main>
+<script src="auth.js"></script>
+</body>
+</html>
