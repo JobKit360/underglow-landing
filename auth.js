@@ -2,7 +2,7 @@
 (() => {
   const URL_ = 'https://ncqgxouiekxpiqxnmdwo.supabase.co/auth/v1', KEY = 'sb_publishable_LCj5aMTnYa_i92t-gcL7cg_p8viWvyO', STORE = 'ug-session';
   const $ = id => document.getElementById(id);
-  const words = { invalid_credentials: 'Wrong email or password.', user_already_exists: 'That email already has an account. Sign in instead.', email_exists: 'That email already has an account. Sign in instead.', weak_password: 'Choose a longer password (at least 8 characters).', validation_failed: 'Check the email and password.', over_email_send_rate_limit: 'Too many emails were sent. Try again later.', over_request_rate_limit: 'Too many tries. Wait a moment and try again.', email_address_not_authorized: "Password reset email isn't available for this address yet.", same_password: 'Choose a password different from the current one.' };
+  const words = { invalid_credentials: 'Wrong email or password.', email_not_confirmed: 'Confirm your email first: open the link we sent you.', user_already_exists: 'That email already has an account. Sign in instead.', email_exists: 'That email already has an account. Sign in instead.', weak_password: 'Choose a longer password (at least 8 characters).', validation_failed: 'Check the email and password.', over_email_send_rate_limit: 'Too many emails were sent. Try again later.', over_request_rate_limit: 'Too many tries. Wait a moment and try again.', email_address_not_authorized: "Password reset email isn't available for this address yet.", same_password: 'Choose a password different from the current one.' };
   async function api(path, { method = 'POST', body, token } = {}) {
     let r;
     try { r = await fetch(URL_ + path, { method, headers: { apikey: KEY, 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) }, body: body ? JSON.stringify(body) : undefined }); }
@@ -59,6 +59,16 @@
   };
   $('out').onclick = async () => { const s = read(); forget(); if (s) await api('/logout', { token: s.access }).catch(() => {}); history.replaceState(null, '', '?mode=signin'); show('signin'); };
   (async () => {
+    // Links in our emails: account.html?token_hash=...&type=signup|recovery. Verified here (POST), so mail scanners opening the link can't use it up.
+    const q = new URLSearchParams(location.search), th = q.get('token_hash'), ty = q.get('type');
+    if (th && (ty === 'signup' || ty === 'recovery')) {
+      history.replaceState(null, '', location.pathname);
+      try {
+        keep(await api('/verify', { body: { type: ty === 'signup' ? 'email' : 'recovery', token_hash: th } }));
+        if (ty === 'recovery') return show('recovery');
+        signedIn(read()); return say('Your email is confirmed.');
+      } catch { show(ty === 'recovery' ? 'forgot' : 'signin'); return say(ty === 'recovery' ? 'That link has expired. Send a new one.' : 'That link has expired or was already used. Try signing in.', true); }
+    }
     const h = new URLSearchParams(location.hash.slice(1));
     if (h.get('type') === 'recovery' && h.get('access_token')) { // the link in a password reset email
       keep({ access_token: h.get('access_token'), refresh_token: h.get('refresh_token'), expires_in: +h.get('expires_in') || 3600, user: {} });
