@@ -24,7 +24,11 @@ function authorized(req) {
 }
 
 http.createServer((req, res) => {
-  const open = process.env.LANDING_PUBLIC === '1';
+  let rawPath = '/';
+  try { rawPath = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch {}
+  // /preview/** (design previews, docs/preview-page.md) is ALWAYS gated and noindex, even with LANDING_PUBLIC=1
+  const isPreview = rawPath === '/preview' || rawPath.startsWith('/preview/');
+  const open = process.env.LANDING_PUBLIC === '1' && !isPreview;
   const base = { 'Cache-Control': open ? 'public, max-age=300' : 'private, no-store', 'X-Content-Type-Options': 'nosniff' };
   if (!open) base['X-Robots-Tag'] = 'noindex, nofollow';
   if (!open && !authorized(req)) {
@@ -34,12 +38,14 @@ http.createServer((req, res) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405, base); return res.end(); }
   let p;
   try { p = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch { res.writeHead(400, base); return res.end(); }
+  if (p === '/preview' || (isPreview && !p.endsWith('/') && !path.extname(p) && fs.existsSync(path.join(root, p)))) { res.writeHead(301, { ...base, Location: p + '/' }); return res.end(); }
   if (p.endsWith('/')) p += 'index.html';
-  // only the site's own top-level files with an allowed extension; never server code, package files or locked/
+  // only the site's own top-level files with an allowed extension (and preview/<slug>/<file>); never server code, package files or locked/
   const name = p.replace(/^\/+/, '');
   const file = path.join(root, name);
   const ext = path.extname(name).toLowerCase();
-  if (!/^[\w.-]+$/.test(name) || name.startsWith('.') || !TYPES[ext] || !fs.existsSync(file) || !fs.statSync(file).isFile()) {
+  const okName = isPreview ? name.split('/').every(seg => /^[\w.-]+$/.test(seg) && !seg.startsWith('.')) : /^[\w.-]+$/.test(name);
+  if (!okName || name.startsWith('.') || !TYPES[ext] || !fs.existsSync(file) || !fs.statSync(file).isFile()) {
     res.writeHead(404, { ...base, 'Content-Type': 'text/plain; charset=utf-8' });
     return res.end('Not found');
   }
