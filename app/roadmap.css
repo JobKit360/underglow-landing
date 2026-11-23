@@ -1,0 +1,210 @@
+/* Roadmap board (roadmap.js): opens from the settings panel's Roadmap row and covers the page's left column top to bottom (the Git dock's width). Same shell as the Git dock. */
+.rb { /* box: popdock.css (.pdock) */
+  background: radial-gradient(120% 40% at 0% 0%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 60%), var(--surface-1, #141418);
+  font: 400 12.5px/1.4 var(--font-sans); color: var(--text-secondary); }
+
+.rb-hd { flex: none; display: flex; align-items: center; gap: 10px; padding: 10px 10px 10px 14px; border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,.06)); }
+.rb-ic { flex: none; width: 18px; height: 18px; fill: none; stroke: var(--accent); stroke-width: 1.7; stroke-linejoin: round; }
+.rb-tt { flex: 0 1 auto; min-width: 90px; display: flex; flex-direction: column; }
+.rb-tt > b { font: 650 13.5px/1.2 var(--font-sans); color: var(--text-primary); letter-spacing: -.01em; }
+.rb-sub { font-size: 10.5px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rb-sub b { color: var(--text-secondary); font-weight: 600; }
+.rb-add { flex: 1; min-width: 0; max-width: 420px; margin-left: auto; display: flex; gap: 6px; }
+.rb-add[hidden] { display: none; }
+.rb-add input { flex: 1; min-width: 0; height: 30px; padding: 0 11px; box-sizing: border-box; border-radius: 9px; border: 1px solid var(--border-default, rgba(255,255,255,.1));
+  background: rgba(255,255,255,.03); color: var(--text-primary); font: 400 12.5px/1 var(--font-sans); outline: none; }
+.rb-add input:focus { border-color: color-mix(in srgb, var(--accent) 55%, transparent); background: rgba(255,255,255,.05); }
+.rb-add button { flex: none; width: 30px; height: 30px; border: 0; border-radius: 9px; background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); font: 500 18px/1 var(--font-sans); cursor: pointer; }
+.rb-add button:hover { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+/* close: pinned in the panel's top-right corner */
+.rb-hd { position: relative; }
+.rb:not(.narrow) .rb-add { margin-right: 30px; } /* wide: the add box shares the top row with it */
+.rb-x { position: absolute; top: 6px; right: 6px; width: 28px; height: 28px; border: 0; border-radius: 7px; background: transparent; color: var(--text-muted); font: 400 18px/1 var(--font-sans); cursor: pointer; }
+.rb-x:hover { background: var(--hover); color: var(--text-primary); }
+
+/* the board: four stages side by side, each scrolls on its own */
+.rb-board { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(4, minmax(200px, 1fr)); gap: 10px; padding: 12px; overflow-x: auto; overflow-y: hidden; }
+.rb-board[hidden] { display: none; }
+.rb-col { min-height: 0; display: flex; flex-direction: column; border-radius: 12px; background: rgba(255,255,255,.025); box-shadow: inset 0 0 0 1px var(--border-subtle, rgba(255,255,255,.06)); transition: box-shadow .12s, background .12s; }
+.rb-col.over { background: color-mix(in srgb, var(--accent) 6%, rgba(255,255,255,.025)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent); }
+/* each stage has a colour (--c): the header dot, the cards' dot and, for live stages, the cards' ring */
+.rb-col { --c: var(--text-muted); }
+.rb-col[data-role="doing"] { --c: var(--accent); }
+.rb-col[data-role="test"] { --c: var(--status-warn, #e0a050); }
+.rb-col[data-role="done"] { --c: var(--status-ok, #3fb27f); }
+.rb-ch { flex: none; display: flex; align-items: center; gap: 8px; width: 100%; padding: 11px 12px 9px 14px; border: 0; background: none; text-align: left; cursor: default; color: inherit; font: inherit; }
+.rb-ch > i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px color-mix(in srgb, var(--c) 45%, transparent); }
+.rb-col[data-role="todo"] .rb-ch > i, .rb-col[data-role=""] .rb-ch > i { box-shadow: none; }
+.rb-ch b { font: 600 10.5px/1 var(--font-sans); color: var(--text-secondary); letter-spacing: .08em; text-transform: uppercase; }
+.rb-ch .rb-n { min-width: 18px; padding: 2px 6px; box-sizing: border-box; border-radius: 999px; font: 600 10.5px/1.2 var(--font-sans); font-variant-numeric: tabular-nums; text-align: center; color: var(--text-muted); background: rgba(255,255,255,.05); }
+.rb-ch .rb-n:empty { display: none; }
+.rb-list { flex: 1; min-height: 40px; display: flex; flex-direction: column; gap: 8px; padding: 2px 8px 10px; overflow-y: auto; }
+.rb-none { padding: 8px 6px 10px; color: var(--text-muted); font-size: 11.5px; text-align: center; opacity: .7; }
+
+.rb-plus { flex: none; margin: 0 8px 8px; height: 28px; border: 1px dashed var(--border-default, rgba(255,255,255,.1)); border-radius: 8px; background: none; color: var(--text-muted); font: 500 11.5px var(--font-sans); cursor: pointer; }
+.rb-plus:hover { color: var(--text-primary); border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
+
+/* cards */
+/* cards: the agent cards' look (deck.css .dcard): glassy face, stage dot, a 2-line title and a 1-line preview of the details */
+.rb-card { position: relative; flex: none; display: flex; align-items: flex-start; gap: 10px; padding: 11px 28px 11px 13px; border-radius: 12px;
+  background: linear-gradient(160deg, rgba(255,255,255,.09), rgba(255,255,255,.025) 45%, rgba(255,255,255,.045)), var(--surface-1, #141418);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), inset 0 0 0 1px rgba(255,255,255,.09), 0 8px 18px -14px rgba(0,0,0,.8);
+  color: var(--text-primary); cursor: grab; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: pan-y; outline: none; transition: box-shadow .2s ease, transform .2s ease; }
+.rb-col:is([data-role="doing"], [data-role="test"]) .rb-card { box-shadow: inset 0 1px 0 rgba(255,255,255,.16), inset 0 0 0 1px color-mix(in srgb, var(--c) 40%, transparent), 0 0 14px -4px color-mix(in srgb, var(--c) 18%, transparent), 0 8px 18px -14px rgba(0,0,0,.8); }
+.rb-card:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 1px rgba(255,255,255,.18), 0 12px 24px -14px rgba(0,0,0,.85); }
+.rb-col:is([data-role="doing"], [data-role="test"]) .rb-card:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 1px color-mix(in srgb, var(--c) 65%, transparent), 0 0 16px -4px color-mix(in srgb, var(--c) 26%, transparent), 0 12px 24px -14px rgba(0,0,0,.85); }
+.rb-card:focus-visible { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.rb-dot { flex: none; display: grid; place-items: center; width: 10px; height: 18px; }
+.rb-dot i { width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
+.rb-col[data-role="doing"] .rb-dot i { box-shadow: 0 0 6px var(--c); }
+.rb-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.rb-t { font: 550 13px/1.38 var(--font-sans); overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+.rb-pv { font: 400 11.5px/1.35 var(--font-sans); color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rb-meta { display: flex; margin-top: 3px; min-width: 0; }
+.rb-meta .rb-ag { margin-top: 0; }
+.rb-card.done { background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015)), var(--surface-1, #141418); }
+.rb-card.done .rb-t { color: var(--text-secondary); font-weight: 500; }
+.rb-card code { font: 11px var(--font-mono, ui-monospace, monospace); padding: 0 3px; border-radius: 4px; background: rgba(255,255,255,.06); }
+.rb-del { position: absolute; top: 7px; right: 5px; width: 20px; height: 20px; border: 0; border-radius: 6px; background: transparent; color: var(--text-muted); font: 400 15px/1 var(--font-sans); cursor: pointer; opacity: 0; }
+.rb-card:hover .rb-del, .rb-del:focus-visible { opacity: 1; }
+.rb-del:hover { background: rgba(255,90,90,.12); color: #ff8080; }
+@media (pointer: coarse) { .rb-del { opacity: .6; } }
+.rb-ag { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; margin-top: 7px; padding: 2px 8px 2px 7px; border-radius: 999px; font: 500 10.5px/1.5 var(--font-sans); color: var(--text-secondary);
+  background: rgba(255,255,255,.05); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rb-ag i { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); }
+.rb-ag.working i { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+.rb-ag.test i, .rb-ag.attn i { background: var(--status-warn, #e0a050); }
+.rb-ag.complete i { background: var(--status-ok, #3fb27f); }
+.rb-ag.fault i { background: var(--status-error, #e5534b); }
+.rb-ag.gone { color: var(--text-muted); font-style: italic; }
+.rb-ag.gone i { display: none; }
+
+/* editing a card in place */
+.rb-card.edit { cursor: default; padding: 12px; display: flex; flex-direction: column; align-items: stretch; gap: 12px; user-select: text; -webkit-user-select: text;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 60%, transparent), 0 12px 28px -14px rgba(0,0,0,.85) !important; }
+.rb-lb { display: flex; flex-direction: column; gap: 5px; font: 600 10.5px/1 var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
+.rb-lb > span { display: block; }
+.rb-lb small { font: inherit; text-transform: none; letter-spacing: 0; font-weight: 400; opacity: .8; }
+.rb-card.edit textarea { width: 100%; box-sizing: border-box; resize: none; padding: 8px 10px; border-radius: 9px; border: 1px solid var(--border-default, rgba(255,255,255,.1)); background: rgba(0,0,0,.22);
+  color: var(--text-primary); font: 400 13px/1.45 var(--font-sans); letter-spacing: 0; text-transform: none; outline: none; }
+.rb-card.edit .rb-et { font-weight: 550; }
+.rb-card.edit .rb-en { font-size: 12.5px; color: var(--text-secondary); min-height: 70px; }
+.rb-card.edit textarea::placeholder { color: var(--text-muted); opacity: .7; }
+.rb-card.edit textarea:focus { border-color: color-mix(in srgb, var(--accent) 55%, transparent); background: rgba(0,0,0,.28); }
+/* stage buttons: move the card without dragging */
+.rb-stgs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.rb-stg { --c: var(--text-muted); display: flex; align-items: center; gap: 6px; min-width: 0; height: 30px; padding: 0 9px; border: 0; border-radius: 8px; background: rgba(255,255,255,.035); box-shadow: inset 0 0 0 1px var(--border-subtle, rgba(255,255,255,.08));
+  color: var(--text-secondary); font: 550 12px/1 var(--font-sans); letter-spacing: 0; text-transform: none; white-space: nowrap; overflow: hidden; cursor: pointer; transition: background .15s, box-shadow .15s, color .15s; }
+.rb-stg[data-role="doing"] { --c: var(--accent); } .rb-stg[data-role="test"] { --c: var(--status-warn, #e0a050); } .rb-stg[data-role="done"] { --c: var(--status-ok, #3fb27f); }
+.rb-stg i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
+.rb-stg:hover { color: var(--text-primary); background: rgba(255,255,255,.06); }
+.rb-stg.sel { color: var(--text-primary); background: color-mix(in srgb, var(--c) 16%, transparent); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--c) 70%, transparent); }
+.rb-eb { display: flex; gap: 6px; padding-top: 2px; }
+.rb-eb button { height: 30px; padding: 0 14px; border-radius: 7px; border: 1px solid var(--border-default, rgba(255,255,255,.1)); background: transparent; color: var(--text-secondary); font: 600 11.5px/1 var(--font-sans); cursor: pointer; }
+.rb-eb button:hover { background: var(--hover); color: var(--text-primary); }
+.rb-eb .pri { border: 0; background: var(--accent); color: #fff; }
+.rb-eb .del { margin-left: auto; border: 0; color: var(--text-muted); }
+.rb-eb .del:hover { color: #ff8080; background: rgba(255,90,90,.1); }
+
+/* New agent (roadmap.js zoneOn): a drop target over the top of the board while a card is dragged. Dropping on an agent's pane / card highlights it (.rb-drop). */
+.rb-zone { position: fixed; z-index: 1250; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 0 14px;
+  border-radius: 14px; border: 1.5px dashed color-mix(in srgb, var(--accent) 60%, transparent); background: color-mix(in srgb, var(--surface-1, #141418) 96%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: inset 0 0 40px -16px color-mix(in srgb, var(--accent) 45%, transparent);
+  visibility: hidden; opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity .16s ease, transform .2s cubic-bezier(.2,.9,.3,1.1), background .14s, border-color .14s, visibility 0s .16s; }
+.rb-zone.on { visibility: visible; opacity: 1; transform: none; pointer-events: auto; transition: opacity .16s ease, transform .2s cubic-bezier(.2,.9,.3,1.1), background .14s, border-color .14s, visibility 0s; animation: rbpulse 1.6s ease-in-out infinite; }
+.rb-zone svg { flex: none; width: 16px; height: 16px; fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; }
+.rb-zone b { flex: none; font: 650 13px/1.2 var(--font-sans); color: var(--text-primary); }
+.rb-zone small { min-width: 0; font-size: 11.5px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rb-zone.over { border-style: solid; border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, color-mix(in srgb, var(--surface-1, #141418) 80%, transparent)); animation: none; }
+.rb-zone.over small { color: var(--text-secondary); }
+/* an agent's pane / card under a dragged roadmap card */
+.rb-drop { outline: 2px solid var(--accent) !important; outline-offset: -2px; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent), 0 0 40px -6px color-mix(in srgb, var(--accent) 55%, transparent) !important; }
+@keyframes rbpulse { 50% { box-shadow: inset 0 0 60px -20px color-mix(in srgb, var(--accent) 45%, transparent), 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent); } }
+@media (prefers-reduced-motion: reduce) { .rb-zone, .rb-zone.on { animation: none; transform: none; } }
+
+/* dragging */
+.rb-ghost { position: fixed !important; left: 0; top: 0; z-index: 99999; margin: 0; pointer-events: none; transition: none !important; animation: none !important; will-change: transform; opacity: .95; box-shadow: 0 14px 30px -8px rgba(0,0,0,.7), inset 0 0 0 1.5px var(--accent) !important; cursor: grabbing; }
+.rb-src { opacity: .3; }
+.rb-ph { flex: none; border-radius: 14px; border: 1.5px dashed color-mix(in srgb, var(--accent) 55%, transparent); background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.rb.dragging, .rb.dragging * { cursor: grabbing !important; }
+
+.rb-empty { padding: 28px 18px; color: var(--text-muted); text-align: center; grid-column: 1 / -1; }
+.rb-ta { flex: 1; min-height: 200px; margin: 10px; padding: 10px 12px; box-sizing: border-box; resize: none; border-radius: 9px; border: 1px solid var(--border-default, rgba(255,255,255,.1));
+  background: rgba(0,0,0,.18); color: var(--text-primary); font: 12px/1.55 var(--font-mono, ui-monospace, monospace); outline: none; }
+.rb-ta:focus { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.rb-ta[hidden] { display: none; }
+/* status toast (roadmap.js flash): shows for a moment after a change; no standing readout */
+.rb-foot { position: absolute; left: 50%; bottom: 12px; z-index: 5; max-width: calc(100% - 32px); box-sizing: border-box; padding: 6px 12px; border-radius: 999px; font: 500 11.5px/1.3 var(--font-sans); color: var(--text-primary);
+  background: var(--surface-2, #1c1c22); box-shadow: inset 0 0 0 1px var(--border-default, rgba(255,255,255,.1)), 0 10px 24px -10px rgba(0,0,0,.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  opacity: 0; transform: translate(-50%, 6px); pointer-events: none; transition: opacity .18s ease, transform .22s cubic-bezier(.2,.9,.3,1); }
+.rb-foot.on { opacity: 1; transform: translate(-50%, 0); }
+.rb-foot.on.warn { color: var(--amber, #C89B3C); }
+
+/* scrollbars like the agent panes' (.pterm in foreman.css): no arrow buttons, invisible until hover, a slim rounded thumb inset from the edge.
+   No scrollbar-width here: in Chromium it switches the ::-webkit-scrollbar styling off. */
+.rb { --sb: rgba(150,155,170,.28); --sb-hi: rgba(150,155,170,.6); }
+@media (prefers-color-scheme: light) { .rb { --sb: rgba(60,60,70,.25); --sb-hi: rgba(60,60,70,.55); } }
+:is(.rb-board, .rb-list, .rb-ta)::-webkit-scrollbar { width: 10px; height: 10px; }
+:is(.rb-board, .rb-list, .rb-ta)::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+:is(.rb-board, .rb-list, .rb-ta)::-webkit-scrollbar-track { background: transparent; margin: 10px 0; }
+:is(.rb-board, .rb-list, .rb-ta)::-webkit-scrollbar-thumb { background: transparent; border-radius: 999px; border: 3px solid transparent; background-clip: padding-box; min-height: 36px; }
+:is(.rb-board, .rb-list, .rb-ta):hover::-webkit-scrollbar-thumb { background-color: var(--sb); }
+:is(.rb-board, .rb-list, .rb-ta)::-webkit-scrollbar-thumb:hover { background-color: var(--sb-hi); }
+@media (hover: none) { :is(.rb-board, .rb-list, .rb-ta)::-webkit-scrollbar-thumb { background-color: var(--sb); } }
+@supports not selector(::-webkit-scrollbar) { .rb-board, .rb-list, .rb-ta { scrollbar-width: thin; scrollbar-color: var(--sb) transparent; } }
+
+/* desktop: the dock sits in the left column (narrow): a tab bar picks the stage, one stage on show at a time, the board scrolls down */
+.rb.narrow .rb-hd { flex-wrap: wrap; row-gap: 8px; border-bottom: 0; }
+.rb.narrow .rb-add { order: 9; flex: 1 0 100%; max-width: none; }
+.rb-tabs { display: none; }
+/* stage switcher: a 2x2 grid of stage tiles (the dock is only about an agent card wide), four across when there is room. Full names, never cut short. */
+.rb { container-type: inline-size; }
+.rb.narrow .rb-tabs { flex: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 0 10px; }
+@container (min-width: 520px) { .rb.narrow .rb-tabs { grid-template-columns: repeat(4, 1fr); } }
+.rb.narrow .rb-tabs[hidden] { display: none; }
+.rb-tab { --c: var(--text-muted); position: relative; min-width: 0; height: 34px; display: flex; align-items: center; gap: 6px; padding: 0 9px; border: 0; border-radius: 10px; text-align: left;
+  background: rgba(255,255,255,.03); box-shadow: inset 0 0 0 1px var(--border-subtle, rgba(255,255,255,.07));
+  color: var(--text-secondary); font: 550 12px/1 var(--font-sans); letter-spacing: -.005em; cursor: pointer; transition: background .15s, color .15s, box-shadow .15s; }
+.rb-tab[data-role="doing"] { --c: var(--accent); } .rb-tab[data-role="test"] { --c: var(--status-warn, #e0a050); } .rb-tab[data-role="done"] { --c: var(--status-ok, #3fb27f); }
+.rb-tab i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
+.rb-tab span { min-width: 0; line-height: 1.35; white-space: nowrap; overflow: hidden; }
+.rb-tab em { flex: none; margin-left: auto; padding-left: 2px; font: 650 12px/1 var(--font-sans); font-style: normal; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+.rb-tab:hover { color: var(--text-primary); background: rgba(255,255,255,.06); }
+.rb-tab.cur, .rb-tab.cur:hover { color: var(--text-primary); background: transparent; box-shadow: none; } /* its face is the sliding highlight below */
+.rb-tab i { transition: box-shadow .3s ease; }
+.rb-tab.cur i { box-shadow: 0 0 7px var(--c); }
+.rb-tab.cur em { color: var(--text-primary); }
+/* the selected tile's highlight: one element that glides (and changes colour) from tile to tile; roadmap.js moveInd sets its size and place */
+.rb.narrow .rb-tabs { position: relative; }
+.rb-tabs > .rb-tab { z-index: 1; }
+.rb-ind { --c: var(--text-muted); position: absolute; left: 0; top: 0; z-index: 0; border-radius: 10px; pointer-events: none; opacity: 0;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--c) 16%, rgba(255,255,255,.06)), rgba(255,255,255,.03)), var(--surface-1, #141418);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 0 0 1px color-mix(in srgb, var(--c) 55%, transparent), 0 0 14px -4px color-mix(in srgb, var(--c) 30%, transparent);
+  transition: transform .38s cubic-bezier(.3,1.25,.4,1), width .38s cubic-bezier(.3,1.25,.4,1), background .3s ease, box-shadow .3s ease, opacity .2s ease; }
+.rb-ind.still { transition: none; }
+/* the new stage's cards slide in from the side (--dir: 1 = from the right, -1 = from the left), one after another (--i) */
+.rb-col.enter .rb-list > * { animation: rbIn .34s cubic-bezier(.2,.85,.25,1) backwards; animation-delay: calc(var(--i, 0) * 32ms); }
+@keyframes rbIn { from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 22px)); } }
+@media (prefers-reduced-motion: reduce) { .rb-ind { transition: none; } .rb-col.enter .rb-list > * { animation: none; } }
+.rb-tab:focus-visible { outline: 1.5px solid var(--accent); outline-offset: -1.5px; }
+.rb-tab.over { color: var(--text-primary); background: color-mix(in srgb, var(--accent) 22%, transparent); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.rb.narrow .rb-board { display: block; padding: 10px 10px 14px; overflow-x: hidden; overflow-y: auto; }
+.rb.narrow .rb-col { display: none; background: none; box-shadow: none; border-radius: 0; }
+.rb.narrow .rb-col.cur { display: flex; min-height: 100%; }
+.rb.narrow .rb-col.over { background: none; box-shadow: none; }
+.rb.narrow .rb-ch, .rb.narrow .rb-plus, .rb.narrow .rb-plusin { display: none; } /* the tab names the stage; the top box adds to it */
+.rb.narrow .rb-list { flex: none; padding: 0; overflow: visible; }
+.rb.narrow .rb-none { padding: 40px 12px; }
+
+/* opening animation (rows slide off, icon row drops): popdock.css, shared with Map + Workflow */
+
+/* phone: the desktop dock's tabbed layout (.rb.narrow, set by roadmap.js on phones too) */
+@media (max-width: 900px) { .rb-tab { height: 38px; } }
+@media (prefers-color-scheme: light) {
+  .rb-card, .rb-card.done { background: linear-gradient(160deg, rgba(255,255,255,.97), rgba(255,255,255,.8)), var(--surface-1); box-shadow: inset 0 1px 0 #fff, inset 0 0 0 1px rgba(0,0,0,.1), 0 8px 18px -14px rgba(0,0,0,.35); }
+  .rb-ch .rb-n { background: rgba(0,0,0,.05); }
+  .rb-tab { background: rgba(0,0,0,.03); box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+  .rb-ind { background: color-mix(in srgb, var(--c) 10%, #fff); }
+  .rb-col { background: rgba(0,0,0,.025); }
+}
+.rb-plusin { flex: none; margin: 0 8px 8px; height: 30px; padding: 0 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent); background: rgba(255,255,255,.04); color: var(--text-primary); font: 12.5px var(--font-sans); outline: none; }

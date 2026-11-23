@@ -1,0 +1,24 @@
+/* The made-up Linux desktop shown inside the Workbox panel (sample content only) */
+.ugdesk{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;font:15px/1.4 "Geist",system-ui,sans-serif;color:#e8e8ee}
+.ugd-wall{position:absolute;inset:0;background:radial-gradient(1200px 700px at 25% 20%,#2b3a67,transparent 70%),radial-gradient(1000px 800px at 85% 90%,#4a2a63,transparent 70%),#151826}
+.ugd-top{position:absolute;left:0;right:0;top:0;height:40px;background:rgba(10,10,16,.82);display:flex;align-items:center;padding:0 18px;gap:16px;font-size:17px;color:#cfd2e0}
+.ugd-sp{flex:1}
+.ugd-win{position:absolute;background:#1d1f2b;border:1px solid rgba(255,255,255,.14);border-radius:10px;box-shadow:0 24px 60px rgba(0,0,0,.5);overflow:hidden}
+.ugd-tb{height:40px;background:#2a2d3d;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:16px;color:#c4c7d6}
+.ugd-tb i{width:13px;height:13px;border-radius:50%;background:#555a70}.ugd-tb i:first-child{background:#ff6b63}.ugd-tb i:nth-child(2){background:#f5c04a}.ugd-tb i:nth-child(3){background:#52c878}
+.ugd-tb b{margin-left:14px;font-weight:500}
+.ugd-br{left:90px;top:80px;width:1130px;height:760px}
+.ugd-url{height:46px;background:#232637;display:flex;align-items:center;gap:16px;padding:0 16px;color:#8c91a8;font-size:17px}
+.ugd-url em{font-style:normal;flex:1;background:#14161f;border-radius:20px;padding:6px 18px;color:#c8cce0}
+.ugd-page{background:#f6f7fa;color:#20232e;height:calc(100% - 86px);padding:0}
+.ugd-nav{display:flex;gap:26px;align-items:center;padding:18px 36px;background:#fff;border-bottom:1px solid #e3e5ee;font-size:19px}.ugd-nav b{font-size:23px;margin-right:auto}
+.ugd-cols{display:flex;gap:30px;padding:34px 36px}
+.ugd-items{flex:1;display:flex;flex-direction:column;gap:18px}
+.ugd-it{display:flex;align-items:center;gap:20px;background:#fff;border:1px solid #e3e5ee;border-radius:12px;padding:16px 20px;font-size:19px}.ugd-it>div:nth-child(2){flex:1}.ugd-it small{display:block;color:#7a7f93;font-size:15px}
+.ugd-img{width:74px;height:74px;border-radius:10px;background:linear-gradient(135deg,var(--c),#fff3)}
+.ugd-sum{width:330px;background:#fff;border:1px solid #e3e5ee;border-radius:12px;padding:22px;font-size:18px}.ugd-sum p{display:flex;justify-content:space-between;margin:12px 0}.ugd-sum .g{color:#1f9d55}.ugd-sum .t{font-weight:700;border-top:1px solid #e3e5ee;padding-top:14px}
+.ugd-btn{margin-top:20px;background:#2d6cdf;color:#fff;text-align:center;border-radius:9px;padding:13px;font-weight:600}
+.ugd-tm{left:1020px;top:420px;width:790px;height:520px;background:#0f1117}
+.ugd-pre{margin:0;padding:18px;font:17px/1.5 "Cascadia Mono",Consolas,monospace;color:#cfe3d4;white-space:pre-wrap;height:calc(100% - 40px);overflow:hidden}
+.ugd-dock{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);display:flex;gap:14px;background:rgba(10,10,16,.7);padding:12px 18px;border-radius:16px}
+.ugd-dock span{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#5b8def,#a855f7)}.ugd-dock span:nth-child(2){background:linear-gradient(135deg,#f08a3c,#f2b33d)}.ugd-dock span:nth-child(3){background:linear-gradient(135deg,#3dbe8b,#3ec1d3)}.ugd-dock span:nth-child(4){background:#3a3e52}

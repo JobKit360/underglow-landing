@@ -1,0 +1,87 @@
+/* Landing-page app preview (demo.js). The screens inside the frame are the REAL app UI (website/app/, built from the app's own files); this file only styles the frame around them. */
+.ug { --tx:#E8E8EE; --tx3:#78788C; --ln:rgba(255,255,255,.09);
+  text-align: left; border-radius: 12px; overflow: hidden; background: #0f0f13; color: var(--tx); font: 13px/1.45 var(--font); letter-spacing: -.003em;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.06), 0 1px 2px rgba(0,0,0,.4), 0 30px 60px -20px rgba(0,0,0,.7), 0 60px 120px -40px rgba(74,143,232,.12); }
+.ug * { box-sizing: border-box; }
+.ug-bar { display: flex; align-items: center; gap: 6px; padding: 11px 16px; background: #0b0b0e; box-shadow: 0 1px 0 var(--ln); color: var(--tx3); font-size: 12px; }
+.ug-bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.1); }
+.ug-bar span { margin-left: 8px; } .ug-bar em { margin-left: auto; font-style: normal; font-size: 11.5px; letter-spacing: .02em; }
+.ug-live { display: inline-flex; align-items: center; gap: 6px; color: var(--tx3); } .ug-live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 3s ease-in-out infinite; }
+.ug-tabs { display: flex; gap: 2px; padding: 8px 12px; overflow-x: auto; background: #0b0b0e; box-shadow: 0 1px 0 var(--ln); scrollbar-width: none; }
+.ug-tabs::-webkit-scrollbar { display: none; }
+.ug-tabs button { position: relative; flex: none; display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; color: #AEAEBE; font: 500 12.5px var(--font); cursor: pointer; transition: background .25s, color .25s; }
+.ug-tabs button:hover { background: #1C1C21; color: var(--tx); }
+.ug-tabs button[aria-selected="true"] { background: rgba(255,255,255,.07); color: var(--tx); }
+.ug-tabs button svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ug-tabs button::after { content: ""; position: absolute; left: 12px; bottom: 0; height: 1px; width: calc(100% - 24px); background: var(--accent); transform: scaleX(0); transform-origin: left; }
+.ug-tabs button[aria-selected="true"].auto::after { animation: ugprog var(--dur, 12s) linear forwards; }
+.ug.paused .ug-tabs button::after { animation-play-state: paused; }
+@keyframes ugprog { to { transform: scaleX(1); } }
+.ug-cap { padding: 11px 16px; background: #0b0b0e; box-shadow: 0 -1px 0 var(--ln); color: var(--tx3); font-size: 12px; text-align: center; }
+
+/* the real app, in a frame. The app is drawn at its own 1440 x 900 window size, then scaled to fit; a "crop" shows only part of it. */
+.ug-stage { position: relative; background: #0C0C0F; overflow: hidden; width: 100%; aspect-ratio: var(--ar, 1.6); }
+.ug:has(.ug-tabs) .ug-stage { aspect-ratio: auto; transition: height .5s cubic-bezier(.2,.7,.2,1); }
+.ug-app { position: absolute; left: 0; top: 0; width: var(--vw, 1440px); height: var(--vh, 900px); border: 0; transform-origin: 0 0; background: #0C0C0F; color-scheme: dark; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+.ug-app.on { opacity: 1; }
+.ug-stage .ug-wait { position: absolute; inset: 0; display: grid; place-items: center; color: var(--tx3); font-size: 12.5px; letter-spacing: .02em; }
+.ug.phone-frame .ug-stage { background: radial-gradient(90% 90% at 70% 10%, #1b2036, #0e0f14 70%); display: grid; place-items: center; aspect-ratio: auto; height: 560px; }
+.ug.phone-frame .ug-app { position: relative; border-radius: 30px; box-shadow: 0 0 0 1px #3a3a44, 0 0 0 6px #08080a, 0 30px 60px -20px rgba(0,0,0,.8); }
+.ug.phone-frame .ug-stage { overflow: hidden; }
+
+/* floating notification cards (hero) */
+.float { position: absolute; z-index: 2; display: flex; align-items: center; gap: 9px; padding: 9px 13px 9px 11px; border-radius: 10px; background: rgba(18,18,22,.9); color: var(--text); font-size: 12.5px; box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 18px 40px -14px rgba(0,0,0,.7); backdrop-filter: blur(6px); opacity: 0; transition: opacity 1s ease; animation: bob 9s ease-in-out infinite; pointer-events: none; }
+.float.on { opacity: 1; }
+.float b { display: block; font-size: 12.5px; font-weight: 500; } .float small { display: block; color: var(--dim); font-size: 11.5px; }
+.float .dotc { width: 8px; height: 8px; border-radius: 50%; background: var(--c); font-size: 0; box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 18%, transparent); }
+@keyframes bob { 50% { transform: translateY(-5px); } }
+@keyframes pulse { 50% { opacity: .35; } }
+.shotwrap { position: relative; max-width: 1040px; margin: 0 auto; }
+.shotwrap .f1 { left: -28px; top: 150px; --c: #3DAA6E; animation-delay: -1s; } .shotwrap .f2 { right: -26px; top: -16px; --c: #E8B84A; animation-delay: -3s; } .shotwrap .f3 { right: 30px; bottom: -18px; --c: #4A8FE8; animation-delay: -4.5s; }
+
+/* feature rows */
+.rows { display: grid; gap: 140px; margin-top: 72px; }
+.row { display: grid; grid-template-columns: 4fr 7fr; gap: 72px; align-items: center; }
+.row:nth-child(even) .copy { order: 2; }
+.row:nth-child(even) { grid-template-columns: 7fr 4fr; }
+.row .copy h3 { margin: 0 0 14px; font-size: clamp(22px, 2.6vw, 30px); font-weight: 600; letter-spacing: -.03em; line-height: 1.15; }
+.row .copy p { margin: 0 0 22px; color: var(--dim); font-size: 16.5px; line-height: 1.7; }
+.row .copy ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; color: var(--dim); font-size: 14.5px; }
+.row li { padding: 11px 0; box-shadow: 0 1px 0 var(--line); }
+.row .copy li:first-child { box-shadow: 0 1px 0 var(--line), 0 -1px 0 var(--line); }
+.row .copy li::before { content: ""; display: inline-block; width: 10px; height: 1px; margin: 0 14px 4px 0; background: var(--accent); }
+.row > div:not(.copy) { min-width: 0; }
+.row .ug.tall { max-width: 470px; margin: 0 auto; }
+.row .ug.phone-frame { max-width: 470px; margin: 0 auto; }
+.row .ug { width: 100%; }
+.ug-bar { min-width: 0; } .ug-bar span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ug-bar em { flex: none; white-space: nowrap; }
+.tour { margin-top: 28px; }
+#more { margin: 140px 0 28px; font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+
+@media (max-width: 860px) {
+  .row, .row:nth-child(even) { grid-template-columns: minmax(0, 1fr); gap: 24px; } .row:nth-child(even) .copy { order: 0; }
+  .rows { gap: 96px; }
+  .shotwrap .f1, .shotwrap .f2 { display: none; }
+}
+@media (max-width: 640px) { .shotwrap .f3 { display: none; } .ug-tabs button span { display: none; } .ug-bar { padding: 11px 12px; } .ug-bar em.ug-live { font-size: 0; gap: 0; } .ug-live::before { width: 7px; height: 7px; } }
+@media (prefers-reduced-motion: reduce) { .float { animation: none !important; } .ug-tabs button::after { display: none; } .ug-live::before { animation: none; } }
+
+/* mini mocks inside the 3 steps */
+.mini { margin-top: 22px; padding: 12px; border-radius: 8px; background: #101014; box-shadow: inset 0 0 0 1px rgba(255,255,255,.09); min-height: 92px; font-size: 12.5px; color: #E8E8EE; display: grid; gap: 8px; align-content: center; }
+.mini .bar { height: 6px; border-radius: 4px; background: rgba(255,255,255,.1); overflow: hidden; } .mini .bar i { display: block; height: 100%; background: linear-gradient(90deg,#4A8FE8,#22d3ee); transform-origin: left; animation: fill 4s ease-in-out infinite; }
+.mini .row2 { display: flex; align-items: center; gap: 8px; } .mini .ok { color: #3DAA6E; }
+.mini .typed { display: inline-block; overflow: hidden; white-space: nowrap; border-right: 2px solid #4A8FE8; animation: typing 5s steps(30) infinite; max-width: 100%; }
+@keyframes typing { 0% { width: 0; } 60%, 100% { width: 30ch; } }
+.mini .gate { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 9px; border-radius: 9px; background: #1C1C21; box-shadow: inset 0 0 0 1px rgba(229,72,77,.5); animation: gate 4s ease-in-out infinite; }
+.mini .gate span, .pill-lite { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: rgba(61,170,110,.2); color: #3DAA6E; }
+@keyframes gate { 60%, 100% { box-shadow: inset 0 0 0 1px rgba(61,170,110,.6); } }
+.pill-lite { width: fit-content !important; height: auto !important; padding: 2px 10px; border-radius: 99px; background: rgba(232,184,74,.14) !important; color: #E8B84A !important; font-size: 11.5px; }
+@keyframes fill { 0% { transform: scaleX(.08); } 80%, 100% { transform: scaleX(1); } }
+
+/* one panel per scene, stacked; switching tabs only fades and slides them */
+.ug-pane { position: absolute; inset: 0; }
+.ug:has(.ug-tabs) .ug-pane { opacity: 0; visibility: hidden; transform: translateX(var(--dx, 0)); transition: opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1), visibility 0s linear .5s; pointer-events: none; }
+.ug:has(.ug-tabs) .ug-pane.act { opacity: 1; visibility: visible; transform: none; transition: opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1), visibility 0s; }
+.ug-pane.phone { background: radial-gradient(90% 90% at 70% 10%, #1b2036, #0e0f14 70%); }
+@media (prefers-reduced-motion: reduce) { .ug:has(.ug-tabs) .ug-pane { transition: none; transform: none; } }

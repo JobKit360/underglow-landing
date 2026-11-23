@@ -1,0 +1,39 @@
+/* Liquid glass for everything except the Agents panes (those stay as-is). Same recipe as .apane: translucent fill, blur+saturate,
+   hairline ring, soft top specular. Floating surfaces only; overflow:hidden + radius keep the blur from clipping at corners. Loaded last. */
+:root {
+  --g-fill: linear-gradient(160deg, rgba(255,255,255,.13), rgba(255,255,255,.04) 45%, rgba(255,255,255,.07));
+  --g-tint: rgba(20,20,24,.55);
+  --g-blur: blur(28px) saturate(180%);
+  --g-ring: inset 0 1px 0 rgba(255,255,255,.30), inset 0 0 0 1px rgba(255,255,255,.12), inset 0 -1px 0 rgba(255,255,255,.05);
+  --g-drop: 0 12px 32px -14px rgba(0,0,0,.6);
+  --g-ctl: rgba(255,255,255,.07); --g-ctl-ring: inset 0 0 0 1px rgba(255,255,255,.10);
+}
+@media (prefers-color-scheme: light) {
+  :root { --g-tint: rgba(255,255,255,.55); --g-ring: inset 0 1px 0 rgba(255,255,255,.85), inset 0 0 0 1px rgba(0,0,0,.09), inset 0 -1px 0 rgba(0,0,0,.03);
+    --g-drop: 0 12px 32px -14px rgba(0,0,0,.28); --g-ctl: rgba(255,255,255,.5); --g-ctl-ring: inset 0 0 0 1px rgba(0,0,0,.09); }
+}
+#zoom .panel, .nmpanel, .hints, .toast, .toast.info, .toast.urgent, .toast.high, .pmenu {
+  background: var(--g-fill), var(--g-tint) !important;
+  -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur);
+  border-color: transparent; box-shadow: var(--g-ring), var(--g-drop) !important; overflow: hidden;
+}
+.toast, .toast.info, .toast.urgent, .toast.high { border-left: 3px solid var(--c); }
+/* Foreman popup + bubble: NO backdrop-filter. A live blur on the popup (which zooms in/out with a transform and floats over the agent panes)
+   kept painting a bright seam/line at its edges and across the screen; clipping edges did not fix it. Same glass look, solid fill under it. */
+#fbPanel { background: var(--g-fill), var(--surface-1) !important; -webkit-backdrop-filter: none; backdrop-filter: none;
+  border-color: transparent; overflow: hidden;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent), var(--g-ring), 0 0 8px 0 color-mix(in srgb, var(--accent) 20%, transparent), 0 0 18px 0 color-mix(in srgb, var(--accent) 9%, transparent), var(--g-drop) !important; } /* outline + glow like a working agent pane, always blue */
+#fbBubble { background: var(--g-fill), var(--surface-1); -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: var(--g-ring), var(--g-drop); }
+#fbBubble:hover, #fbBubble.open { box-shadow: var(--g-ring), inset 0 0 0 1.5px var(--accent), var(--g-drop); }
+#fbBubble img { border-radius: 50%; }
+/* controls inside glass surfaces */
+:is(#fbPanel, #zoom .panel, .nmpanel) :is(.btn, .input, input:not([type=checkbox]):not([type=radio]), select, textarea):not(.pin) {
+  background: var(--g-ctl); box-shadow: var(--g-ctl-ring); border-color: transparent; }
+:is(#fbPanel, #zoom .panel, .nmpanel) .btn:hover { background: rgba(255,255,255,.14); }
+:is(#fbPanel, #zoom .panel, .nmpanel) .input:focus-within { box-shadow: inset 0 0 0 1px var(--accent); }
+/* Foreman popup: the textarea sits inside the glassed .input pill, so it must not get its own fill/ring (stray inner box) */
+#fbPanel .input :is(textarea, input:not([type=checkbox]):not([type=radio])):not(.pin) { background: transparent; box-shadow: none; border-color: transparent; outline: none; }
+/* scrims behind modals keep blur light so the glass has something to refract */
+.tslogov { background: rgba(0,0,0,.35); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+@media (prefers-reduced-transparency: reduce) { #fbPanel, #zoom .panel, .nmpanel, .hints, .toast, .pmenu, #fbBubble { background: var(--surface-1) !important; -webkit-backdrop-filter: none; backdrop-filter: none; } }

@@ -1,0 +1,80 @@
+/* Home dashboard (home.js). Home is a dashboard only (Home redo): no card column, no desk, no chats, no bots.
+   Light glass from the app's own tokens (--block, --text-*, --accent, --status-warn); one accent, status shown by a neutral dot + word. */
+body.agdeck #s-home.agpage:is(.on, .leave) { display: block; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding: 2px 6px 18px 2px; }
+#s-home > :not(.hdash) { display: none !important; }
+#s-home > .hdash { display: block; min-width: 0; }
+
+.hfull { display: flex; flex-direction: column; gap: 18px; max-width: 1180px; margin: 0 auto; padding-top: 6px; }
+.hhero { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.hgreet { font: 600 26px/1.15 var(--font-sans); color: var(--text-primary); letter-spacing: -.01em; }
+.hday { margin-top: 4px; font: 500 13px var(--font-sans); color: var(--text-muted); }
+.hclock { font: 500 26px/1.15 var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.hsum { margin-top: -8px; font: 400 14px/1.45 var(--font-sans); color: var(--text-secondary); }
+.hsum b { color: var(--text-primary); font-weight: 600; } .hsum b.w { color: var(--status-warn); }
+.hsh { display: flex; align-items: center; gap: 8px; margin: 0 2px 10px; font: 600 12px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
+.hsec[hidden] { display: none; }
+.hempty { padding: 16px; border-radius: 12px; font: 400 13px var(--font-sans); color: var(--text-muted); background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); }
+
+/* Needs you rows */
+.hlist { display: flex; flex-direction: column; gap: 6px; }
+.hrow { --c: var(--text-muted); display: grid; grid-template-columns: 16px auto auto auto minmax(0, 1fr); align-items: center; gap: 10px; min-height: 42px; padding: 8px 14px; border: 0; border-radius: 12px; cursor: pointer; text-align: left;
+  font: 400 13px var(--font-sans); color: var(--text-secondary); background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); transition: background-color .15s, box-shadow .15s; }
+.hrow:hover { background: var(--hover); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent); }
+.hrow.attn, .hdot.attn { --c: var(--status-warn); } .hrow.fault, .hdot.fault { --c: var(--status-error); }
+.hrow.working, .hdot.working { --c: var(--accent); } .hdot.idle, .hdot.ok, .hdot.test { --c: var(--text-muted); }
+.hrn { font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+.hrpg { display: flex; align-items: center; gap: 6px; white-space: nowrap; color: var(--text-muted); font-size: 12px; }
+.hrpg .hlogo { width: 16px; height: 16px; border-radius: 4px; font-size: 9px; }
+.hrw { white-space: nowrap; font-size: 12px; font-weight: 500; color: var(--c); }
+.hrt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-muted); }
+.hdot { display: grid; place-items: center; width: 16px; height: 16px; color: var(--c); }
+.hdot i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.hdot .jk-spin { width: 14px; height: 14px; min-width: 14px; min-height: 14px; max-width: 14px; max-height: 14px; }
+
+/* page cards */
+.hpages { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.hcard { --c: var(--text-muted); position: relative; display: flex; flex-direction: column; gap: 12px; min-width: 0; padding: 14px 16px 12px; border-radius: 16px; cursor: pointer; outline: 0;
+  background: linear-gradient(160deg, rgba(255,255,255,.13), rgba(255,255,255,.04) 45%, rgba(255,255,255,.07)), color-mix(in srgb, var(--surface-1) 40%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.30), inset 0 0 0 1px rgba(255,255,255,.12), 0 12px 32px -14px rgba(0,0,0,.6); transition: transform .18s var(--ease-out), box-shadow .18s var(--ease-out); }
+.hcard.st-working { --c: var(--accent); } .hcard.st-attention { --c: var(--status-warn); }
+.hcard:hover, .hcard:focus-visible { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.30), inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent), 0 18px 36px -16px rgba(0,0,0,.7); }
+.hct { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.hlogo { flex: none; width: 34px; height: 34px; border-radius: 9px; object-fit: contain; }
+.hmono { display: grid; place-items: center; font: 600 15px var(--font-sans); color: var(--text-primary); background: linear-gradient(145deg, hsl(var(--h, 210) 55% 55% / .38), hsl(var(--h, 210) 55% 40% / .18)); box-shadow: inset 0 0 0 1px hsl(var(--h, 210) 60% 70% / .35); text-transform: uppercase; }
+.hcn { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.hcn b { font: 600 15px var(--font-sans); color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hcn span { font: 400 11.5px var(--font-sans); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hcard.missing .hcn span { color: var(--status-warn); }
+.hstat { flex: none; display: flex; align-items: center; gap: 6px; font: 500 12px var(--font-sans); color: var(--text-secondary); }
+.hstat i { width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
+.hcard.st-working .hstat i { animation: hpulse 1.8s ease-in-out infinite; }
+.hcard.st-working .hstat { color: var(--c); font-weight: 600; }
+.hcard.st-working { box-shadow: inset 0 1px 0 rgba(255,255,255,.30), inset 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), 0 12px 32px -14px color-mix(in srgb, var(--accent) 55%, transparent); }
+.hact { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 7px 10px; border-radius: 10px; font: 400 12.5px var(--font-sans); color: var(--text-secondary); background: color-mix(in srgb, var(--c) 10%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 28%, transparent); }
+.hact.err { background: color-mix(in srgb, var(--status-error) 12%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--status-error) 40%, transparent); }
+.hadot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); } .hact.run .hadot { background: var(--accent); animation: hpulse 1.4s ease-in-out infinite; } .hact.err .hadot { background: var(--status-error); }
+.hat { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .hat b { font-weight: 600; color: var(--text-primary); }
+.hatime { flex: none; font-variant-numeric: tabular-nums; color: var(--text-muted); font-size: 11.5px; }
+@keyframes hpulse { 50% { opacity: .35; } }
+.hsts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.hst { display: flex; flex-direction: column; gap: 1px; padding: 8px 10px; border-radius: 10px; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); min-width: 0; }
+.hst b { font: 600 18px/1.2 var(--font-sans); color: var(--text-primary); font-variant-numeric: tabular-nums; } .hst b small { font: 500 12px var(--font-sans); color: var(--text-muted); }
+.hst span { font: 400 11px var(--font-sans); color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hln { display: flex; justify-content: space-between; gap: 12px; font: 400 12.5px var(--font-sans); color: var(--text-muted); min-width: 0; }
+.hln b { font-weight: 500; color: var(--text-secondary); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hcf { display: flex; align-items: center; gap: 12px; padding-top: 10px; border-top: 1px solid var(--sep); font: 500 11.5px var(--font-sans); color: var(--text-muted); min-height: 18px; }
+.hgit { display: flex; align-items: center; gap: 4px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hgit svg { flex: none; }
+.hgit em { font-style: normal; color: var(--status-warn); }
+.hrm { margin-left: auto; white-space: nowrap; }
+
+@media (prefers-color-scheme: light) {
+  .hcard { background: linear-gradient(160deg, rgba(255,255,255,.85), rgba(255,255,255,.5)); box-shadow: inset 0 1px 0 #fff, inset 0 0 0 1px rgba(0,0,0,.09), 0 10px 28px -16px rgba(0,0,0,.3); }
+  .hcard:hover, .hcard:focus-visible { box-shadow: inset 0 1px 0 #fff, inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent), 0 14px 30px -16px rgba(0,0,0,.35); }
+}
+@media (prefers-reduced-motion: reduce) { .hcard { transition: none; } .hcard:hover { transform: none; } .hcard.st-working .hstat i, .hact.run .hadot { animation: none; } }
+@media (max-width: 900px) {
+  body.agdeck #s-home.agpage:is(.on, .leave) { padding: 0 14px 18px; scrollbar-gutter: auto; }
+  .hgreet, .hclock { font-size: 21px; }
+  .hrow { grid-template-columns: 16px auto minmax(0, 1fr); } .hrow .hrpg { display: none; } .hrow .hrt { grid-column: 2 / -1; }
+}

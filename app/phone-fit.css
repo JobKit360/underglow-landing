@@ -1,0 +1,35 @@
+/* PHONE ONLY (max-width 900px): nothing scrolls. html/body are locked to the viewport; every list is made to FIT
+   (tiles resize to the count, long lists page with a pager bar). Exceptions that may scroll: the opened agent pane output
+   (.pterm), the chat history (#chat) and text fields while typing. Desktop is untouched: every rule below is inside the media query. */
+.pgbar { display: none; }
+@media (max-width: 900px) {
+  html, body { height: 100dvh; max-height: 100dvh; overflow: hidden; overscroll-behavior: none; }
+
+  /* pager bar (phone-fit.js) */
+  .pgbar:not([hidden]) { flex: none; display: flex; align-items: center; justify-content: center; gap: 14px; min-height: 36px; padding: 2px 0; font: 600 12px var(--font-sans); color: var(--text-muted); font-variant-numeric: tabular-nums; user-select: none; -webkit-user-select: none; }
+  .pgbar button { min-width: 44px; height: 32px; padding: 0 12px; border-radius: 10px; font: 600 16px/1 var(--font-sans); color: var(--accent); background: var(--surface-3); cursor: pointer; border: 0; }
+  .pgbar button:disabled { opacity: .35; cursor: default; }
+  [data-pgx] { display: none !important; }
+
+  /* Agents / Foreman agents: tiles size to the count (set by phone-fit.js: --tc columns, --tr rows, data-d density) */
+  :is(.agpage, #_) .atiles { overflow: hidden; overscroll-behavior: none; grid-template-columns: repeat(var(--tc, 2), minmax(0, 1fr)); grid-template-rows: repeat(var(--tr, 1), minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); align-content: start; }
+  .atiles .atile { min-height: 0; max-height: 210px; overflow: hidden; align-self: stretch; }
+  .atiles[data-d="mid"] .atile .tsay { display: none; }
+  .atiles[data-d="mid"] .atile { gap: 3px; padding: 9px 11px; }
+  .atiles[data-d="compact"] .atile { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: center; gap: 2px 8px; padding: 6px 9px; border-radius: 12px; }
+  .atiles[data-d="compact"] .atile .tname { font-size: 13px; }
+  .atiles[data-d="compact"] .atile .tstat { font-size: 11px; max-width: 8.5em; overflow: hidden; text-overflow: ellipsis; }
+  .atiles[data-d="compact"] .atile .thead { gap: 5px; }
+  .atiles[data-d="compact"] .atile .thead { grid-column: 1; }
+  .atiles[data-d="compact"] .atile .tstat { grid-column: 2; white-space: nowrap; }
+  .atiles[data-d="compact"] .atile .ttask { grid-column: 1; -webkit-line-clamp: 1; font-size: 12px; }
+  .atiles[data-d="compact"] .atile .tsay { display: none; }
+  .atiles[data-d="compact"] .atile .tmeta { display: contents; }
+  .atiles[data-d="compact"] .atile .tmeta > :not(.ttest) { display: none; }
+  .atiles[data-d="compact"] .atile .tmeta > .ttest { grid-column: 2; grid-row: 2; justify-self: end; }
+  .atiles .tempty { align-self: start; }
+
+}
+@media (max-width: 900px) {
+  :is(.agpage, #_) .atiles { grid-template-rows: repeat(var(--tr, 1), minmax(0, 210px)); }
+}

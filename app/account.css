@@ -1,0 +1,33 @@
+/* UnderGlow account: full-window sign-in (#ugAuth) and the Settings card (.ug-panel). */
+#ugAuth { position: fixed; inset: 0; z-index: 100000; display: grid; place-items: center; padding: 24px; overflow: auto; background: radial-gradient(60vmax 40vmax at 15% -10%, rgba(34,211,238,.16), transparent 70%), radial-gradient(60vmax 45vmax at 95% 105%, rgba(168,85,247,.18), transparent 70%), #0b0b10; color: #ededf3; }
+#ugAuth[hidden] { display: none; }
+.ug-card { display: grid; gap: 12px; width: min(400px, 100%); padding: 28px; border-radius: 20px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); font: 14px/1.5 var(--font-sans, system-ui, sans-serif); }
+.ug-card img { border-radius: 22%; }
+.ug-card h2, .ug-panel h2 { margin: 2px 0 0; font-size: 22px; font-weight: 650; letter-spacing: -.02em; }
+.ug-panel h2 { font-size: 16px; }
+.ug-panel { display: grid; gap: 10px; font-size: 13px; }
+.ug-dim { margin: 0; color: #a3a3b5; }
+.ug-panel .ug-dim { color: var(--text-secondary); }
+.ug-who { font-size: 15px; overflow-wrap: anywhere; }
+.ug-form { display: grid; gap: 12px; }
+.ug-form label { display: grid; gap: 5px; color: #a3a3b5; font-size: 13px; }
+.ug-panel .ug-form label { color: var(--text-secondary); }
+.ug-form input { width: 100%; height: 42px; padding: 0 12px; box-sizing: border-box; border: 1px solid rgba(128,128,145,.35); border-radius: 10px; background: rgba(0,0,0,.2); color: inherit; font: 14px var(--font-sans, system-ui, sans-serif); }
+.ug-form input:focus { outline: 2px solid #22d3ee; outline-offset: 1px; }
+.ug-form input[readonly] { opacity: .65; }
+.ug-go { min-height: 42px; padding: 0 18px; border: 0; border-radius: 10px; background: linear-gradient(90deg, #22d3ee, #a855f7); color: #0b0b12; font: 650 14px var(--font-sans, system-ui, sans-serif); cursor: pointer; }
+.ug-go:disabled { opacity: .55; cursor: default; }
+.ug-msg { margin: 0; color: #5fd9a0; } .ug-msg.bad { color: #ff8078; }
+.ug-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+.ug-link { padding: 2px 0; border: 0; background: none; color: #a3a3b5; font: inherit; text-decoration: underline; cursor: pointer; }
+.ug-panel .ug-link { color: var(--text-secondary); }
+
+/* Billing (Settings → UnderGlow) */
+.ug-panel h2 + .ug-bill { margin-top: -2px; }
+.ug-bill { display: grid; gap: 8px; }
+.ug-brow { display: flex; justify-content: space-between; gap: 12px; }
+.ug-brow span { color: var(--text-secondary); }
+.ug-brow b { text-transform: capitalize; }
+.ug-st.on { color: #4ade80; }
+.ug-plans { display: grid; gap: 6px; }
+.ug-test { font-size: 11px; opacity: .75; }

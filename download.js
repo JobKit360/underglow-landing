@@ -14,13 +14,13 @@
   }
   if (typeof module !== 'undefined' && module.exports) module.exports = { pickInstaller: pickInstaller };
   if (typeof document === 'undefined') return;
-  var a = document.getElementById('download');
-  if (!a) return;
+  var links = [document.getElementById('download'), document.getElementById('download2')].filter(Boolean);
+  if (!links.length) return;
   fetch('https://api.github.com/repos/' + REPO + '/releases/latest')
     .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
     .then(function (rel) {
       var url = pickInstaller(rel);
-      if (url) { a.href = url; a.setAttribute('download', ''); }
+      if (url) links.forEach(function (a) { a.href = url; a.setAttribute('download', ''); });
     })
     .catch(function () {});
 })();

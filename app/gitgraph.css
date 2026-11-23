@@ -1,0 +1,183 @@
+/* Git dock (gitgraph.js): opens from the settings panel's Git row and covers the page's left column; grows up out of that row. */
+.gg { --gg-bg: var(--surface-1, #141418); position: fixed; z-index: 1200; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;
+  border-radius: 14px; border: 1px solid var(--border-default, rgba(255,255,255,.1));
+  background: radial-gradient(140% 50% at 0% 0%, rgba(74,143,232,.09), transparent 60%), var(--gg-bg);
+  box-shadow: 0 24px 60px -24px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.05);
+  font: 400 12px/1.4 var(--font-sans); color: var(--text-secondary);
+  visibility: hidden; opacity: 0; clip-path: inset(calc(100% - 24px) 0 0 0 round 14px); pointer-events: none;
+  transition: clip-path .26s cubic-bezier(.4,0,.6,1), opacity .2s ease .06s, visibility 0s .26s; }
+.gg.open { visibility: visible; opacity: 1; clip-path: inset(0 0 0 0 round 14px); pointer-events: auto;
+  transition: clip-path .42s cubic-bezier(.2,.85,.25,1), opacity .16s ease, visibility 0s; }
+@media (prefers-reduced-motion: reduce) { .gg, .gg.open { clip-path: none; transition: opacity .12s, visibility 0s; } }
+
+.gg-hd { flex: none; display: flex; align-items: center; gap: 9px; padding: 15px 10px 13px 14px; border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,.06)); }
+.gg-ic { flex: none; width: 18px; height: 18px; fill: none; stroke: var(--accent); stroke-width: 1.7; stroke-linecap: round; }
+.gg-ic circle { fill: var(--accent); stroke: none; }
+.gg-tt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.gg-repo { font: 650 14px/1.2 var(--font-sans); color: var(--text-primary); letter-spacing: -.01em; }
+.gg-rsel { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; margin: -2px -6px; padding: 2px 6px; border: 0; border-radius: 6px; background: transparent; font: inherit; color: inherit; letter-spacing: inherit; cursor: pointer; }
+.gg-rsel:hover { background: var(--hover); }
+.gg-rsel svg { flex: none; width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: .7; }
+/* repo switch: a short list under the header */
+.gg-rmenu { position: absolute; z-index: 5; left: 38px; top: 52px; min-width: 160px; max-width: calc(100% - 52px); max-height: 50%; overflow-y: auto; display: flex; flex-direction: column; gap: 1px; padding: 5px; box-sizing: border-box;
+  border-radius: 10px; border: 1px solid var(--border-default, rgba(255,255,255,.1)); background: var(--surface-2, #1C1C21); box-shadow: 0 16px 36px -12px rgba(0,0,0,.8); }
+.gg-rmenu[hidden] { display: none; }
+.gg-rmenu button { padding: 7px 10px; border: 0; border-radius: 7px; background: transparent; text-align: left; font: 500 12.5px/1.2 var(--font-sans); color: var(--text-secondary); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gg-rmenu button:hover { background: var(--hover); color: var(--text-primary); }
+.gg-rmenu button.on { color: var(--accent); }
+.gg-sub { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gg-sub b { color: var(--text-secondary); font-weight: 600; }
+.gg-wc, .gg-wipt { color: var(--amber, #C89B3C); }
+.gg-up { color: var(--accent); }
+.gg-x { flex: none; width: 26px; height: 26px; border: 0; border-radius: 7px; background: transparent; color: var(--text-muted); font: 400 18px/1 var(--font-sans); cursor: pointer; }
+.gg-x:hover { background: var(--hover); color: var(--text-primary); }
+
+.gg-sc { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 10px 0 16px; }
+/* scrollbars like the agent panes' (.pterm in foreman.css): invisible until you hover, a slim rounded thumb inset from the edge.
+   No scrollbar-width here: in Chromium it switches the ::-webkit-scrollbar styling off. */
+.gg-sc, .gg-insp { --sb: rgba(150,155,170,.28); --sb-hi: rgba(150,155,170,.6); }
+@media (prefers-color-scheme: light) { .gg-sc, .gg-insp { --sb: rgba(60,60,70,.25); --sb-hi: rgba(60,60,70,.55); } }
+:is(.gg-sc, .gg-insp)::-webkit-scrollbar { width: 10px; height: 10px; }
+:is(.gg-sc, .gg-insp)::-webkit-scrollbar-track { background: transparent; margin: 10px 0; }
+:is(.gg-sc, .gg-insp)::-webkit-scrollbar-thumb { background: transparent; border-radius: 999px; border: 3px solid transparent; background-clip: padding-box; min-height: 36px; }
+:is(.gg-sc, .gg-insp):hover::-webkit-scrollbar-thumb { background-color: var(--sb); }
+:is(.gg-sc, .gg-insp)::-webkit-scrollbar-thumb:hover { background-color: var(--sb-hi); }
+@media (hover: none) { :is(.gg-sc, .gg-insp)::-webkit-scrollbar-thumb { background-color: var(--sb); } }
+@supports not selector(::-webkit-scrollbar) { .gg-sc, .gg-insp { scrollbar-width: thin; scrollbar-color: var(--sb) transparent; } }
+.gg-cv { position: relative; }
+.gg-svg { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; }
+.gg-rows { position: relative; }
+.gg-foot { padding: 8px 14px 0; font-size: 10.5px; color: var(--text-muted); text-align: center; }
+.gg-empty { padding: 30px 18px; color: var(--text-muted); text-align: center; }
+
+/* opening: the left column makes room first (gitgraph.js stage(); desktop only), then the dock grows into the middle.
+   page chat card tints blue · the line under it slides out to the left · folded cards slide up into a tight stack (--gat, a hoverable slice each)
+   · the other rows and the money counter slide off the bottom · the Git row drops into the counter's place (--gg-gy) */
+@media (min-width: 901px) {
+  .dkzone > .odeck, .dkres { transition: background-position .38s cubic-bezier(.4,0,.2,1); }
+  body.ggopen .dkzone > .odeck { background-position: -260px bottom; }
+  body.ggopen .dkres { background-position: -260px top; }
+  .dkzone > .odeck .dcard.ocard { transition: transform .42s cubic-bezier(.22,1,.36,1), opacity .2s, box-shadow .45s ease; }
+  body.ggopen .dkzone > .odeck .dcard.ocard { box-shadow: inset 0 0 0 300px rgba(74,143,232,.13), inset 0 0 0 1.5px rgba(74,143,232,.6), 0 0 22px -8px rgba(74,143,232,.7), 0 10px 22px -14px rgba(0,0,0,.75); }
+  body.ggopen .dkpile:not(.odeck) .dcard { transform: translate(calc(var(--jx, 0px) + var(--lx, 0px)), calc(var(--gat, var(--at, 0px)) + var(--hy, 0px))) scale(var(--ls, 1));
+    transition: transform .5s cubic-bezier(.22,1,.36,1) .06s, opacity .2s, box-shadow .3s, filter .3s; }
+  body.ggopen .dkpile:not(.odeck).empty::after { opacity: 0; }
+  /* one stack: the folded cards lie on the page chat card (it stays at the bottom, its top slice showing); hover is driven by gitgraph.js
+     (.gg-up = the card whose slice the pointer is on), so the plain :hover slide is off */
+  body.ggopen .dkpile:not(.odeck) .dcard:hover { --lx: 0px; }
+  body.ggopen .dkpile:not(.odeck) .dcard.gg-up { --lx: 14px; z-index: 99 !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.26), inset 0 0 0 1px rgba(255,255,255,.18), 0 18px 32px -14px rgba(0,0,0,.8); }
+  body.ggdim .dkpile:not(.odeck) .dcard.gg-up { filter: none; }
+  body.ggdim .dkpile:not(.odeck) .dcard.gg-up.gg-hot { box-shadow: 0 0 0 0 transparent, inset 0 0 26px -6px var(--gg-c), 0 18px 32px -14px rgba(0,0,0,.8) !important; }
+  .dkres.sp > * { transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .3s ease; }
+  body.ggopen .dkres.sp > :not(.sp-ics) { transform: translateY(150px); opacity: 0; pointer-events: none; }
+  body.ggopen .dkres.sp > .sp-ics { transform: translateY(var(--gg-gy, 0px)); }
+}
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) { .dkzone > .odeck, .dkres, .dkres.sp > *, body.ggopen .dkpile:not(.odeck) .dcard { transition: none; } }
+
+/* lines + dots */
+.gg-e { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: opacity .18s; }
+.gg-n { transition: opacity .18s; }
+.gg-halo { opacity: .16; transform-box: fill-box; transform-origin: center; }
+.gg-tip .gg-halo { opacity: .22; }
+.gg-n.live .gg-halo { animation: gg-pulse 1.8s ease-out infinite; }
+@keyframes gg-pulse { 0% { opacity: .55; transform: scale(.55); } 100% { opacity: 0; transform: scale(1.7); } }
+.gg.focus .gg-e:not(.on), .gg.focus .gg-n:not(.on) { opacity: .16; }
+.gg.focus .gg-e.on { stroke-width: 2.6; }
+/* first draw: lines sweep down the lanes, dots and rows pop in row by row */
+.gg.intro .gg-e:not([stroke-dasharray]) { stroke-dasharray: var(--len, 400); stroke-dashoffset: var(--len, 400); animation: gg-draw .55s cubic-bezier(.3,.7,.3,1) var(--d, 0ms) forwards; }
+.gg.intro .gg-n { animation: gg-pop .38s cubic-bezier(.2,1.4,.4,1) var(--d, 0ms) backwards; transform-box: fill-box; transform-origin: center; }
+.gg.intro .gg-r { animation: gg-in .4s ease var(--d, 0ms) backwards; }
+@keyframes gg-draw { to { stroke-dashoffset: 0; } }
+@keyframes gg-pop { from { transform: scale(0); opacity: 0; } }
+@keyframes gg-in { from { opacity: 0; transform: translateX(-6px); } }
+@media (prefers-reduced-motion: reduce) { .gg.intro .gg-e, .gg.intro .gg-n, .gg.intro .gg-r, .gg-n.live .gg-halo { animation: none !important; stroke-dashoffset: 0; } }
+
+/* rows */
+.gg-r { position: relative; height: 60px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding-right: 10px; margin: 0 4px; border-radius: 9px; cursor: pointer; outline: none; transition: opacity .18s, background-color .12s; }
+.gg-r:hover, .gg-r:focus-visible { background: var(--hover); }
+.gg-r.sel { background: var(--accent-subtle); }
+.gg.focus .gg-r:not(.on):not(.sel) { opacity: .38; }
+.gg-l1, .gg-l2 { display: flex; align-items: center; gap: 5px; min-width: 0; white-space: nowrap; overflow: hidden; }
+.gg-s { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--text-primary); font-size: 12.5px; }
+.gg-l2 { font-size: 11px; color: var(--text-muted); gap: 6px; }
+.gg-tm { flex: none; font-variant-numeric: tabular-nums; }
+.gg-au { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.gg-h { flex: none; margin-left: auto; font: 500 10px/1 ui-monospace, "Cascadia Mono", Consolas, monospace; color: var(--text-muted); opacity: .7; }
+.gg-mut { color: var(--text-muted); font-size: 11px; }
+.gg-wip .gg-wipt { font-weight: 600; font-size: 12.5px; }
+.gg-wipb { color: var(--text-muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; }
+
+/* branch pills */
+.gg-pill { flex: none; display: inline-flex; align-items: center; gap: 3px; max-width: 120px; height: 19px; padding: 0 7px; box-sizing: border-box; border-radius: 999px;
+  font: 650 10.5px/1 var(--font-sans); color: var(--bc); background: color-mix(in srgb, var(--bc) 17%, transparent); border: 1px solid color-mix(in srgb, var(--bc) 50%, transparent);
+  overflow: hidden; text-overflow: ellipsis; cursor: default; }
+.gg-pill.wt { box-shadow: 0 0 10px -2px color-mix(in srgb, var(--bc) 60%, transparent); }
+.gg-pill.rem { background: transparent; border-style: dashed; font-weight: 500; opacity: .75; }
+.gg-pill i { font-style: normal; font-weight: 600; opacity: .85; }
+
+/* agent chips */
+.gg-ag { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 18px; padding: 0 7px 0 1px; border-radius: 999px; font: 600 10.5px/1 var(--font-sans);
+  color: hsl(var(--ah) 70% 74%); background: hsl(var(--ah) 60% 50% / .15); cursor: pointer; transition: box-shadow .15s; }
+.gg-ag i { width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center; font: 700 9px/1 var(--font-sans); font-style: normal; color: #fff; background: hsl(var(--ah) 55% 48%); }
+.gg-ag.live i { animation: gg-live 1.6s ease-out infinite; }
+@keyframes gg-live { 0% { box-shadow: 0 0 0 0 rgba(61,214,140,.7); } 100% { box-shadow: 0 0 0 6px rgba(61,214,140,0); } }
+.gg-ag.on { box-shadow: 0 0 0 1.5px hsl(var(--ah) 70% 65%); }
+@media (prefers-color-scheme: light) { .gg-ag { color: hsl(var(--ah) 60% 34%); } }
+
+/* inspector (bottom sheet inside the dock) */
+.gg-insp { position: relative; flex: none; max-height: 56%; overflow-y: auto; box-sizing: border-box; padding: 16px 14px; border-top: 1px solid var(--border-default);
+  background: var(--surface-2, #1C1C21); box-shadow: 0 -12px 30px -18px rgba(0,0,0,.7);
+  opacity: 0; transform: translateY(14px); transition: opacity .16s, transform .24s cubic-bezier(.2,.9,.25,1.1); }
+.gg-insp.on { opacity: 1; transform: none; }
+.gg-ix { position: absolute; right: 8px; top: 8px; width: 22px; height: 22px; border: 0; border-radius: 6px; background: transparent; color: var(--text-muted); font-size: 16px; cursor: pointer; }
+.gg-ix:hover { background: var(--hover); color: var(--text-primary); }
+.gg-ih { display: flex; align-items: flex-start; gap: 8px; padding-right: 22px; }
+.gg-ih b { color: var(--text-primary); font-weight: 600; font-size: 13px; line-height: 1.4; }
+.gg-dot { flex: none; width: 10px; height: 10px; margin-top: 3px; border-radius: 50%; background: var(--bc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--bc) 25%, transparent); }
+.gg-dot.wip { background: transparent; border: 1.6px dashed var(--bc); box-sizing: border-box; box-shadow: none; }
+.gg-ib { margin: 8px 0 0 18px; white-space: pre-wrap; font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); max-height: 130px; overflow: auto; }
+.gg-im { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 10px 0 0 18px; font-size: 11px; color: var(--text-muted); }
+.gg-sha { border: 1px solid var(--border-default); background: var(--block); color: var(--text-secondary); border-radius: 5px; padding: 1px 6px; font: 500 10px/1.4 ui-monospace, Consolas, monospace; cursor: pointer; }
+.gg-sha:hover { color: var(--text-primary); border-color: var(--border-strong); }
+.gg-mtag { padding: 1px 6px; border-radius: 5px; background: var(--block); }
+.gg-ist { margin: 14px 0 6px; font-size: 11px; color: var(--text-muted); }
+.gg-insp b.a { color: #3DD68C; font-weight: 600; } .gg-insp b.d { color: #F07171; font-weight: 600; }
+.gg-fs { display: flex; flex-direction: column; gap: 2px; margin-top: 6px; }
+.gg-f { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 5px 6px; border-radius: 7px; font-size: 11.5px; }
+.gg-f:hover { background: var(--hover); }
+.gg-fn { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); }
+.gg-fn em { font-style: normal; color: var(--text-muted); margin-left: 6px; font-size: 10.5px; }
+.gg-fc { flex: none; display: flex; gap: 4px; font-size: 10.5px; font-variant-numeric: tabular-nums; }
+.gg-bar { flex: none; display: flex; height: 5px; border-radius: 3px; overflow: hidden; }
+.gg-bar i { background: #3DD68C; } .gg-bar u { background: #F07171; }
+.gg-fb { font-size: 10px; color: var(--text-muted); }
+.gg-st { flex: none; font-size: 10.5px; padding: 2px 6px; border-radius: 5px; background: var(--block); color: var(--text-secondary); }
+.gg-st.s-M { color: var(--amber, #C89B3C); } .gg-st.s-A, .gg-st.s-n { color: #3DD68C; } .gg-st.s-D { color: #F07171; } .gg-st.s-R { color: var(--accent); }
+
+/* the agents while the dock is open: everyone dims, the ones working in this repo (or on the hovered branch) light up in its colour */
+body.ggdim .gg-dim { filter: brightness(.42) saturate(.35); }
+/* the desk (.apanes) clips anything outside a pane, so the ring is an outline laid just inside the pane's edge (painted over its content) plus an inner glow */
+body.ggdim .gg-hot { outline: 2px solid var(--gg-c); outline-offset: -2px; box-shadow: inset 0 0 26px -6px var(--gg-c), 0 0 14px -4px var(--gg-c) !important; }
+body.ggdim .gg-hot.gg-strong { animation: gg-glow 2.2s ease-in-out infinite; }
+@keyframes gg-glow { 50% { box-shadow: inset 0 0 44px -6px var(--gg-c), 0 0 16px -2px var(--gg-c); } }
+.gg-ping { animation: gg-ping .7s ease-out !important; }
+@keyframes gg-ping { 0% { box-shadow: 0 0 0 0 var(--gg-c, var(--accent)); } 100% { box-shadow: 0 0 0 14px transparent; } }
+@media (prefers-reduced-motion: reduce) { body.ggdim .gg-hot.gg-strong { animation: none; } }
+
+/* hover card beside the dock (gitgraph.js popAt): what the branch was + the whole commit */
+.gg-pop { position: fixed; z-index: 1201; width: 300px; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; pointer-events: none;
+  border: 1px solid var(--border-default, rgba(255,255,255,.1)); background: var(--surface-2, #1C1C21); box-shadow: 0 18px 44px -14px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.05);
+  font: 400 12px/1.45 var(--font-sans); color: var(--text-secondary); opacity: 0; transform: translateX(-6px); transition: opacity .14s, transform .18s cubic-bezier(.2,.9,.25,1), top .12s ease; visibility: hidden; }
+.gg-pop.on { opacity: 1; transform: none; visibility: visible; }
+.gg-pb { display: flex; align-items: flex-start; gap: 8px; min-width: 0; }
+.gg-pb b { min-width: 0; overflow-wrap: anywhere; font: 650 13.5px/1.25 var(--font-sans); color: var(--text-primary); }
+.gg-pd { flex: none; width: 10px; height: 10px; margin-top: 4px; border-radius: 50%; background: var(--bc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--bc) 25%, transparent); }
+.gg-pk { flex: none; margin-left: auto; padding: 1px 7px; border-radius: 999px; font-size: 10.5px; color: var(--text-muted); background: var(--block, rgba(255,255,255,.06)); }
+.gg-pf { margin: 5px 0 0 18px; font-size: 11.5px; color: var(--text-muted); }
+.gg-pp { display: inline-block; max-width: 150px; vertical-align: bottom; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 6px; border-radius: 999px; font: 600 11px/17px var(--font-sans);
+  color: var(--bc); background: color-mix(in srgb, var(--bc) 15%, transparent); }
+.gg-ps { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-subtle, rgba(255,255,255,.06)); color: var(--text-primary); font-size: 12.5px; overflow-wrap: anywhere; }
+.gg-pm { margin-top: 4px; font-size: 11px; color: var(--text-muted); overflow-wrap: anywhere; }
+.gg-pm code { font: 500 10.5px ui-monospace, "Cascadia Mono", Consolas, monospace; }
+.gg-pg { margin-top: 8px; font-size: 11.5px; color: var(--text-muted); }
+@media (prefers-reduced-motion: reduce) { .gg-pop { transition: opacity .1s; transform: none; } }

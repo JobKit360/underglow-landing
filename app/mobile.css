@@ -1,0 +1,79 @@
+/* PHONE ONLY (max-width 900px) layout fixes for the agents pages. Loaded last so it wins over deck.css / settingspanel.css.
+   Every rule sits inside the media query: desktop is untouched (2026-11-15: desktop is locked). */
+.dkmore { display: none; } /* "Show all N agents": phones only (below) */@media (max-width: 900px) {
+  /* ---- deck strip: the folder/Git/Roadmap/pot panel (.dkres.sp) was squeezed into the 46px card row beside the cards,
+     shrinking the cards to slivers and sliding under the open pane. It gets its own row under the cards. ---- */
+  body.agdeck :is(.agpage, #_):is(.on, .leave) { grid-template-rows: auto auto minmax(0, 1fr); }
+  body.agdeck :is(.agpage, #_) > .dkzone { flex-wrap: wrap; row-gap: 8px; }
+  body.agdeck :is(.agpage, #_) > .dkzone > .dkpile { height: 46px; }
+  body.agdeck :is(.agpage, #_) > .dkzone > .dkpile:not(.odeck) { flex: 1 1 0; }
+  body.agdeck :is(.agpage, #_) > .dkzone > .dkres.sp { flex: 0 0 100%; height: auto; margin: 0; padding: 7px 2px 0;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-auto-flow: row; column-gap: 14px; row-gap: 2px; align-items: center; }
+  .dkres.sp .sp-r { grid-column: 1; min-height: 20px; align-items: center; }
+  .dkres.sp .sp-k { width: 58px; font-size: 11px; }
+  .dkres.sp .sp-v { font-size: 12px; }
+  .dkres.sp .sp-more { padding: 0 2px; }
+  .dkres.sp .sp-pot { grid-column: 2; grid-row: 1 / span 6; margin: 0; padding: 0 0 0 12px; border-top: 0; border-left: 1px solid var(--border-default, rgba(127,127,127,.2)); align-self: stretch; }
+  .dkres.sp .sp-x { font-size: 17px; }
+  .dkres.sp .sp-pt { font-size: 11px; line-height: 1.3; }
+  .dkres.sp .sp-stk-at { display: none; } /* the two chip stacks: no room beside the rows on a phone */
+
+  /* agent cards: a plain 2-column list (deckPlace puts the most urgent first: needs you, waiting test, working, idle) that scrolls
+     up/down natively; 2 rows + a peek of the third show, "Show all N agents" (.dkmore) opens it full height over the desk.
+     No drag and drop on a phone (2026-11-16): a tap opens a card, a swipe only scrolls. */
+  body.agdeck :is(.agpage, #_) > .dkzone > .dkpile:not(.odeck) { flex: 1 1 100%; height: auto; min-height: 46px; max-height: 127px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 46px; gap: 8px;
+    overflow: hidden auto; overscroll-behavior: contain; touch-action: pan-y; scrollbar-width: none; }
+  body.agdeck :is(.agpage, #_) > .dkzone > .dkpile:not(.odeck)::-webkit-scrollbar { display: none; }
+  .dkpile:not(.odeck) .dcard { position: relative; width: auto; height: 46px; transform: none; touch-action: pan-y; cursor: pointer; }
+  .dkpile:not(.odeck)::after { width: calc(50% - 4px); height: 46px; top: 0; }
+  body.agdeck :is(.agpage, #_) > .dkzone > .dkmore { display: block; flex: 1 1 100%; height: 34px; margin: -2px 0 0; border: 0; border-radius: 10px; font: 600 12.5px var(--font-sans); color: var(--accent); background: var(--surface-3, rgba(255,255,255,.06)); cursor: pointer; }
+  body.agdeck :is(.agpage, #_) > .dkzone > .dkmore[hidden] { display: none; }
+  /* Show all: the list takes the screen (the open agent waits underneath), the folder/pot panel steps aside */
+  body.agdeck :is(.agpage, #_).dkall > .dkzone > .dkpile:not(.odeck) { max-height: var(--dkmax, 60vh); }
+  body.agdeck :is(.agpage, #_).dkall > .apanes, body.agdeck :is(.agpage, #_).dkall > .dkzone > .dkres.sp { display: none; }
+
+  /* ---- message box: the long placeholder wrapped into a second, half-hidden line ---- */
+  .pin::placeholder { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
+
+/* narrow phones: pane header in two rows */
+@media (max-width: 599px) {
+  /* ---- open pane header: the name was cut to a few letters by Close + the status pill. Row 1 = pin, model, name, Close;
+     row 2 = status + context size. Wide phones / landscape keep the one row: their height is the scarce part. ---- */
+  :is(.agpage, #_) .phead { flex-wrap: wrap; row-gap: 6px; }
+  :is(.agpage, #_) .phead > * { order: 5; }
+  :is(.agpage, #_) .phead > :is(.ppin, .pprov) { order: 0; }
+  :is(.agpage, #_) .phead .pid { flex: 1 1 0; order: 1; }
+  :is(.agpage, #_) .phead .pclose { order: 2; }
+  :is(.agpage, #_) .phead::after { content: ""; order: 3; flex: 0 0 100%; height: 0; }
+  :is(.agpage, #_) .phead .tag { order: 4; max-width: 70%; height: 24px; }
+  :is(.agpage, #_) .phead .pmeta:empty { display: none; }
+}
+
+/* wide phones / landscape / small tablets: there is room for the panel beside the cards again, which leaves the open pane its height */
+@media (min-width: 600px) and (max-width: 900px) {
+  body.agdeck :is(.agpage, #_) > .dkzone > .dkres.sp { flex: 0 1 340px; min-width: 0; padding: 0 0 0 4px; background: none; align-content: center; }
+  .dkres.sp .sp-r { min-height: 18px; }
+}
+
+/* narrow phones: the title bar ran out of room and the browser button sat on top of the Prod / Dev switch */
+@media (max-width: 399px) {
+  header .mark > span, header .widgets { display: none; }
+}
+
+
+/* PHONE: an open bot takes the whole screen, like a text thread (2026-11-16: half height was bad). It sits over the page
+   (header, cards, panel); the X in its header goes back. --vvh / --vvt (phone-fit.js) follow the visible viewport so the box ends
+   at the keyboard instead of under it. */
+@media (max-width: 900px) {
+  body.agdeck :is(.agpage, #_).hboton > .hbot { position: fixed; left: 0; right: 0; top: var(--vvt, 0px); height: var(--vvh, 100dvh); z-index: 60;
+    padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); box-sizing: border-box; background: var(--surface-base, #0b0b0e); }
+  body.agdeck .pagepane:has(> .agpage.on.hboton) { container-type: normal; } /* the page container traps position: fixed inside it */
+  body.agdeck:has(:is(.agpage, #_).on.hboton) > header { visibility: hidden; } /* the app bar sits above the page: hidden while a bot fills the screen */
+  body.agdeck .agpage.hboton > .hbot .bt { gap: 0; }
+  body.agdeck .agpage.hboton > .hbot :is(.bt-main, .bt-side) { border-radius: 0; box-shadow: none; background: none; }
+  body.agdeck .agpage.hboton > .hbot .bt-head { padding: 8px 10px; gap: 8px; }
+  body.agdeck .agpage.hboton > .hbot .bt-hjob { display: none; }
+  body.agdeck .agpage.hboton > .hbot .bt-log { padding: 12px 12px 6px; }
+  body.agdeck .agpage.hboton > .hbot .bt-comp { padding: 8px 10px 10px; }
+}

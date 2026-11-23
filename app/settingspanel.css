@@ -1,0 +1,98 @@
+/* Settings panel in the deck zone's reserved bottom slot (.dkres.sp, built by settingspanel.js). Read-only, compact, never scrolls. */
+.dkres.sp { pointer-events: auto; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 3px; padding-top: 6px; box-sizing: border-box;
+  font: 400 11px/1.3 var(--font-sans); color: var(--text-secondary, var(--text-muted)); }
+.dkres.sp .sp-r { display: flex; align-items: baseline; gap: 6px; min-width: 0; white-space: nowrap; }
+.dkres.sp .sp-k { flex: none; width: 46px; font-weight: 500; font-size: 10px; letter-spacing: .02em; color: var(--text-muted); }
+.dkres.sp .sp-v { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.dkres.sp b { font-weight: 600; color: var(--text-primary, inherit); }
+.dkres.sp .sp-click { cursor: pointer; border-radius: 4px; }
+.dkres.sp .sp-click:hover .sp-v, .dkres.sp .sp-click:hover .sp-more { color: var(--text-primary, inherit); }
+.dkres.sp .sp-more { flex: none; color: var(--text-muted); }
+.dkres.sp .sp-on .sp-v, .dkres.sp .sp-on .sp-more { color: var(--accent); } /* Git dock open (gitgraph.js) */
+/* Option buttons: square icons in one row (Git, Roadmap, Items), a small count badge on the corner; the open one lights up in the accent */
+/* the icon area fills the slot above the pot; its buttons sit centred both ways, and wrap to a second row (still centred) when the width runs out */
+.dkres.sp .sp-ics { flex: 1 1 auto; min-height: 0; min-width: 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; gap: 6px 8px; padding: 4px 0; }
+.dkres.sp .sp-ib { position: relative; flex: none; width: 34px; height: 34px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 10px; cursor: pointer;
+  color: var(--text-secondary, var(--text-muted)); background: linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.025)), var(--surface-1, #141418);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(255,255,255,.08), 0 6px 14px -10px rgba(0,0,0,.8);
+  transition: color .15s, box-shadow .15s, transform .15s cubic-bezier(.2,.9,.3,1.3); }
+.dkres.sp .sp-ib:hover { color: var(--text-primary, #fff); box-shadow: inset 0 1px 0 rgba(255,255,255,.18), inset 0 0 0 1px rgba(255,255,255,.18), 0 8px 18px -10px rgba(0,0,0,.85); transform: translateY(-1px); }
+.dkres.sp .sp-ib:active { transform: scale(.94); }
+.dkres.sp .sp-ib:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dkres.sp .sp-ib.sp-on { color: var(--accent); background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 6%, transparent)), var(--surface-1, #141418);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 0 0 1px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 14px -4px color-mix(in srgb, var(--accent) 45%, transparent); }
+.dkres.sp .sp-bd { position: absolute; top: -4px; right: -4px; min-width: 15px; height: 15px; padding: 0 4px; box-sizing: border-box; border-radius: 999px;
+  font: 700 9.5px/15px var(--font-sans); font-variant-numeric: tabular-nums; text-align: center; color: var(--text-primary, #fff); background: #3a3a44; box-shadow: 0 0 0 2px var(--bg, #0b0b0e); }
+.dkres.sp .sp-bd.sp-bw { color: #1a1206; background: var(--amber, #ffb648); }
+.dkres.sp .sp-bd.sp-ba { color: #fff; background: var(--accent); }
+@media (prefers-color-scheme: light) {
+  .dkres.sp .sp-ib { background: linear-gradient(160deg, #fff, rgba(255,255,255,.8)); box-shadow: inset 0 0 0 1px rgba(0,0,0,.1), 0 4px 10px -6px rgba(0,0,0,.3); }
+  .dkres.sp .sp-bd { background: #6b6b75; color: #fff; }
+}
+.dkres.sp .sp-w, .sp-pop .sp-w { color: var(--amber, #ffb648); }
+.dkres.sp .sp-g { color: var(--ok, #5cf2b0); }
+
+/* The pot: separator, big multiplier, two quiet lines beside it */
+.dkres.sp .sp-pot { display: flex; align-items: center; gap: 8px; min-width: 0; margin-top: 3px; padding-top: 6px; border-top: 1px solid var(--border-default, rgba(127,127,127,.2)); }
+.dkres.sp .sp-x { flex: none; font: 700 20px/1 var(--font-sans); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.dkres.sp .sp-x.sp-w { color: var(--amber, #ffb648); }
+.dkres.sp .sp-x.sp-g { color: var(--ok, #5cf2b0); }
+.dkres.sp .sp-pt { flex: 1; min-width: 0; white-space: nowrap; }
+.dkres.sp .sp-pt > div { overflow: hidden; text-overflow: ellipsis; }
+.dkres.sp .sp-best { display: inline-block; vertical-align: -1px; line-height: 0; } /* best day star after today's value */
+/* Water cup at the right end of the pot row (settingspanel.js): fills toward the next container (lifetime); hover = the water card */
+.dkres.sp .sp-tower { flex: none; align-self: flex-end; display: block; line-height: 0; cursor: pointer; border-radius: 4px; opacity: .85; transition: opacity .15s; }
+.dkres.sp .sp-tower:hover, .dkres.sp .sp-tower:focus-visible { opacity: 1; }
+.dkres.sp .sp-tower:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sp-tower .sp-glass { fill: rgba(90,169,255,.06); stroke: rgba(170,205,255,.6); stroke-width: 1.1; stroke-linejoin: round; }
+.sp-tower .sp-shine { fill: none; stroke: rgba(255,255,255,.22); stroke-width: 1; stroke-linecap: round; }
+.sp-tower .sp-wave { fill: rgba(70,150,245,.9); animation: sp-wave var(--wv, 4.5s) linear infinite; }
+/* level = progress to the next container (settingspanel.js towerSet: --lvl), glides; drops fall in while tokens are flowing (.busy) */
+.sp-tower .sp-lvl { transform: translateY(var(--lvl, 0px)); transition: transform 1.2s cubic-bezier(.33,1,.68,1); }
+.sp-tower .sp-drip { fill: rgba(120,185,255,.95); opacity: 0; }
+.sp-tower.busy .sp-drip { animation: sp-drip calc(var(--wv, 2s) * .7) ease-in infinite; }
+@keyframes sp-drip { 0% { opacity: 0; transform: translateY(0); } 15% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(7px); } }
+@keyframes sp-wave { to { transform: translateX(16px); } }
+@media (prefers-reduced-motion: reduce) { .sp-tower .sp-wave, .sp-tower.busy .sp-drip { animation: none; } .sp-tower .sp-lvl { transition: none; } }
+/* Water card (lifetime): big litres, one row per comparison (icon · number · label, never wraps), one footer line */
+.sp-pop .sp-wh { display: flex; align-items: center; gap: 6px; color: #5aa9ff; }
+.sp-pop .sp-wh b { font: 700 20px/1 var(--font-sans); font-variant-numeric: tabular-nums; letter-spacing: -.02em; color: var(--text-primary, inherit); }
+.sp-pop .sp-wh span { margin-left: auto; font-size: 10.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.sp-pop .sp-wt { display: grid; gap: 4px; margin-top: 10px; }
+.sp-pop .sp-wt > div { position: relative; overflow: hidden; display: flex; align-items: center; gap: 8px; padding: 6px 8px 8px; border-radius: 8px; background: rgba(90,169,255,.07); color: #7db8ff; white-space: nowrap; }
+.sp-pop .sp-wt svg { flex: none; }
+.sp-pop .sp-wt b { flex: none; min-width: 44px; font: 600 13px/1.1 var(--font-sans); font-variant-numeric: tabular-nums; color: var(--text-primary, inherit); }
+.sp-pop .sp-wt span { min-width: 0; overflow: hidden; text-overflow: ellipsis; font-size: 11px; color: var(--text-muted); }
+/* the next one filling up: a thin water bar along the row's bottom edge */
+.sp-pop .sp-wt i { position: absolute; left: 8px; right: 8px; bottom: 3px; height: 3px; border-radius: 2px; background: rgba(90,169,255,.14); }
+.sp-pop .sp-wt i::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: var(--p, 0%); border-radius: inherit; background: linear-gradient(90deg, #3d8cf0, #7db8ff); box-shadow: 0 0 6px rgba(90,169,255,.6); }
+.sp-pop .sp-wf { margin-top: 8px; font-size: 9.5px; color: var(--text-muted); text-align: center; }
+
+/* Click list above the Access / Git row (on <body>, fixed): liquid glass (glass.css recipe), fades + rises in, falls back out.
+   Opacity/translate only, no scale: a scaled backdrop-filter painted edge seams on #fbPanel (glass.css note). */
+.sp-pop { position: fixed; z-index: 9900; max-height: 50vh; overflow-y: auto; padding: 10px 12px; box-sizing: border-box;
+  font: 400 11.5px/1.4 var(--font-sans); color: var(--text-secondary, var(--text-muted)); border-radius: 12px;
+  background: var(--g-fill), var(--g-tint); -webkit-backdrop-filter: var(--g-blur); backdrop-filter: var(--g-blur); box-shadow: var(--g-ring), var(--g-drop);
+  opacity: 0; visibility: hidden; transform: translateY(6px); pointer-events: none;
+  transition: opacity .16s ease, transform .2s cubic-bezier(.2,.8,.25,1), visibility 0s .2s; }
+.sp-pop.on { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition: opacity .18s ease, transform .28s cubic-bezier(.2,.9,.25,1.15), visibility 0s; }
+@media (prefers-reduced-motion: reduce) { .sp-pop, .sp-pop.on { transform: none; transition: opacity .12s, visibility 0s; } }
+@media (prefers-reduced-transparency: reduce) { .sp-pop { background: var(--surface-2, #1c1c21); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+.sp-pop .sp-ph { font-weight: 500; font-size: 10px; letter-spacing: .02em; color: var(--text-muted); margin-bottom: 4px; }
+.sp-pop .sp-pi { display: flex; gap: 8px; justify-content: space-between; padding: 3px 0; overflow-wrap: anywhere; }
+.sp-pop .sp-pi + .sp-pi { border-top: 1px solid rgba(255,255,255,.08); }
+.sp-pop em { flex: none; font-style: normal; font-size: 10px; color: var(--text-muted); }
+.sp-pop b { font-weight: 600; color: var(--text-primary, inherit); }
+.sp-pop .sp-tree { display: block; }
+.sp-pop .sp-tree > div:first-child { display: flex; gap: 6px; align-items: baseline; }
+.sp-pop .sp-tree > div:first-child > span { margin-left: auto; white-space: nowrap; }
+.sp-pop .sp-sub { font-size: 10.5px; color: var(--text-muted); }
+/* Open items list (#ftk moved in from index.html): compact to fit the column */
+.sp-pop .ftk h2 { margin: 10px 0 2px; padding: 0 2px; font: 500 10px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
+.sp-pop .ftk h2:first-child { margin-top: 2px; }
+.sp-pop .ftk-line { gap: 8px; padding: 6px 2px; }
+.sp-pop .ftk-t { font-size: 12px; }
+.sp-pop .ftk-side { font-size: 10px; }
+.sp-pop .ftk-body { padding: 0 2px 8px 17px; font-size: 11px; }
+.sp-pop .ftk-empty { padding: 8px 2px; font-size: 12px; }
+.sp-pop #ftkMore { margin: 8px 2px; font-size: 11px; }

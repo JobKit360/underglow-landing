@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co https://api.github.com; base-uri 'none'; form-action 'self'">
+<title>Credits and licences · UnderGlow</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<script src="site.js"></script>
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html"><img src="logo.svg" alt="" width="34" height="34">UnderGlow</a><nav aria-label="Main"><a href="account.html?mode=signin">Sign in</a><a class="btn small" href="index.html#download-section">Download</a></nav></header>
+<main class="wrap doc">
+  <h1>Credits and licences</h1>
+  <p class="meta">Last updated 23 November 2026.</p>
+  <p>UnderGlow is built on the work of many people. Thank you. Product names and logos belong to their owners; UnderGlow is independent and is not endorsed by any of them. Each item keeps its own licence, which applies to it and not to UnderGlow.</p>
+
+  <h2>Built into the app</h2>
+  <table>
+    <tr><th>Software</th><th>Used for</th><th>Licence</th></tr>
+    <tr><td>Electron</td><td>The desktop app shell</td><td>MIT</td></tr>
+    <tr><td>Node.js</td><td>Runs the app's local server</td><td>MIT</td></tr>
+    <tr><td>Claude Agent SDK / Claude Code (Anthropic)</td><td>Runs the AI agents and bots, on your own Claude account</td><td>Anthropic's terms</td></tr>
+    <tr><td>xterm.js</td><td>Terminal view</td><td>MIT</td></tr>
+    <tr><td>node-pty</td><td>Terminal sessions</td><td>MIT</td></tr>
+    <tr><td>tree-sitter</td><td>Reading code for the code map</td><td>MIT</td></tr>
+    <tr><td>ws</td><td>Live connections</td><td>MIT</td></tr>
+    <tr><td>Zod</td><td>Checking data</td><td>MIT</td></tr>
+    <tr><td>electron-updater</td><td>Installing app updates</td><td>MIT</td></tr>
+    <tr><td>web-push, nodemailer, imapflow, mailparser</td><td>Notifications and email features</td><td>MPL-2.0, MIT-0, MIT or similar</td></tr>
+    <tr><td>noVNC</td><td>Showing the Linux box's desktop</td><td>MPL-2.0</td></tr>
+  </table>
+
+  <h2>Optional add-ons (installed only if you choose them)</h2>
+  <table>
+    <tr><th>Software</th><th>Used for</th><th>Licence and terms</th></tr>
+    <tr><td>Windows Subsystem for Linux and Ubuntu</td><td>The Linux test box</td><td>Microsoft's and Canonical's terms; Ubuntu packages carry their own open-source licences</td></tr>
+    <tr><td>Firefox</td><td>A browser inside the Linux box</td><td>MPL-2.0</td></tr>
+    <tr><td>Xvfb, Openbox, x11vnc, xterm and other Linux tools</td><td>The Linux box's desktop</td><td>Various open-source licences</td></tr>
+    <tr><td>Git, Python, Node.js</td><td>Developer tools in the Linux box</td><td>GPL-2.0, PSF and MIT</td></tr>
+    <tr><td>Android SDK and emulator (Google)</td><td>Testing apps on a virtual Android phone</td><td>Google's Android SDK terms, which you accept when you install it</td></tr>
+  </table>
+
+  <h2>Services</h2>
+  <p>Supabase (accounts), GitHub (downloads and updates), Stripe (payments, if offered) and Tailscale (optional private connections) are used as described in the <a href="privacy.html">privacy page</a>, under their own terms.</p>
+
+  <p class="box">The full licence texts ship with the software itself. If you spot a missing credit, tell us and we will add it.</p>
+</main>
+<footer><nav aria-label="Footer"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="credits.html">Credits and licences</a><a href="index.html">Home</a></nav><div>© <span id="year">2026</span> UnderGlow</div></footer>
+</body>
+</html>

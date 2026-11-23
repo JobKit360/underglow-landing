@@ -10,7 +10,7 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
-const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.txt': 'text/plain; charset=utf-8' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.txt': 'text/plain; charset=utf-8', '.woff2': 'font/woff2', '.json': 'application/json; charset=utf-8', '.webp': 'image/webp' };
 const sha = (s) => crypto.createHash('sha256').update(String(s)).digest();
 
 function authorized(req) {
@@ -25,7 +25,7 @@ function authorized(req) {
 
 http.createServer((req, res) => {
   const open = process.env.LANDING_PUBLIC === '1';
-  const base = { 'Cache-Control': open ? 'public, max-age=300' : 'private, no-store', 'X-Content-Type-Options': 'nosniff' };
+  const base = { 'Cache-Control': open && !process.env.NO_CACHE ? 'public, max-age=300' : 'private, no-store', 'X-Content-Type-Options': 'nosniff' };
   if (!open) base['X-Robots-Tag'] = 'noindex, nofollow';
   if (!open && !authorized(req)) {
     res.writeHead(401, { ...base, 'WWW-Authenticate': 'Basic realm="UnderGlow (private preview)", charset="UTF-8"', 'Content-Type': 'text/plain; charset=utf-8' });
@@ -34,12 +34,16 @@ http.createServer((req, res) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405, base); return res.end(); }
   let p;
   try { p = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch { res.writeHead(400, base); return res.end(); }
+  if (p === '/app') p = '/app/';
   if (p.endsWith('/')) p += 'index.html';
   // only the site's own top-level files with an allowed extension; never server code, package files or locked/
-  const name = p.replace(/^\/+/, '');
+  let name = p.replace(/^\/+/, '');
+  if (/^[a-z]+$/.test(name) && fs.existsSync(path.join(root, name + '.html'))) name += '.html'; // clean URLs: /terms -> terms.html
   const file = path.join(root, name);
   const ext = path.extname(name).toLowerCase();
-  const okName = /^[\w.-]+$/.test(name);
+  // the demo app (website/app/, built from the real app UI) may have sub-folders; everything else stays top-level only
+  const inApp = /^app\/(?:[\w.-]+\/)*[\w.-]+$/.test(name) && !name.includes('..');
+  const okName = inApp || /^[\w.-]+$/.test(name);
   if (!okName || name.startsWith('.') || !TYPES[ext] || !fs.existsSync(file) || !fs.statSync(file).isFile()) {
     res.writeHead(404, { ...base, 'Content-Type': 'text/plain; charset=utf-8' });
     return res.end('Not found');

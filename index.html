@@ -4,28 +4,123 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co https://api.github.com; base-uri 'none'; form-action 'self'">
-<title>UnderGlow: AI agents on your own PC</title>
-<meta name="description" content="UnderGlow runs AI coding agents on your own Windows PC, in your own project folders.">
+<title>UnderGlow: build apps with AI agents, all in one place</title>
+<meta name="description" content="UnderGlow is a Windows app where AI agents and bots build your software while you watch: a live workflow graph, a code map, a built-in browser, a Linux test box and a roadmap, without leaving the app.">
+<meta name="theme-color" content="#0a0a0d">
+<meta property="og:title" content="UnderGlow: build apps with AI agents, all in one place">
+<meta property="og:description" content="Agents and bots build your app on your own PC. Watch the workflow, see the code, test it, all inside one app.">
+<meta property="og:type" content="website">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="demo.css">
+<script src="site.js"></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <a class="brand" href="index.html"><img src="logo.svg" alt="" width="34" height="34">UnderGlow</a>
-  <nav><a href="account.html?mode=signin">Sign in</a><a class="btn small" href="account.html?mode=signup">Sign up</a></nav>
+  <nav aria-label="Main"><a class="hide-s" href="#features">What it does</a><a class="hide-s" href="#how">How it works</a><a href="account.html?mode=signin">Sign in</a><a class="btn small" href="#download-section">Download</a></nav>
 </header>
-<main class="hero">
-  <span class="tag">Early beta for Windows</span>
-  <h1>Your AI agents, working on <em>your own PC.</em></h1>
-  <p>UnderGlow runs coding agents in your project folders and keeps them in one place, so you can see what each one is doing.</p>
-  <div class="cta"><a class="btn" href="account.html?mode=signup">Create an account</a><a class="btn ghost" id="download" href="https://github.com/JobKit360/underglow-releases/releases/latest">Download for Windows</a></div>
-  <section class="grid" aria-label="What it does">
-    <article><h2>Runs where your work is</h2><p>Agents work on your computer, in the folders you choose.</p></article>
-    <article><h2>Many agents, one view</h2><p>Give each project its own page and follow every agent's progress.</p></article>
-    <article><h2>Test as you build</h2><p>Includes a built-in browser, with an optional Android emulator.</p></article>
+<main id="main">
+  <div class="wrap hero">
+    <span class="tag">Early beta &nbsp;·&nbsp; Windows 10 and 11</span>
+    <h1>Build software with AI agents. <em>All in one workspace.</em></h1>
+    <p class="lead">UnderGlow runs agents and bots on your own PC, with a live workflow, a map of your code, a built-in browser, an optional Linux test box and a shared roadmap in a single window.</p>
+    <div class="cta"><a class="btn" id="download" href="https://github.com/JobKit360/underglow-releases/releases/latest">Download for Windows</a><a class="btn ghost" href="account.html?mode=signup">Create an account</a></div>
+    <p class="note">An account is required to sign in. The installer is not code-signed yet, so Windows may show a warning.</p>
+
+    <div class="shotwrap" id="heroDemo">
+    <figure class="shot">
+      <div class="win" aria-hidden="true">
+        <div class="bar"><i></i><i></i><i></i><span>UnderGlow · My project</span></div>
+        <div class="body">
+          <div class="col">
+            <h3>Agents</h3>
+            <div class="agent"><b><span class="dot"></span>Login page</b><small>Writing code…</small><div class="meter"><span></span></div></div>
+            <div class="agent"><b><span class="dot"></span>Checkout fix</b><small>Running tests…</small><div class="meter s2"><span></span></div></div>
+            <div class="agent"><b><span class="dot idle"></span>Docs bot</b><small>Waiting for you</small><div class="meter s3"><span></span></div></div>
+          </div>
+          <div class="col">
+            <h3>Workflow</h3>
+            <svg class="graph" viewBox="0 0 300 220" role="img" aria-label="">
+              <defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="300" y2="220"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+              <path class="flow" d="M150 38 V70"/><path class="flow" d="M150 104 V132"/><path class="flow" d="M150 132 L80 160"/><path class="flow" d="M150 132 L220 160"/>
+              <rect class="node" x="100" y="10" width="100" height="28" rx="9"/><text x="150" y="28" text-anchor="middle">You</text>
+              <rect class="node hot" x="100" y="70" width="100" height="34" rx="9"/><text x="150" y="91" text-anchor="middle">Agents</text>
+              <rect class="node" x="30" y="160" width="100" height="34" rx="9"/><text x="80" y="181" text-anchor="middle">Test build</text>
+              <rect class="node" x="170" y="160" width="100" height="34" rx="9"/><text x="220" y="181" text-anchor="middle">Live site</text>
+            </svg>
+          </div>
+          <div class="col">
+            <h3>Roadmap</h3>
+            <div class="task done">Sign-in page</div>
+            <div class="task now">Checkout fix</div>
+            <div class="task">Email receipts</div>
+            <div class="task">Dark mode</div>
+          </div>
+        </div>
+      </div>
+      <figcaption class="cap">An illustration of the app. Names and steps are examples.</figcaption>
+    </figure>
+    </div>
+  </div>
+
+  <section id="features" class="wrap">
+    <p class="eyebrow reveal">What it does</p>
+    <h2 class="big reveal">Everything an agent team needs, in one window</h2>
+    <p class="sub reveal">Give agents a job and follow the work in one place, instead of juggling terminals, browser tabs and notes.</p>
+    <div class="rows">
+      <div class="row reveal"><div class="copy"><h3>Agents and bots at work</h3><p>Give an agent a job in plain words. It reads, edits and tests inside your project folder, and its roadmap card moves as it goes.</p><ul><li>One chat per agent or bot</li><li>See each step it takes</li><li>Stop or steer it any time</li></ul></div><div data-demo="bot" data-title="UnderGlow · Bot chat"></div></div>
+      <div class="row reveal"><div class="copy"><h3>Your workflow, live</h3><p>Follow a change from your agents to a test build and on to your live site. Each step shows whether it is idle, reading, working or needs you, and you hold the gate.</p><ul><li>Plain-language steps</li><li>Approve or hold back with one tap</li><li>Click a step to see what it does</li></ul></div><div data-demo="workflow" data-title="UnderGlow · Workflow"></div></div>
+      <div class="row reveal"><div class="copy"><h3>A map of your code</h3><p>Your files and folders as a floating network. Watch an agent read (blue) and edit (yellow) as it moves through the project.</p><ul><li>See how files connect</li><li>Spot where work is happening</li><li>Hover any dot to see its file</li></ul></div><div data-demo="map" data-title="UnderGlow · Code map"></div></div>
+      <div class="row reveal"><div class="copy"><h3>An optional Linux test box</h3><p>An optional add-on: each agent gets its own Linux desktop to install tools, run tests and open a browser, away from the rest of your PC.</p><ul><li>Off until you add it</li><li>Watch its screen inside UnderGlow</li><li>Own folder and ports for each agent</li></ul></div><div data-demo="workbox" data-title="UnderGlow · Workbox"></div></div>
+      <div class="row reveal"><div class="copy"><h3>A roadmap you share with your agents</h3><p>A simple board: To do, In progress, Waiting test and Complete. Agents add tasks and move them as they work.</p><ul><li>Cards follow the agent doing them</li><li>Click or drag to move things yourself</li><li>Always see what is next</li></ul></div><div data-demo="roadmap" data-title="UnderGlow · Roadmap"></div></div>
+      <div class="row reveal"><div class="copy"><h3>Check in from your phone</h3><p>Open your PC's UnderGlow from your phone's browser, on your Wi-Fi or privately over Tailscale. A badge tells you if the connection is secure.</p><ul><li>Same account, same app</li><li>Files stay on your PC</li><li>Secure-connection badge</li></ul></div><div data-demo="phone" data-title="UnderGlow · On your phone"></div></div>
+    </div>
+    <h3 class="reveal" id="more">Also included</h3>
+    <div class="grid">
+      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></div><h3>Agents and bots</h3><p>Agents do the coding in your own project folders. Bots take longer-running jobs. Each one has its own chat, so you can see and steer what it does.</p></article>
+      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7 7l4 9M17 7l-4 9M7.5 6h9"/></svg></div><h3>Workflow graph</h3><p>A simple picture of how a change travels from your agents to a test build and on to your live site, with a gate you control before anything ships.</p></article>
+      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.3 11l7.4-4M8.3 13l7.4 4"/></svg></div><h3>Code map</h3><p>See how the files and functions in your project connect, so you and your agents find the right place faster.</p></article>
+      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div><h3>Built-in browser and site preview</h3><p>Open your project's website right inside UnderGlow while an agent works on it. No separate server to set up.</p></article>
+      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4M7 10l2 2-2 2M12 14h4"/></svg></div><h3>Linux test box (optional)</h3><p>An optional Linux machine on your PC where agents can install tools and test things away from the rest of your computer. Off until you add it.</p></article>
+      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 5h14v4H5zM5 11h9v4H5zM5 17h12v2H5z"/></svg></div><h3>Roadmap</h3><p>A shared to-do board for you and your agents. They add tasks and tick them off as they go, so you always know what is next.</p></article>
+    </div>
+  </section>
+
+  <section id="how" class="wrap">
+    <p class="eyebrow reveal">How it works</p>
+    <h2 class="big reveal">From idea to working software in three steps</h2>
+    <div class="steps">
+      <div class="step reveal"><h3>Install and sign in</h3><p>Download UnderGlow, sign in with your account and pick the folder where your project lives.</p><div class="mini" aria-hidden="true"><div class="row2"><span class="ok">✓</span> Signed in</div><div class="bar"><i></i></div><div>Project folder: My project</div></div></div>
+      <div class="step reveal"><h3>Describe what you want</h3><p>Tell an agent in plain words. It writes and runs code on your PC, and you watch its progress live.</p><div class="mini" aria-hidden="true"><div><span class="typed">Add a sign-in page…</span></div><div class="row2"><span class="pill-lite">Working</span></div><div class="bar"><i></i></div></div></div>
+      <div class="step reveal"><h3>Check it, then ship it</h3><p>Try the result in the built-in browser, review the workflow, and move it on when you are happy.</p><div class="mini" aria-hidden="true"><div class="gate"><b>Live site: needs you</b><span>✓</span></div><div class="row2"><span class="ok">✓</span> Test build passed</div></div></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <p class="eyebrow reveal">Use it from anywhere</p>
+    <h2 class="big reveal">Your PC does the work. Any screen can watch.</h2>
+    <p class="sub reveal">Run UnderGlow on one computer and open it from a second computer or your phone's browser on the same Wi-Fi, or privately over Tailscale (a free third-party tool, optional). You sign in with the same account, and your files stay on the host PC.</p>
+    <div class="facts reveal">
+      <div><h3>Good to know</h3><ul><li>Runs on Windows 10 and 11 (early beta)</li><li>Agents use your own Claude account through Claude Code</li><li>Work stays in the folders you choose</li><li>Linux box and Android emulator are optional add-ons</li></ul></div>
+      <div><h3>Beta status</h3><ul><li>Features and screens still change often</li><li>Phone use is a browser view of your PC, not a separate app</li><li>Agents can make mistakes: check their work before you ship it</li><li>The installer is not code-signed yet, so Windows may warn you</li></ul></div>
+    </div>
+  </section>
+
+  <section id="download-section" class="wrap">
+    <div class="final reveal">
+      <h2>Try the beta</h2>
+      <p>Download UnderGlow, create an account and give your first agent a job. We want to hear what works and what does not.</p>
+      <div class="cta"><a class="btn" id="download2" href="https://github.com/JobKit360/underglow-releases/releases/latest">Download for Windows</a><a class="btn ghost" href="account.html?mode=signup">Create an account</a></div>
+    </div>
   </section>
 </main>
-<footer>© 2026 UnderGlow</footer>
+<footer>
+  <nav aria-label="Footer"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="credits.html">Credits and licences</a><a href="account.html?mode=signin">Account</a></nav>
+  <div>© <span id="year">2026</span> UnderGlow. Product and company names mentioned belong to their owners.</div>
+</footer>
+<script src="demo.js"></script>
 <script src="download.js"></script>
 </body>
 </html>

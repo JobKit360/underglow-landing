@@ -1,0 +1,73 @@
+/* Settings page (settings.js): full page under the top bar; left nav (Accounts, Agent rules, Updates), right content. Phone: the list, then the section. */
+#setPage { position: fixed; left: 0; right: 0; bottom: 0; top: 56px; z-index: 65; display: flex; background: var(--surface-base, var(--bg)); font: 400 13px var(--font-sans); color: var(--text-secondary); }
+#setPage[hidden] { display: none; }
+#setPage .sp-nav { flex: none; width: 240px; padding: 18px 12px; border-right: 1px solid var(--block-stroke); overflow: auto; }
+#setPage .sp-top { display: flex; align-items: center; gap: 10px; margin: 0 6px 16px; font-size: 17px; color: var(--text-primary); }
+#setPage .sp-top b { font-weight: 600; }
+#setPage .sp-back { border: 0; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); color: var(--text-primary); width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-size: 15px; }
+#setPage .sp-back:hover { background: var(--hover); }
+#setPage .sp-item { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 9px 12px; border-radius: 9px; cursor: pointer; margin-bottom: 2px; font: inherit; color: inherit; }
+#setPage .sp-item b { display: block; font-weight: 600; color: var(--text-primary); }
+#setPage .sp-item span { font-size: 12px; color: var(--text-muted); }
+#setPage .sp-item:hover { background: var(--hover); }
+#setPage .sp-item.on { background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); }
+#setPage .sp-main { flex: 1; min-width: 0; overflow: auto; padding: 22px 32px 40px; }
+#setPage .sp-sec h1 { margin: 2px 0 14px; font-size: 20px; font-weight: 600; color: var(--text-primary); }
+/* Accounts: centered rows of logo tiles; a picked tile reveals its settings under its row */
+#setPage .sp-sec[data-s="accounts"] .sp-body { max-width: 600px; margin: 0 auto; }
+#setPage .sx-row { margin: 10px 0 30px; }
+#setPage .sx-row h2 { margin: 0 0 12px; text-align: center; font: 600 11px var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); }
+#setPage .sx-tiles { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+#setPage .sx-tile { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 88px; padding: 0; border: 0; background: none; cursor: pointer; font: 500 12px var(--font-sans); color: var(--text-secondary); }
+#setPage .sx-ic { position: relative; width: 72px; height: 72px; border-radius: 18px; display: grid; place-items: center; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); color: var(--text-primary); transition: transform .14s, box-shadow .14s, background .14s; }
+#setPage .sx-ic img { width: 34px; height: 34px; object-fit: contain; }
+#setPage .sx-tile:hover .sx-ic { background: var(--hover); transform: translateY(-1px); }
+#setPage .sx-tile.on { color: var(--text-primary); }
+#setPage .sx-tile.on .sx-ic { box-shadow: inset 0 0 0 2px var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--block)); }
+#setPage .sx-tile:focus-visible { outline: none; }
+#setPage .sx-tile:focus-visible .sx-ic { outline: 2px solid var(--accent); outline-offset: 2px; }
+#setPage .sx-dot { position: absolute; top: 7px; right: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--status-ok); box-shadow: 0 0 6px var(--status-ok); }
+/* Tile popup: dimmed backdrop over the Settings page, a centered box with the provider's / connector's settings */
+#setPage .sx-pop { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,.55); backdrop-filter: blur(3px); animation: sp-fade .14s ease-out; }
+#setPage .sx-pop[hidden] { display: none; }
+#setPage .sx-dlg { width: min(600px, 100%); max-height: calc(100% - 20px); overflow: auto; box-sizing: border-box; padding: 14px 18px 18px; border-radius: 16px; background: var(--surface-1, var(--surface-base, #111)); box-shadow: 0 0 0 1px var(--block-stroke), 0 24px 60px rgba(0,0,0,.5); animation: sp-in .16s ease-out; }
+#setPage .sx-dh { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 16px; color: var(--text-primary); }
+#setPage .sx-dh b { font-weight: 600; }
+#setPage .sx-dic { display: grid; place-items: center; width: 26px; height: 26px; }
+#setPage .sx-dic img { width: 24px; height: 24px; object-fit: contain; }
+#setPage .sx-x { margin-left: auto; width: 30px; height: 30px; border: 0; border-radius: 8px; background: none; color: var(--text-muted); font-size: 20px; line-height: 1; cursor: pointer; }
+#setPage .sx-x:hover { background: var(--hover); color: var(--text-primary); }
+@keyframes sp-in { from { opacity: 0; transform: translateY(6px) scale(.98); } }
+@keyframes sp-fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { #setPage .sx-pop, #setPage .sx-dlg { animation: none; } #setPage .sx-tile:hover .sx-ic { transform: none; } }
+@media (max-width: 720px) { #setPage .sx-pop { padding: 10px; align-items: end; } #setPage .sx-dlg { max-height: 88%; } }
+/* Updates: the version / updates block (#setMenu) as page content instead of a popup */
+#setPage #setMenu { position: static; width: auto; max-width: 420px; padding: 0; background: none; box-shadow: none; border-radius: 0; }
+#setPage #setMenu .set-h { display: none; }
+@media (max-width: 720px) {
+  #setPage { flex-direction: column; }
+  #setPage .sp-nav { width: 100%; border-right: 0; }
+  #setPage .sp-main { display: none; padding: 16px; }
+  #setPage.picked .sp-nav .sp-item { display: none; }
+  #setPage.picked .sp-nav { flex: none; padding: 12px 12px 0; }
+  #setPage.picked .sp-top { margin-bottom: 0; }
+  #setPage.picked .sp-top b { display: none; }
+  #setPage.picked .sp-main { display: block; }
+  #setPage.picked .sp-sec h1 { margin-top: 4px; }
+  #setPage .sx-tiles { gap: 10px; }
+  #setPage .sx-tile { width: 76px; }
+  #setPage .sx-ic { width: 62px; height: 62px; border-radius: 16px; }
+}
+/* Agent rules (settings.js): option rows with a switch */
+#setPage .sa-dim { color: var(--text-muted); margin: 0 0 12px; line-height: 1.45; }
+#setPage .sg-row { max-width: 560px; display: flex; align-items: center; gap: 16px; padding: 12px 14px; border-radius: 10px; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); cursor: pointer; }
+#setPage .sg-row > span { flex: 1; min-width: 0; }
+#setPage .sg-row b { display: block; color: var(--text-primary); font-weight: 600; margin-bottom: 3px; }
+#setPage .sg-row .sa-dim { display: block; margin: 0; font-size: 12.5px; }
+#setPage .sg-sw { appearance: none; flex: none; position: relative; width: 36px; height: 20px; margin: 0; border-radius: 10px; background: var(--block-stroke); cursor: pointer; transition: background .18s; }
+#setPage .sg-sw::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.3); transition: transform .18s; }
+#setPage .sg-sw:checked { background: var(--accent); }
+#setPage .sg-sw:checked::after { transform: translateX(16px); }
+#setPage .sg-sw:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* In the popup the title bar already shows the logo and name: the card's own copy goes */
+#setPage .sx-dlg .ai-hd > .ai-logo, #setPage .sx-dlg .ai-hd > b, #setPage .sx-dlg .cn-hd > .cn-logo, #setPage .sx-dlg .cn-hd > b { display: none; }

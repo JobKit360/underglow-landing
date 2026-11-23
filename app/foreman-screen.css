@@ -1,0 +1,53 @@
+/* Base stylesheet for Foreman's custom screens (data/screens/*.html, rendered in a sandboxed iframe).
+   Screens link it first: <link rel="stylesheet" href="/foreman-screen.css">. Same tokens as public/foreman.css,
+   i.e. Job Kit 360's design system: Geist, dark by default, light when the device is in light mode. */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --surface-base: #141418; --surface-1: #1C1C21; --surface-2: #232329; --surface-3: #2C2C34; /* base = Foreman's pane colour, so the screen blends into its pane */
+  --text-primary: #E8E8EE; --text-secondary: #AEAEBE; --text-muted: #78788C;
+  --accent: #4A8FE8; --accent-dim: #2A5FA8; --accent-subtle: rgba(74,143,232,.12); --border-accent: rgba(74,143,232,.5);
+  --status-ok: #3DAA6E; --status-warn: #C89B3C; --status-error: #C04A4A; --error-text: #E08080;
+  --border-subtle: rgba(255,255,255,.06); --border-default: rgba(255,255,255,.10); --border-strong: rgba(255,255,255,.18);
+  --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius-sm: 2px; --radius-md: 4px; --radius-lg: 6px;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --surface-base: #FAFAFB; --surface-1: #F1F1F4; --surface-2: #FFFFFF; --surface-3: #EAEAEF;
+    --text-primary: #1A1A1F; --text-secondary: #4A4A58; --text-muted: #6E6E80;
+    --accent: #2F74D0; --accent-subtle: rgba(47,116,208,.10); --border-accent: rgba(47,116,208,.5);
+    --status-warn: #B0831F; --error-text: #A83232;
+    --border-subtle: rgba(0,0,0,.06); --border-default: rgba(0,0,0,.10); --border-strong: rgba(0,0,0,.18);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--surface-base); color: var(--text-primary); font: 14px/1.5 var(--font-sans); letter-spacing: -.003em;
+  font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; padding: 20px 24px; }
+h1, h2, h3 { margin: 0 0 8px; font-weight: 600; letter-spacing: -.01em; color: var(--text-primary); }
+h1 { font-size: 22px; } h2 { font-size: 16px; } h3 { font-size: 14px; }
+p { margin: 0 0 8px; }
+a { color: var(--accent); }
+.muted { color: var(--text-muted); }
+.eyebrow { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
+hr { border: 0; border-top: 1px solid var(--border-subtle); margin: 16px 0; }
+
+table.list { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.list th { height: 32px; padding: 4px 12px; text-align: left; font-weight: 600; color: var(--text-primary); border-bottom: 1px solid var(--border-default); white-space: nowrap; }
+table.list td { height: 36px; padding: 6px 12px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+table.list tr:last-child td { border-bottom: 0; }
+table.list tbody tr:hover td { background: var(--surface-1); }
+table.list .num { text-align: right; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 32px; padding: 0 14px; font: 500 13px var(--font-sans);
+  color: var(--text-secondary); background: var(--surface-base); border: 1px solid var(--border-default); border-radius: var(--radius-lg); cursor: pointer; }
+.btn:hover { color: var(--text-primary); border-color: var(--border-accent); }
+
+.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); flex: none; }
+.dot.ok { background: var(--status-ok); } .dot.warn { background: var(--status-warn); } .dot.err { background: var(--status-error); } .dot.accent { background: var(--accent); }
+
+@media (max-width: 560px) { body { padding: 14px 12px; } }

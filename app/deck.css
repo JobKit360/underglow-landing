@@ -1,0 +1,188 @@
+/* ======================================================================
+   Agents pages, DECK layout (body.agdeck; switch in index.html: AG_LAYOUT). Papers, Please desk:
+   left = a PILE of folded agents, Hearthstone-style cards (name, context size, status, current activity). 1-4 cards lie spread out,
+   more overlap more as the pile grows (spacing set in deckPlace); newest on top; hover slides a card out to the right, toward the desk.
+   right = the desk, where open agents lie as the usual panes in the same no-scroll grid.
+   Card motion is transform-only: --at = height in the pile, --jx = side offset (unused: cards lie straight), --lx/--hy = hover slide.
+   ====================================================================== */
+body.agdeck :is(.agpage, #_):is(.on, .leave) { display: grid; grid-template-columns: 236px minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); column-gap: 22px; row-gap: 12px; }
+body.agdeck :is(.agpage, #_) > .agroup { grid-column: 1 / -1; grid-row: 1; }
+body.agdeck :is(.agpage, #_) > .dkzone { grid-column: 1; grid-row: 2; }
+body.agdeck :is(.agpage, #_) > .apanes { grid-column: 2; grid-row: 2; }
+/* desktop: the header (title + Deploy) sits over the deck column only, so the agent panes run up to the top of the page (2026-11-13: no empty strip above the agents) */
+@media (min-width: 901px) { body.agdeck :is(.agpage, #_) > .agroup { grid-column: 1; } body.agdeck :is(.agpage, #_) > .apanes { grid-row: 1 / -1; } }
+body.agdeck :is(.agpage, #_) .apanes > .apane.folded { display: none; }
+/* the pane being carried: solid, but the same colour the see-through pane shows over the page (glass gradient + 40% surface-1 on the base), bigger lift shadow */
+body.agdeck :is(.agpage, #_) .apane.dland { background: linear-gradient(160deg, rgba(255,255,255,.13), rgba(255,255,255,.04) 45%, rgba(255,255,255,.07)), color-mix(in srgb, var(--surface-1) 40%, var(--surface-base)); }
+body.agdeck :is(.agpage, #_) .apane.dlift { background: linear-gradient(160deg, rgba(255,255,255,.13), rgba(255,255,255,.04) 45%, rgba(255,255,255,.07)), color-mix(in srgb, var(--surface-1) 40%, var(--surface-base));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 1px rgba(255,255,255,.14), 0 34px 70px -24px rgba(0,0,0,.85); }
+@media (prefers-color-scheme: light) { body.agdeck :is(.agpage, #_) .apane:is(.dlift, .dland) { background: linear-gradient(160deg, rgba(255,255,255,.85), rgba(255,255,255,.5)), var(--surface-base); } }
+
+.dkpile { position: relative; min-width: 0; min-height: 0; }
+/* the deck zone (left column): page chat deck (top, every agents page) / agent pile (centre, takes the rest) / reserved slot (bottom) */
+.dkzone { position: relative; min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+.dkzone > .dkpile { flex: 1 1 0; }
+/* separators across the zone: the same groove as the table edge, laid flat (dark line over a light one) — under the page chat deck and over the reserved slot */
+.dkzone { --sep: linear-gradient(180deg, rgba(0,0,0,.45) 0 1px, rgba(255,255,255,.08) 1px 2px); }
+.dkzone > .odeck { flex: none; height: 112px; background: var(--sep) left bottom / calc(100% - 22px) 2px no-repeat; }
+/* reserved space at the bottom of the column: empty space, marked off from the pile by a separator only */
+.dkres { flex: none; height: 116px; margin-right: 22px; pointer-events: none; background: var(--sep) left top / 100% 2px no-repeat; }
+/* header + (Deploy agent): its right edge lines up with the page chat card's (deck column 236px - 22px gutter = 214px; header padding 2px, gap 10px, + 30px) */
+@media (min-width: 901px) { body.agdeck :is(.agpage, #_) .ghead .gtitle { min-width: calc(214px - 2px - 10px - 30px); } }
+/* the table edge between the deck zone and the desk: a groove down the middle of the column gap */
+.dkzone::after { content: ""; position: absolute; top: 0; bottom: 0; right: -12px; width: 3px; border-radius: 2px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,.2) 45%, rgba(255,255,255,.09) 55%, rgba(255,255,255,.03));
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent); }
+@media (prefers-color-scheme: light) {
+  .dkzone { --sep: linear-gradient(180deg, rgba(0,0,0,.14) 0 1px, rgba(255,255,255,.9) 1px 2px); }
+  .dkzone::after { background: linear-gradient(90deg, rgba(0,0,0,.16), rgba(0,0,0,.07) 45%, rgba(255,255,255,.9) 55%, rgba(255,255,255,.4)); }
+}
+/* empty pile: a faint dashed spot where cards land */
+.dkpile::after { content: ""; position: absolute; left: 0; top: var(--pad, 26px); width: var(--cw, 214px); height: var(--ch, 96px); border-radius: 14px; pointer-events: none; box-shadow: inset 0 0 0 1.5px var(--border-default, rgba(255,255,255,.12)); opacity: 0; transition: opacity .25s var(--ease-out);
+  -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 8px, transparent 8px 13px); mask-image: repeating-linear-gradient(90deg, #000 0 8px, transparent 8px 13px); }
+.dkpile.empty::after { opacity: 1; }
+/* drop highlights while carrying */
+.dkpile::before { content: ""; position: absolute; inset: -6px; border-radius: 18px; pointer-events: none; opacity: 0; box-shadow: inset 0 0 0 2px var(--accent); background: var(--accent-subtle); transition: opacity .2s var(--ease-out); }
+.dkpile.ddrop::before { opacity: 1; }
+body.agdeck .apanes::after { content: ""; position: absolute; inset: 0; border-radius: 16px; pointer-events: none; opacity: 0; box-shadow: inset 0 0 0 2px var(--accent); background: var(--accent-subtle); transition: opacity .2s var(--ease-out); z-index: 5; }
+body.agdeck .apanes.ddrop::after { opacity: 1; }
+
+.dcard { --c: var(--text-muted); --ac: transparent; position: absolute; left: 0; top: 0; width: var(--cw, 214px); height: var(--ch, 96px); margin: 0; display: flex; align-items: flex-start; gap: 10px; padding: 12px 12px 10px 16px; border: 0; border-radius: 14px; overflow: hidden;
+  text-align: left; font: inherit; color: var(--text-primary); cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+  background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,.03) 45%, rgba(255,255,255,.05)), var(--surface-1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.20), inset 0 0 0 1px rgba(255,255,255,.10), 0 -2px 8px -4px rgba(0,0,0,.5), 0 10px 22px -14px rgba(0,0,0,.75);
+  transform: translate(calc(var(--jx, 0px) + var(--lx, 0px)), calc(var(--at, 0px) + var(--hy, 0px))) scale(var(--ls, 1));
+  transition: transform .42s cubic-bezier(.22,1,.36,1), opacity .2s var(--ease-out), box-shadow .3s var(--ease-out); }
+/* sharp text: 2D whole-pixel translate only (deckPlace rounds --at/--jx), no rotation, no hover scale, no will-change layer (it froze the raster and blurred it) */
+.dcard.pinned::after { content: ""; position: absolute; top: 8px; right: 8px; width: 9px; height: 9px; opacity: .7; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5.5 1.5h5l-.8 4.2 2.8 2.8v1H8.6V15l-.6.5-.6-.5V9.5H4.5v-1l2.8-2.8z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5.5 1.5h5l-.8 4.2 2.8 2.8v1H8.6V15l-.6.5-.6-.5V9.5H4.5v-1l2.8-2.8z'/%3E%3C/svg%3E") center / contain no-repeat; } /* pinned: the deck watcher leaves it on the pile */
+.dcard.hascol::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; border-radius: 0 3px 3px 0; background: var(--ac); }
+.dcard.complete .dlbl { color: var(--status-ok); opacity: 1; } /* finished (no test gate): folded label 'Complete' in green; status colours = shared table in foreman.css */
+.dcard:is(.working, .test, .complete, .attn, .stalled, .fault):not(.ocard) { box-shadow: inset 0 1px 0 rgba(255,255,255,.20), inset 0 0 0 1px color-mix(in srgb, var(--c) 55%, transparent), var(--sglow), 0 -2px 8px -4px rgba(0,0,0,.5), 0 10px 22px -14px rgba(0,0,0,.75); }
+.dcard .ddot { flex: none; display: grid; place-items: center; width: 14px; height: 14px; margin-top: 2px; color: var(--c); }
+.dcard .ddot i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.dcard .ddot .jk-spin { width: 14px; height: 14px; min-width: 14px; min-height: 14px; max-width: 14px; max-height: 14px; }
+.dcard .dtxt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.dcard .drow { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.dcard .dname { flex: 1; min-width: 0; font: 600 13.5px/1.25 var(--font-sans); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dcard .dctx { flex: none; font: 500 10.5px/1.25 var(--font-sans); font-variant-numeric: tabular-nums; color: var(--text-muted); white-space: nowrap; }
+.dcard .dst { font: 500 11.5px/1.25 var(--font-sans); color: var(--c); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* working: the terminal pane's status line, same glyph / verb / elapsed and colours (mirrored from .pwork every tick) */
+.dcard .dwork { display: flex; align-items: baseline; gap: 6px; min-width: 0; font: 11.5px/1.3 ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace; color: #C9CDD6; white-space: nowrap; overflow: hidden; }
+.dcard .dwork .pg { flex: none; width: 1.1em; text-align: center; color: #E0A458; } .dcard .dwork .pw { overflow: hidden; text-overflow: ellipsis; }
+.dcard .dwork .pe { flex: none; color: #7A7F8C; } .dcard .dwork .pe::before { content: "("; } .dcard .dwork .pe::after { content: ")"; }
+.dcard .dtxt { align-self: stretch; } .dcard .dlbl { margin-top: auto; font: 600 9.5px/1.2 var(--font-sans); letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); opacity: .85; white-space: nowrap; }
+.dcard .dact { font: 400 11.5px/1.3 var(--font-sans); color: var(--text-secondary, var(--text-muted)); overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow-wrap: anywhere; }
+.dcard:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (hover: hover) { /* hover: the card slides out to the right, toward the desk */
+  .dkpile .dcard:hover { --lx: 18px; --hy: 0px; --jx: 0px; transition: transform .32s cubic-bezier(.22,1,.36,1), opacity .2s var(--ease-out), box-shadow .3s var(--ease-out); }
+  .dkpile .dcard:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,.26), inset 0 0 0 1px rgba(255,255,255,.18), 0 -4px 12px -4px rgba(0,0,0,.55), 0 18px 32px -14px rgba(0,0,0,.8); }
+  .dkpile .dcard:is(.working, .test, .complete, .attn, .stalled, .fault):not(.ocard):hover { box-shadow: inset 0 1px 0 rgba(255,255,255,.26), inset 0 0 0 1px color-mix(in srgb, var(--c) 55%, transparent), var(--sglow), 0 -4px 12px -4px rgba(0,0,0,.55), 0 18px 32px -14px rgba(0,0,0,.8); }
+}
+.dkpile .dcard.dnew { transition: none; }
+/* carrying a card: the pile's own cards don't hover-slide under it; they only shift (transform transition) to open the landing gap */
+body.ddragging .dkpile .dcard:hover { --lx: 0px; --ls: 1; }
+/* landed on the pile: a small bounce (individual translate property, so it composes with the pile transform; no scale = no blurred text) */
+.dkpile .dcard.dthud { animation: dthud .48s cubic-bezier(.3,.7,.4,1); }
+@keyframes dthud { 0% { translate: 0 -4px; } 45% { translate: 0 1px; } 75% { translate: 0 0; } 100% { translate: none; } }
+.dkpile .dcard:is(.lifted, .landing) { opacity: 0; pointer-events: none; transition: none; }
+.dkpile .dcard.dgone { pointer-events: none; }
+@media (prefers-color-scheme: light) {
+  .dcard { background: linear-gradient(160deg, rgba(255,255,255,.97), rgba(255,255,255,.75)), var(--surface-1); box-shadow: inset 0 1px 0 #fff, inset 0 0 0 1px rgba(0,0,0,.10), 0 -1px 5px -3px rgba(0,0,0,.25), 0 8px 20px -14px rgba(0,0,0,.35); }
+  .dcard .dwork { color: var(--text-secondary, #4a5260); } .dcard .dwork .pe { color: var(--text-muted); }
+  .dcard:is(.working, .test, .complete, .attn, .stalled, .fault):not(.ocard) { box-shadow: inset 0 1px 0 #fff, inset 0 0 0 1px color-mix(in srgb, var(--c) 55%, transparent), var(--sglow), 0 -1px 5px -3px rgba(0,0,0,.25), 0 8px 20px -14px rgba(0,0,0,.35); }
+}
+
+/* ---------- the page chat card (Foreman; its own one-card deck at the top of the deck zone): accent-tinted face, logo, PAGE CHAT tag ---------- */
+.dcard.ocard { --c: var(--text-secondary, var(--text-muted)); align-items: center;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 26%, transparent), rgba(255,255,255,.03) 55%, color-mix(in srgb, var(--accent) 8%, transparent)), var(--surface-1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent), 0 -2px 8px -4px rgba(0,0,0,.5), 0 10px 22px -14px rgba(0,0,0,.75); }
+.dcard.ocard.working { --c: var(--accent); } .dcard.ocard.fault { --c: var(--status-error); }
+.dcard.ocard .ologo { position: relative; width: 30px; height: 30px; margin: 0; }
+.dcard.ocard .ologo img { width: 26px; height: 26px; pointer-events: none; }
+.dcard.ocard.working .ologo::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--accent); animation: jk-rot 1.1s linear infinite; }
+.dcard.ocard .otag { padding: 1px 6px; border-radius: 999px; font: 600 9px/1.4 var(--font-sans); letter-spacing: .07em; text-transform: uppercase; color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.dcard.ocard .olbadge { position: absolute; left: 36px; top: 10px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--surface-1); }
+.dcard.ocard .olbadge[hidden] { display: none; }
+@media (hover: hover) { .dkpile .dcard.ocard:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 0 0 1.5px var(--accent), 0 -4px 12px -4px rgba(0,0,0,.55), 0 18px 32px -14px rgba(0,0,0,.8); } }
+.dcard.dghost.ocard { box-shadow: inset 0 1px 0 rgba(255,255,255,.26), inset 0 0 0 1.5px var(--accent), 0 var(--sy, 10px) var(--sb, 22px) -14px rgba(0,0,0,.85); }
+@media (prefers-color-scheme: light) {
+  .dcard.ocard { background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 16%, #fff), rgba(255,255,255,.8)), var(--surface-1); box-shadow: inset 0 1px 0 #fff, inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent), 0 -1px 5px -3px rgba(0,0,0,.25), 0 8px 20px -14px rgba(0,0,0,.35); }
+}
+/* while its chat popup is open the card's slot shows a faded ghost of the card (same logo, dimmed); click the slot to close the popup and the card comes back */
+.dkpile.odeck.empty { cursor: pointer; }
+.dkpile.odeck::after { display: none; }
+.dkpile.odeck .oghost { position: absolute; left: 0; top: var(--pad, 0px); width: var(--cw, 214px); height: var(--ch, 96px); box-sizing: border-box; display: flex; align-items: center; padding-left: 16px; border-radius: 14px; pointer-events: none;
+  background: color-mix(in srgb, var(--accent) 6%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
+  opacity: 0; transition: opacity .25s var(--ease-out), box-shadow .2s var(--ease-out); }
+.dkpile.odeck .oghost .ologo { position: relative; display: grid; place-items: center; width: 30px; height: 30px; filter: grayscale(.7); opacity: .45; }
+.dkpile.odeck .oghost .ologo img { width: 26px; height: 26px; }
+.dkpile.odeck.empty .oghost { opacity: .7; }
+@media (hover: hover) { .dkpile.odeck.empty:hover .oghost { opacity: 1; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 60%, transparent); } }
+/* the chat popup floating over the work area (#fbPanel.over, placed by bubble.js fbOver): same glass popup, no close X (Esc / card / launcher close it) */
+
+/* the card face while carried (on <body>, above everything; JS drives transform + opacity every frame, crossfading with the pane) */
+.dcard.dghost { position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none; transform-origin: 0 0; transition: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.26), inset 0 0 0 1px rgba(255,255,255,.2), 0 var(--sy, 10px) var(--sb, 22px) -14px rgba(0,0,0,.85); } /* --sy/--sb: lift height, set per frame while carried */
+.dcard.dghost:is(.test, .complete, .attn, .stalled) { box-shadow: inset 0 1px 0 rgba(255,255,255,.26), inset 0 0 0 1.5px var(--c), 0 var(--sy, 10px) var(--sb, 22px) -14px rgba(0,0,0,.85); }
+body.ddragging, body.ddragging * { cursor: grabbing !important; user-select: none !important; -webkit-user-select: none !important; }
+body.agdeck :is(.agpage, #_) .apane .phead { touch-action: none; cursor: grab; }
+
+/* ---------- phone: a compact pile in a strip above the one open agent (cards stack sideways, a sliver each); nothing scrolls ---------- */
+@media (max-width: 900px) {
+  body.agdeck :is(.agpage, #_):is(.on, .leave) { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 46px minmax(0, 1fr); row-gap: 10px; }
+  body.agdeck :is(.agpage, #_) > .dkzone { grid-column: 1; grid-row: 2; flex-direction: row; gap: 8px; }
+  .dkzone > .odeck { height: auto; width: 128px; background: none; }
+  .dkres { display: none; }
+  .dkzone::after { top: auto; bottom: -6px; left: 0; right: 0; width: auto; height: 2px; background: linear-gradient(180deg, rgba(0,0,0,.4), rgba(255,255,255,.07));
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  body.agdeck :is(.agpage, #_) > .apanes { grid-column: 1; grid-row: 3; }
+  body.agdeck :is(.agpage, #_) .apanes { flex: none; height: auto; min-height: 0; display: grid; overflow: hidden; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); grid-auto-rows: minmax(0, 1fr); gap: 10px; }
+  body.agdeck :is(.agpage, #_) .apanes > .gempty { display: block; }
+  body.agdeck :is(.agpage, #_) .apanes > .apane:not(.sheet) { display: flex; }
+  body.agdeck :is(.agpage, #_) .apanes > .apane.folded { display: none; }
+  .dkpile::after { top: 0; }
+  .dkpile .dcard { padding: 7px 10px 0 12px; gap: 8px; border-radius: 12px;
+    transform: translate(calc(var(--at, 0px) + var(--lx, 0px)), var(--hy, 0px)) scale(var(--ls, 1)); }
+  .dkpile .dcard .dtxt { gap: 1px; } .dkpile .dcard .ddot { margin-top: 1px; }
+  .dkpile .dcard .dname { font-size: 13px; } .dkpile .dcard .dst { font-size: 11px; }
+  .dcard .dact, .dcard .dlbl { display: none; } .dcard .dctx { font-size: 10px; }
+  .dcard.ocard .otag { display: none; } .dcard.ocard .ologo { width: 24px; height: 24px; } .dcard.ocard .ologo img { width: 22px; height: 22px; } .dcard.ocard .olbadge { left: 28px; top: 5px; }
+  .dkpile.odeck .oghost { padding-left: 12px; border-radius: 12px; } .dkpile.odeck .oghost .ologo { width: 24px; height: 24px; } .dkpile.odeck .oghost .ologo img { width: 22px; height: 22px; }
+  .dkpile .dcard:active { --ls: .97; }
+  .dcard.dghost { padding: 7px 10px 0 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .dkpile .dcard.dthud { animation: none; } .dcard, .dkpile::before, .dkpile::after, body.agdeck .apanes::after { transition: none !important; } }
+/* the landing slot: where the agent in hand would drop, held open in the desk grid (the placed panes move/resize around it) */
+body.agdeck .apanes > .dslot { position: relative; min-width: 0; min-height: 0; border-radius: 16px; pointer-events: none; box-shadow: inset 0 0 0 2px var(--accent); background: var(--accent-subtle); animation: dslotIn .22s var(--ease-out); }
+body.agdeck .apanes:is([data-rows="3"], [data-rows="4"], [data-rows="5"], [data-rows="6"]) > .dslot { border-radius: 12px; }
+@keyframes dslotIn { from { opacity: 0; transform: scale(.97); } }
+@media (prefers-reduced-motion: reduce) { body.agdeck .apanes > .dslot { animation: none; } }
+/* the landing slot held after the drop until the flying pane covers it (index.html end of deckGrab): same look, out of the grid, under the panes */
+.apanes > .dslotkeep { position: absolute; z-index: -1; border-radius: 16px; pointer-events: none; box-shadow: inset 0 0 0 2px var(--accent); background: var(--accent-subtle); }
+.apanes:is([data-rows="3"], [data-rows="4"], [data-rows="5"], [data-rows="6"]) > .dslotkeep { border-radius: 12px; }
+/* label centred in the slot (and its held copy, so the text doesn't blink on release) */
+.apanes > :is(.dslot, .dslotkeep) { display: grid; place-items: center; overflow: hidden; }
+.apanes > :is(.dslot, .dslotkeep)::after { content: 'Drop here'; font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--accent); opacity: .85; white-space: nowrap; }
+/* peek: plain click on a folded card = read-only preview of its terminal beside the pile (click again / away / Esc closes) */
+.dpeek { --c: var(--text-muted); position: fixed; z-index: 60; display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; color: #E6E8EC;
+  background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,.03) 45%, rgba(255,255,255,.05)), var(--surface-1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 1px color-mix(in srgb, var(--c) 45%, rgba(255,255,255,.12)), 0 24px 48px -18px rgba(0,0,0,.8); }
+.dpeek::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px; border-radius: 0 3px 3px 0; background: var(--ac); }
+.dpeek .dpk-h { flex: none; display: flex; align-items: baseline; gap: 10px; padding: 10px 14px 8px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.dpeek .dpk-n { flex: 1; min-width: 0; font: 600 13.5px/1.25 var(--font-sans); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dpeek .dpk-s { flex: none; font: 500 11.5px/1.25 var(--font-sans); color: var(--c); white-space: nowrap; }
+.dpeek .dpk-t { flex: 1; min-height: 0; padding-top: 10px; }
+.dkpile .dcard.peeking { --lx: 18px; }
+.dpeek.working, .dpeek.test { --c: var(--accent); } .dpeek.complete { --c: var(--status-ok); } .dpeek:is(.attn, .stalled) { --c: var(--status-warn); } .dpeek.fault { --c: var(--status-error); }
+.dpeek { background-color: #15171C; } /* the terminal text is light in both themes: the peek stays dark like it */
+.dpeek .dpk-t { overflow-y: auto; overscroll-behavior: contain; } /* scrollable; follows the latest line until you scroll up (stickScroll) */
+
+/* ---------- standing agents (2026-11-15): cards stack at the top of the column (page chat first); the separator under the stack moves down as more are added ---------- */
+.dkzone > .odeck.none { display: none; }
+body .dkzone > .odeck { transition: height .35s cubic-bezier(.22,1,.36,1), width .35s cubic-bezier(.22,1,.36,1), background-position .38s cubic-bezier(.4,0,.2,1); }
+.dkpile.odeck.multi .dcard.ocard { padding-top: 10px; padding-bottom: 8px; }
+.dkpile.odeck.multi .dcard .dact { display: none; }
+.dkpile.odeck .oghost { transition: opacity .25s var(--ease-out), box-shadow .2s var(--ease-out), top .3s, left .3s; }
+.dcard.ocard .slogo img { border-radius: 6px; }
+.dcard.ocard.scard .otag { color: var(--text-secondary, var(--text-muted)); background: color-mix(in srgb, var(--text-muted) 16%, transparent); }
+@media (prefers-reduced-motion: reduce) { body .dkzone > .odeck { transition: none; } }

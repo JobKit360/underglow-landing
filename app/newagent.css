@@ -1,0 +1,49 @@
+/* Agents page "+" picker (newagent.js) */
+#naPick { position: fixed; z-index: 5000; width: 340px; max-width: calc(100vw - 16px); padding: 14px; border-radius: 14px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--panel-stroke), 0 14px 44px rgba(0,0,0,.4); font: 400 13px var(--font-sans); color: var(--text-secondary); }
+#naPick[hidden] { display: none; }
+#naPick .na-h { font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
+#naPick .na-k { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); margin: 10px 0 6px; }
+#naPick .na-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+#naPick .na-grid.two { grid-template-columns: repeat(2, 1fr); }
+#naPick .na-tile { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 12px 6px 10px; border: 0; border-radius: 10px; cursor: pointer; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); color: var(--text-primary); font: inherit; transition: background .12s, transform .12s; }
+#naPick .na-tile:hover { background: var(--hover); }
+#naPick .na-tile:active { transform: scale(.97); }
+#naPick .na-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+#naPick .na-tile img { width: 26px; height: 26px; object-fit: contain; }
+#naPick .na-tile b { font-weight: 600; font-size: 12.5px; }
+#naPick .na-tile span { font-size: 11px; color: var(--text-muted); }
+#naPick .na-tile.soon { cursor: default; }
+#naPick .na-tile.soon img, #naPick .na-tile.soon b { opacity: .5; }
+#naPick .na-tile.soon:hover { background: var(--block); }
+#naPick .na-msg { margin-top: 10px; font-size: 12px; color: var(--text-muted); }
+#naPick .na-msg:empty { display: none; }
+#naPick .na-msg a { color: var(--accent); }
+/* Terminal panes (termpane.js): xterm fills the body; no message box, chips or working line */
+.apane.tpane .pfoot, .apane.tpane .pchips, .apane.tpane .pwork, .apane.tpane .pjump { display: none !important; }
+.apane.tpane .pterm.xtermhost { padding: 8px 4px 6px 10px; overflow: hidden; -webkit-mask-image: none; mask-image: none; }
+.apane.tpane .xterm { height: 100%; }
+.apane.tpane .xterm-viewport { background: transparent !important; }
+/* Agent | Standing agent switch, standing form, edit box (right-click a standing card) */
+#naPick .na-seg { display: flex; gap: 2px; padding: 3px; margin: 0 0 4px; border-radius: 10px; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); }
+#naPick .na-seg button { flex: 1; padding: 6px 8px; border: 0; border-radius: 7px; background: none; color: var(--text-secondary); font: 500 12.5px var(--font-sans); cursor: pointer; }
+#naPick .na-seg button[aria-selected="true"] { background: var(--surface-2); color: var(--text-primary); box-shadow: inset 0 0 0 1px var(--panel-stroke), 0 1px 3px rgba(0,0,0,.25); }
+#naPick .na-seg button:disabled { opacity: .45; cursor: default; }
+#naPick .na-seg.small button { padding: 5px 8px; font-size: 12px; }
+#naPick .na-tile.sel { box-shadow: inset 0 0 0 1.5px var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--block)); }
+#naPick .na-f { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
+#naPick .na-f input, #naPick .na-f textarea { box-sizing: border-box; width: 100%; padding: 8px 10px; border: 0; border-radius: 8px; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); color: var(--text-primary); font: 400 13px/1.4 var(--font-sans); letter-spacing: 0; text-transform: none; resize: vertical; }
+#naPick .na-f textarea { min-height: 96px; max-height: 50vh; }
+#naPick .na-f :is(input, textarea):focus { outline: none; box-shadow: inset 0 0 0 1.5px var(--accent); }
+#naPick .na-note { margin: 8px 0 0; font-size: 12px; line-height: 1.4; color: var(--text-muted); }
+#naPick .na-msg.err { color: var(--status-error); }
+#naPick .na-acts { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+#naPick .na-btn { padding: 7px 14px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font: 600 12.5px var(--font-sans); cursor: pointer; }
+#naPick .na-btn:disabled { opacity: .5; cursor: default; }
+#naPick .na-btn.ghost { background: none; color: var(--text-secondary); box-shadow: inset 0 0 0 1px var(--block-stroke); }
+#naPick .na-btn.danger { color: var(--status-error); margin-right: auto; }
+#naPick .na-tag { margin-left: 6px; padding: 1px 6px; border-radius: 999px; font: 600 9px/1.4 var(--font-sans); letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); background: color-mix(in srgb, var(--text-muted) 16%, transparent); vertical-align: 2px; }
+#naPick .na-plus { width: 26px; height: 26px; display: grid; place-items: center; font: 500 20px/1 var(--font-sans); color: var(--text-secondary); }
+#naPick .na-brow { flex-direction: row; width: 100%; margin-bottom: 6px; gap: 10px; padding: 6px 10px 6px 6px; text-align: left; }
+#naPick .na-bav { flex: none; width: 36px; height: 36px; } #naPick .na-bav svg { width: 100%; height: 100%; }
+#naPick .na-bn { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; } #naPick .na-bn span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px; }
+#naPick .na-grid.one { grid-template-columns: 1fr; }

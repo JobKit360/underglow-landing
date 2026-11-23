@@ -1,0 +1,128 @@
+/* Workbox (workbox.js): Settings → Workbox, the desktop viewer + full-screen view, and a bot's Desktop tab. Same tokens as settings.css / bots.css. */
+.wbx { max-width: 720px; }
+.wbx h2 { margin: 26px 0 8px; font: 600 11px var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); }
+.wbx .sg-row + .sg-row { margin-top: 8px; }
+.wbx-btn { height: 32px; padding: 0 14px; border: 0; border-radius: 9px; cursor: pointer; font: 500 12.5px var(--font-sans); color: var(--text-primary); background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); white-space: nowrap; transition: filter .15s, transform .12s; }
+.wbx-btn:hover:not(:disabled) { filter: brightness(1.15); } .wbx-btn:active { transform: scale(.97); } .wbx-btn:disabled { opacity: .55; cursor: default; }
+.wbx-pri { color: #fff; background: var(--accent); box-shadow: none; }
+.wbx-red { color: var(--error-text); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--status-error) 55%, transparent); }
+.wbx-sel { flex: none; height: 30px; padding: 0 8px; border-radius: 8px; border: 0; background: var(--surface-base, var(--bg)); color: var(--text-primary); box-shadow: inset 0 0 0 1px var(--block-stroke); font: 12.5px var(--font-sans); }
+.wbx-nb { flex: none; width: 28px; height: 28px; display: inline-grid; place-items: center; padding: 0; border: 0; border-radius: 7px; background: none; color: var(--text-secondary); cursor: pointer; }
+.wbx-nb[hidden] { display: none; }
+.wbx-nb:hover { background: var(--hover, rgba(255,255,255,.06)); color: var(--text-primary); }
+.wbx-fsp { flex: 1; }
+.wbx-chip { flex: none; padding: 2px 8px; border-radius: 10px; font: 500 11px var(--font-sans); color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+
+/* hero: the box drawing changes with the state */
+.wbx-hero { display: flex; gap: 20px; align-items: center; padding: 18px 20px; border-radius: 14px; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); animation: wbx-in .3s cubic-bezier(.2,.8,.2,1); }
+.wbx-art { flex: none; width: 76px; height: 76px; display: grid; place-items: center; border-radius: 18px; color: var(--text-muted); background: var(--surface-base, var(--bg)); position: relative; transition: color .4s, box-shadow .4s; }
+.wbx-cube { width: 52px; height: 52px; }
+.wbx-lights circle { fill: currentColor; opacity: .25; transition: opacity .4s; }
+.wbx-hero[data-s="on"] .wbx-art { color: var(--accent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent), 0 0 26px color-mix(in srgb, var(--accent) 35%, transparent); animation: wbx-glow 3.2s ease-in-out infinite; }
+.wbx-hero[data-s="on"] .wbx-lights circle { fill: var(--status-ok); opacity: 1; animation: wbx-blink 1.6s steps(2) infinite; }
+.wbx-hero[data-s="on"] .wbx-lights circle + circle { animation-delay: .8s; }
+.wbx-hero:is([data-s="starting"], [data-s="stopping"], [data-s="setting-up"]) .wbx-art { color: var(--accent); }
+.wbx-hero:is([data-s="starting"], [data-s="stopping"], [data-s="setting-up"]) .wbx-art::after { content: ''; position: absolute; inset: 5px; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--accent); animation: wbx-spin 1s linear infinite; }
+.wbx-hero[data-s="setting-up"] .wbx-top { animation: wbx-lid 1.8s ease-in-out infinite; transform-origin: 32px 20px; }
+.wbx-hero:is([data-s="no-wsl"], [data-s="no-virt"], [data-s="old-wsl"]) .wbx-art { color: var(--status-warn); }
+.wbx-ht { flex: 1; min-width: 0; }
+.wbx-ht > b { display: block; font: 600 16px var(--font-sans); color: var(--text-primary); margin-bottom: 4px; }
+.wbx-ht > span { display: block; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+.wbx-acts { display: flex; gap: 8px; margin-top: 12px; } .wbx-acts:empty { display: none; }
+.wbx-msg { margin-top: 10px; padding: 8px 10px; border-radius: 8px; font-size: 12.5px; line-height: 1.45; color: var(--text-primary); background: var(--accent-subtle, rgba(74,143,232,.12)); animation: wbx-in .2s ease-out; }
+.wbx-msg.bad { color: var(--error-text); background: var(--error-subtle); }
+.wbx-msg[hidden] { display: none; }
+
+/* set-up steps */
+.wbx-steps { list-style: none; margin: 12px 0 0; padding: 14px 18px; border-radius: 12px; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); }
+.wbx-steps[hidden] { display: none; }
+.wbx-steps li { display: flex; gap: 12px; align-items: flex-start; padding: 7px 0; color: var(--text-muted); font-size: 13px; transition: color .3s; }
+.wbx-steps li > i { flex: none; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font: 700 11px var(--font-sans); font-style: normal; box-shadow: inset 0 0 0 1.5px var(--block-stroke); transition: background .3s, box-shadow .3s; }
+.wbx-steps li > span { flex: 1; } .wbx-steps em { font-style: normal; color: var(--accent); margin-left: 4px; }
+.wbx-steps li.doing { color: var(--text-primary); } .wbx-steps li.doing > i { box-shadow: inset 0 0 0 2px var(--accent); border-top: 2px solid transparent; animation: wbx-spin 1s linear infinite; background: conic-gradient(var(--accent) 0 25%, transparent 25%); -webkit-mask: radial-gradient(circle, transparent 6px, #000 6.5px); mask: radial-gradient(circle, transparent 6px, #000 6.5px); }
+.wbx-steps li.done { color: var(--text-secondary); } .wbx-steps li.done > i { color: #fff; background: var(--status-ok); box-shadow: none; animation: wbx-pop .3s cubic-bezier(.2,1.6,.4,1); }
+.wbx-steps li.failed { color: var(--error-text); } .wbx-steps li.failed > i { color: #fff; background: var(--status-error); box-shadow: none; }
+.wbx-steps .wbx-bar { margin-top: 6px; }
+
+/* memory */
+.wbx-mem { margin-top: 12px; padding: 12px 16px; border-radius: 12px; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); }
+.wbx-mem[hidden] { display: none; }
+.wbx-mh { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12.5px; } .wbx-mh b { color: var(--text-primary); font-weight: 600; }
+.wbx-bar { display: block; height: 6px; border-radius: 4px; background: var(--surface-base, rgba(0,0,0,.25)); overflow: hidden; }
+.wbx-bar i { display: block; height: 100%; width: 0; border-radius: 4px; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #2de2e6)); transition: width .6s cubic-bezier(.2,.8,.2,1); }
+.wbx-mem.hot .wbx-bar i { background: var(--status-warn); }
+
+/* workspaces */
+.wbx-sp[hidden], .wbx-set[hidden], .wbx .sg-row[hidden] { display: none; }
+.wbx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+.wbx-card { border-radius: 12px; overflow: hidden; background: var(--block); box-shadow: inset 0 0 0 1px var(--block-stroke); animation: wbx-in .3s cubic-bezier(.2,.8,.2,1) both; transition: box-shadow .2s, transform .2s; }
+.wbx-card:hover { box-shadow: inset 0 0 0 1px var(--border-accent); transform: translateY(-1px); }
+.wbx-cscr { aspect-ratio: 16 / 9; background: #0a0a0d; position: relative; }
+.wbx-cf { display: flex; align-items: center; gap: 6px; padding: 6px 6px 0 10px; }
+.wbx-cf b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-primary); font-weight: 600; font-size: 13px; }
+.wbx-kind { flex: none; font: 600 10px var(--font-sans); letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); }
+.wbx-cd { padding: 0 10px 9px; font-size: 11.5px; color: var(--text-muted); }
+.wbx-more { opacity: 0; transition: opacity .15s; } .wbx-card:hover .wbx-more, .wbx-more:focus-visible { opacity: 1; }
+.wbx-none { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; padding: 12px; text-align: center; font-size: 12px; color: var(--text-muted); background: var(--surface-1, #111); }
+
+/* the viewer */
+.wbx-scr { position: relative; }
+.wbx-scr-in { position: absolute; inset: 0; opacity: 0; transition: opacity .35s; }
+.wbx-scr.live .wbx-scr-in { opacity: 1; }
+.wbx-scr-in > div { background: transparent !important; }
+.wbx-wait { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; font-size: 12px; color: var(--text-muted); }
+.wbx-wait[hidden] { display: none; }
+.wbx-spin { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border-default, rgba(255,255,255,.15)); border-top-color: var(--accent); animation: wbx-spin .8s linear infinite; }
+
+/* full screen */
+.wbx-full { position: fixed; z-index: 2147483000; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; background: var(--surface-2, #15151a); }
+.wbx-fbar { flex: none; display: flex; align-items: center; gap: 10px; padding: 5px 8px 5px 14px; border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,.08)); font-size: 13px; color: var(--text-primary); }
+.wbx-fscr { flex: 1; min-height: 0; background: #0a0a0d; }
+
+/* a bot's Desktop tab */
+.wbx-bwin { display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border-default); }
+.wbx-bbar { display: flex; align-items: center; gap: 8px; padding: 5px 6px 5px 12px; border-bottom: 1px solid var(--border-subtle); font-size: 12.5px; color: var(--text-primary); }
+.wbx-bscr { position: relative; aspect-ratio: 16 / 9; background: #0a0a0d; }
+.wbx-bot .bs-p { margin-top: 10px; }
+
+/* confirm box */
+.wbx-confirm { position: fixed; inset: 0; z-index: 2147483100; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,.55); backdrop-filter: blur(3px); animation: wbx-fade .14s ease-out; }
+.wbx-cdlg { width: min(440px, 100%); padding: 18px 20px; border-radius: 16px; background: var(--surface-1, #111); box-shadow: 0 0 0 1px var(--block-stroke), 0 24px 60px rgba(0,0,0,.5); animation: wbx-in .18s cubic-bezier(.2,.8,.2,1); }
+.wbx-cdlg b { display: block; font-size: 15px; color: var(--text-primary); }
+.wbx-cdlg p { margin: 8px 0 16px; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+.wbx-cdlg div { display: flex; justify-content: flex-end; gap: 8px; }
+
+@keyframes wbx-in { from { opacity: 0; transform: translateY(6px); } }
+@keyframes wbx-fade { from { opacity: 0; } }
+@keyframes wbx-spin { to { transform: rotate(360deg); } }
+@keyframes wbx-glow { 50% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 40px color-mix(in srgb, var(--accent) 50%, transparent); } }
+@keyframes wbx-blink { 50% { opacity: .3; } }
+@keyframes wbx-lid { 50% { transform: translateY(-4px); } }
+@keyframes wbx-pop { from { transform: scale(.4); } }
+@media (prefers-reduced-motion: reduce) { .wbx *, .wbx-full, .wbx-confirm, .wbx-cdlg { animation: none !important; transition: none !important; } }
+@media (max-width: 720px) { .wbx-hero { flex-direction: column; align-items: flex-start; } .wbx-grid { grid-template-columns: 1fr; } }
+/* install where it is used (bot Desktop tab): offer card, set-up progress, the short offer at the top of a bot's side area */
+.wbx-bscr:has(.wbx-offer) { aspect-ratio: auto; min-height: 220px; }
+.wbx-none.wbx-offer { position: static; padding: 22px 18px; gap: 8px; animation: wbx-in .3s cubic-bezier(.2,.8,.2,1); }
+.wbx-offer b { color: var(--text-primary); font: 600 14px var(--font-sans); }
+.wbx-offer > span { max-width: 380px; line-height: 1.5; color: var(--text-secondary); }
+.wbx-offer .wbx-acts { justify-content: center; margin-top: 6px; }
+.wbx-offer .wbx-steps { width: min(360px, 100%); margin: 6px 0 0; padding: 8px 12px; text-align: left; }
+.wbx-offer .wbx-steps li { padding: 4px 0; font-size: 12px; }
+.wbx-err { color: var(--error-text); font-style: normal; font-size: 12px; } .wbx-err[hidden] { display: none; }
+.wbx-art.wbx-mini { width: 52px; height: 52px; border-radius: 14px; color: var(--accent); }
+.wbx-art.wbx-mini .wbx-cube { width: 34px; height: 34px; }
+.wbx-art.busy::after { content: ''; position: absolute; inset: 4px; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--accent); animation: wbx-spin 1s linear infinite; }
+.wbx-art.busy .wbx-top { animation: wbx-lid 1.8s ease-in-out infinite; transform-origin: 32px 20px; }
+.wbx-ofr { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; padding: 8px 8px 8px 12px; border-radius: 10px; font-size: 12.5px; color: var(--text-secondary); background: color-mix(in srgb, var(--accent) 10%, var(--block)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent); animation: wbx-in .3s cubic-bezier(.2,.8,.2,1); }
+.wbx-ofr > span:not(.wbx-spin) { flex: 1; min-width: 0; }
+.wbx-ofr .wbx-btn { height: 28px; padding: 0 10px; }
+.wbx-ofr .wbx-spin { flex: none; width: 14px; height: 14px; }
+@media (prefers-reduced-motion: reduce) { .wbx-ofr, .wbx-offer, .wbx-art.busy::after, .wbx-art.busy .wbx-top { animation: none !important; } }
+.wbx-ports { flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+.wbx-num { width: 78px; height: 30px; padding: 0 8px; border: 0; border-radius: 8px; background: var(--surface-base, var(--bg)); color: var(--text-primary); box-shadow: inset 0 0 0 1px var(--block-stroke); font: 12.5px var(--font-sans); }
+.wbx-det { margin-top: 6px; font-size: 11.5px; text-align: left; }
+.wbx-det summary { cursor: pointer; opacity: .8; }
+.wbx-det pre { margin: 6px 0 0; max-height: 160px; overflow: auto; white-space: pre-wrap; word-break: break-word; font: 11px/1.4 ui-monospace, Consolas, monospace; user-select: text; }
+.wbx-sub { display: block; margin-top: 4px; font-size: 12px; opacity: .75; }
+.wbx-hint { display: block; margin-top: 4px; font-size: 11px; opacity: .7; }

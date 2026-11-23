@@ -1,0 +1,189 @@
+/* Built-in browser (browser.js): panel over the work area with tabs (agent tabs + your own), full screen on a phone. Animated open/close, tab switch and back/forward. */
+#abPanel { position: fixed; z-index: 55; display: flex; flex-direction: column; overflow: hidden; border-radius: 12px; background: var(--surface-1, #141418);
+  box-shadow: inset 0 0 0 1px var(--panel-stroke, rgba(255,255,255,.09)), 0 18px 60px rgba(0,0,0,.45);
+  opacity: 0; visibility: hidden; transform: translate3d(0, -8px, 0); pointer-events: none; backface-visibility: hidden;
+  transition: opacity .16s ease-in, transform .16s ease-in, visibility 0s linear .16s; }
+/* open: fade + short drop, no scale (scaling a live page re-rasterises it: blur then snap, edges lag), no overshoot */
+#abPanel.show { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition: opacity .2s cubic-bezier(.2,.8,.2,1), transform .24s cubic-bezier(.2,.8,.2,1), visibility 0s; }
+#abPanel.ph { inset: 0; width: auto !important; height: auto !important; border-radius: 0; padding-top: env(safe-area-inset-top); z-index: 80; transform: translate3d(0, 24px, 0); }
+#abPanel.ph.show { transform: none; }
+
+/* tab strip */
+#abPanel .ab-bar { flex: none; display: flex; align-items: center; gap: 4px; padding: 7px 8px 0; }
+#abPanel .ab-tabs { flex: 0 1 auto; min-width: 0; display: flex; gap: 3px; overflow-x: auto; scrollbar-width: none; }
+#abPanel .ab-tabs::-webkit-scrollbar { display: none; }
+#abPanel .ab-tab { flex: none; display: flex; align-items: center; gap: 7px; width: 190px; max-width: 190px; height: 30px; padding: 0 4px 0 10px; border-radius: 9px 9px 0 0; cursor: pointer; overflow: hidden;
+  font: 500 12.5px var(--font-sans, system-ui); color: var(--text-muted, #999); background: transparent;
+  transition: background .15s, color .15s, max-width .22s var(--ease-out, ease), padding .22s var(--ease-out, ease), opacity .18s, transform .22s var(--ease-out, ease); }
+#abPanel .ab-tab.new, #abPanel .ab-tab.gone { max-width: 0; opacity: 0; transform: translateY(6px); padding: 0; }
+#abPanel .ab-tab:hover { background: var(--hover, rgba(255,255,255,.05)); color: var(--text-primary, #eee); }
+#abPanel .ab-tab.on { background: var(--surface-3, #26262D); color: var(--text-primary, #eee); }
+#abPanel .ab-ic { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted, #888); opacity: .55; }
+#abPanel .ab-tab.agent .ab-ic { background: var(--accent, #4A8FE8); opacity: 1; } /* agent tab: blue dot; your own tabs: grey */
+#abPanel .ab-tab.fresh .ab-ic { animation: ab-ping 1.4s ease-out infinite; }
+@keyframes ab-ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent, #4A8FE8) 70%, transparent); } 100% { box-shadow: 0 0 0 7px transparent; } }
+#abPanel .ab-tn { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#abPanel .ab-x { flex: none; width: 20px; height: 20px; border: 0; border-radius: 6px; background: transparent; color: inherit; font-size: 15px; line-height: 1; cursor: pointer; opacity: .55; }
+#abPanel .ab-x:hover { opacity: 1; background: var(--hover, rgba(255,255,255,.08)); }
+
+/* toolbar */
+#abPanel .ab-tools { flex: none; display: flex; align-items: center; gap: 2px; padding: 6px 8px; background: var(--surface-3, #26262D); }
+#abPanel .ab-b { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border: 0; border-radius: 8px; background: transparent; color: var(--text-secondary, #ccc); cursor: pointer; transition: background .15s, color .15s, transform .12s; }
+#abPanel .ab-b:hover:not(:disabled) { background: var(--hover, rgba(255,255,255,.07)); color: var(--text-primary, #eee); }
+#abPanel .ab-b:active:not(:disabled) { transform: scale(.9); }
+#abPanel .ab-b:disabled { opacity: .3; cursor: default; }
+#abPanel .ab-b[hidden] { display: none; }
+#abPanel .ab-b svg, #abTog svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+#abPanel.loading .ab-reload svg { animation: ab-spin .9s linear infinite; }
+@keyframes ab-spin { to { transform: rotate(360deg); } }
+#abPanel .ab-url { flex: 1; min-width: 0; margin: 0 4px; }
+#abPanel .ab-url input { width: 100%; height: 30px; padding: 0 12px; border: 0; border-radius: 999px; background: var(--surface-1, #141418); box-shadow: inset 0 0 0 1px var(--block-stroke, rgba(255,255,255,.08));
+  color: var(--text-primary, #eee); font: 400 12.5px var(--font-sans, system-ui); outline: none; transition: box-shadow .15s; }
+#abPanel .ab-url input:focus { box-shadow: inset 0 0 0 1.5px var(--accent, #4A8FE8); }
+/* loading bar under the toolbar */
+#abPanel .ab-prog { flex: none; height: 2px; background: transparent; overflow: hidden; position: relative; }
+#abPanel.loading .ab-prog::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; background: var(--accent, #4A8FE8); animation: ab-prog 1.1s ease-in-out infinite; }
+@keyframes ab-prog { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
+
+/* pages: every tab stays alive; the shown one fades in; back / forward slide the page */
+#abPanel .ab-view { position: relative; flex: 1; min-height: 0; background: var(--surface-1, #141418); overflow: hidden; opacity: 0; transition: opacity .1s; }
+/* the page area comes in once the panel has (nearly) settled, so the live page never moves with it */
+#abPanel.show .ab-view { opacity: 1; transition: opacity .18s ease-out .12s; }
+/* a page shows once it has painted something (.ld): no white box before it loads */
+#abPanel .ab-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; opacity: 0; visibility: hidden; z-index: 0; transition: opacity .18s, visibility 0s linear .18s; }
+#abPanel .ab-frame.on.ld { opacity: 1; visibility: visible; z-index: 1; transition: opacity .18s, visibility 0s; }
+#abPanel .ab-view.sl-back .ab-frame.on { animation: ab-sl-back .32s cubic-bezier(.2,.8,.2,1); }
+#abPanel .ab-view.sl-fwd .ab-frame.on { animation: ab-sl-fwd .32s cubic-bezier(.2,.8,.2,1); }
+@keyframes ab-sl-back { from { transform: translateX(-36px); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes ab-sl-fwd { from { transform: translateX(36px); opacity: .4; } to { transform: none; opacity: 1; } }
+#abPanel .ab-block { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 24px; text-align: center;
+  background: var(--surface-1, #141418); color: var(--text-muted, #999); font: 400 13px/1.5 var(--font-sans, system-ui); }
+#abPanel .ab-block[hidden] { display: none; }
+#abPanel .ab-block b { color: var(--text-primary, #eee); font-size: 15px; font-weight: 600; }
+#abPanel .ab-block span { max-width: 380px; }
+#abPanel .ab-block button { font: 600 12.5px var(--font-sans, system-ui); padding: 7px 16px; border: 0; border-radius: 8px; background: var(--accent, #4A8FE8); color: #fff; cursor: pointer; }
+#abPanel .ab-empty { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-align: center;
+  background: var(--surface-1, #141418); color: var(--text-muted, #999); font: 400 13px var(--font-sans, system-ui); }
+#abPanel .ab-empty[hidden] { display: none; }
+#abPanel .ab-empty button { font: 600 12.5px var(--font-sans, system-ui); padding: 7px 16px; border: 0; border-radius: 8px; background: var(--accent, #4A8FE8); color: #fff; cursor: pointer; }
+#abPanel .ab-empty span { font-size: 12px; opacity: .8; }
+
+/* top-right toggle: open / hide the browser; count = open tabs; dot = an agent sent a new link */
+#abTog { position: relative; flex: none; display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--text-muted, #999); cursor: pointer; transition: background .15s, color .15s; }
+#abTog:hover, #abTog.on { background: var(--hover, rgba(255,255,255,.06)); color: var(--text-primary, #eee); }
+#abTog.on { color: var(--accent, #4A8FE8); }
+#abTog svg { width: 17px; height: 17px; }
+#abTog .abn { position: absolute; bottom: 0; right: -2px; min-width: 14px; height: 14px; padding: 0 3px; border-radius: 7px; background: var(--surface-3, #26262D); color: var(--text-secondary, #ccc); font: 600 9.5px/14px var(--font-sans, system-ui); text-align: center; box-shadow: 0 0 0 2px var(--surface-base, #0C0C0F); }
+#abTog .abn[hidden], #abTog i[hidden] { display: none; }
+#abTog i { position: absolute; top: 3px; right: 3px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent, #4A8FE8); box-shadow: 0 0 0 2px var(--surface-base, #0C0C0F); }
+@media (prefers-reduced-motion: reduce) { #abPanel, #abPanel.show, #abPanel .ab-tab, #abPanel .ab-view, #abPanel.show .ab-view, #abPanel .ab-frame, #abPanel .ab-frame.on.ld { transition: none; } #abPanel .ab-view .ab-frame.on { animation: none; } }
+
+
+/* Dock (.dk, body.abdock): #abDock is a column after #pagepane that pushes the page narrower; the panel sits over it. Left edge (.ab-grip) resizes. */
+#abDock { flex: none; width: 0; }
+body.abdock #abDock { width: var(--abw, 40vw); }
+#abPanel.dk { transform: translate3d(18px, 0, 0); }
+#abPanel.dk.show { transform: none; }
+#abPanel.dk.closing { opacity: 1; visibility: visible; transform: none; transition: none; } /* sliding out with the column (browser.js show): solid, no fade */
+body.abdrag, body.abdrag * { cursor: col-resize !important; user-select: none; }
+body.abdrag #abPanel .ab-frame { pointer-events: none; }
+#abPanel .ab-dock.on { color: var(--accent, #4A8FE8); background: color-mix(in srgb, var(--accent, #4A8FE8) 14%, transparent); }
+#abPanel.ph .ab-dock { display: none; }
+
+/* Phone view (.phone): the page in the phone screen (--pw × --phh, corner --pr) with a dark bezel, centred.
+   Keeps the device's true shape: shrunk to fit (--ps), never cut or stretched. Desktop only (a phone already is one). */
+#abPanel .ab-phone.on { color: var(--accent, #4A8FE8); background: color-mix(in srgb, var(--accent, #4A8FE8) 14%, transparent); }
+#abPanel.ph .ab-phone { display: none; }
+#abPanel.phone .ab-view { background: radial-gradient(ellipse at 50% 40%, var(--surface-3, #26262D), var(--surface-1, #141418) 70%); }
+#abPanel.phone .ab-frame { left: calc(50% - var(--fw, 393px) / 2 + var(--fx, 0px)); top: calc(50% - var(--fh, 852px) / 2 + var(--ft, 0px)); width: var(--fw, 393px); height: var(--fph, var(--fh, 852px));
+  border-radius: var(--fprt, var(--fr, 30px)) var(--fprt, var(--fr, 30px)) var(--fprb, var(--fr, 30px)) var(--fprb, var(--fr, 30px)); clip-path: inset(0 round var(--fprt, var(--fr, 30px)) var(--fprt, var(--fr, 30px)) var(--fprb, var(--fr, 30px)) var(--fprb, var(--fr, 30px))); } /* --ft / --fph: the page between the device's own chrome (iPhone: Safari) */
+/* plain browser (iframe, no page zoom): the full-size device screen, scaled down */
+#abPanel.phone iframe.ab-frame { width: var(--pw, 393px); height: var(--phh, 852px); transform: scale(var(--ps, 1)); transform-origin: 0 0; clip-path: inset(0 round calc(var(--fprt, var(--fr, 30px)) / var(--ps, 1)) calc(var(--fprt, var(--fr, 30px)) / var(--ps, 1)) calc(var(--fprb, var(--fr, 30px)) / var(--ps, 1)) calc(var(--fprb, var(--fr, 30px)) / var(--ps, 1))); transition: opacity .18s, visibility 0s linear .18s; }
+#abPanel.phone .ab-view::before { content: ""; position: absolute; z-index: 0; left: calc(50% - var(--fw, 393px) / 2 + var(--fx, 0px) - 11px); top: calc(50% - var(--fh, 852px) / 2 - 11px); width: calc(var(--fw, 393px) + 22px); height: calc(var(--fh, 852px) + 22px);
+  border-radius: calc(var(--fr, 30px) + 11px); background: #050506; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.14), 0 20px 50px rgba(0,0,0,.5); }
+/* Unfold tab: sticks out of the bezel's left side, a third of the way down (like a side button) */
+#abPanel .ab-side { display: none; }
+#abPanel.phone:not(.ph) .ab-side { display: grid; place-items: center; position: absolute; z-index: 4; right: calc(50% + var(--fw, 393px) / 2 - var(--fx, 0px) + 10px); top: calc(50% - var(--fh, 852px) / 2 + var(--fh, 852px) * .22);
+  width: 22px; height: 58px; padding: 0 2px 0 0; border: 0; border-radius: 10px 0 0 10px; background: #050506; color: var(--text-muted, #999); cursor: pointer;
+  box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.14), -4px 6px 16px rgba(0,0,0,.35); transition: color .15s, width .15s, opacity .2s; }
+#abPanel .ab-side:hover { color: var(--accent, #4A8FE8); width: 26px; }
+#abPanel .ab-side svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s; }
+#abPanel .ab-side.on svg { transform: scaleX(-1); } /* unfolded: arrows point in (fold) */
+#abPanel.flip .ab-side { opacity: 0; pointer-events: none; }
+
+/* Flip (.flip, browser.js setFold): the page and the bezel hide while .ab-flip (two halves) animates; transform / opacity only */
+#abPanel.flip .ab-frame { opacity: 0 !important; transition: none !important; }
+#abPanel.flip .ab-view::before { opacity: 0; transition: none; }
+#abPanel .ab-flip { display: none; position: absolute; z-index: 3; pointer-events: none; perspective: 3200px; transform-style: preserve-3d; transform-origin: 0 0; will-change: transform, opacity;
+  left: calc(50% - var(--fw, 393px) / 2 + var(--fx, 0px) - 11px); top: calc(50% - var(--fh, 852px) / 2 - 11px); width: calc(var(--fw, 393px) + 22px); height: calc(var(--fh, 852px) + 22px); }
+#abPanel .ab-flip.on { display: block; }
+#abPanel .ab-flip i { position: absolute; top: 0; bottom: 0; width: 50%; box-sizing: border-box; background: #050506; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.14); }
+#abPanel .ab-flip i::after { content: ""; position: absolute; top: 11px; bottom: 11px; background: linear-gradient(160deg, #23262f, #101116 70%); }
+#abPanel .ab-flip .l { left: 0; transform-origin: 100% 50%; transform: rotateY(180deg); will-change: transform; /* the flap: folded over onto the right half (hinge = its right edge) */ border-radius: calc(var(--fr, 26px) + 11px) 0 0 calc(var(--fr, 26px) + 11px); }
+#abPanel .ab-flip .l::after { left: 11px; right: 0; border-radius: var(--fr, 26px) 0 0 var(--fr, 26px); }
+#abPanel .ab-flip .r { left: 50%; border-radius: 0 calc(var(--fr, 26px) + 11px) calc(var(--fr, 26px) + 11px) 0; transform: translateZ(-1px); } /* just behind the flap (preserve-3d sorts them) */
+#abPanel .ab-flip .r::after { left: 0; right: 11px; border-radius: 0 var(--fr, 26px) var(--fr, 26px) 0; border-left: 1px solid rgba(255,255,255,.06); }
+#abPanel .ab-flip .r, #abPanel .ab-flip .r::after { transition: border-radius .2s; }
+#abPanel .ab-flip.whole .r { border-radius: calc(var(--fr, 26px) + 11px); } /* closing settle: one whole phone, rounded on the hinge side too */
+#abPanel .ab-flip.whole .r::after { left: 11px; border-radius: var(--fr, 26px); }
+#abPanel .ab-flip.whole .l { opacity: 0; }
+#abPanel .ab-flip .l b { position: absolute; inset: 0; z-index: 1; border-radius: inherit; background: linear-gradient(270deg, #000, rgba(0,0,0,.5)); opacity: .7; will-change: opacity; }
+
+/* Resize handle (#abGrip, docked page view only): sits in the gap left of the browser; a pill always shows, the whole edge lights up on hover / drag */
+#abGrip { display: none; position: fixed; z-index: 56; width: 16px; cursor: col-resize; touch-action: none; }
+#abGrip.on { display: block; }
+#abGrip::before { content: ""; position: absolute; left: 7px; top: 12px; bottom: 12px; width: 2px; border-radius: 1px; background: var(--accent, #4A8FE8); opacity: 0; transition: opacity .15s; }
+#abGrip i { position: absolute; left: 5px; top: 50%; width: 6px; height: 44px; margin-top: -22px; border-radius: 3px; background: var(--text-muted, #888); opacity: .35; transition: opacity .15s, background .15s, height .15s, margin .15s; }
+#abGrip:hover::before, body.abdrag #abGrip::before { opacity: .5; }
+#abGrip:hover i, body.abdrag #abGrip i { opacity: 1; background: var(--accent, #4A8FE8); height: 60px; margin-top: -30px; }
+#abPanel.snap, #abPanel.snap * { transition: none !important; } /* page switch / reload: the panel is just there, as it was left (browser.js show restoring) */
+
+/* iPhone phone view: Safari's own chrome around the page (browser.js iosChrome), drawn at device size and shrunk with the screen (--ps).
+   Status bar (59px: time, Dynamic Island, signal / Wi-Fi / battery) tinted like Safari tints it; bottom (134px): address bar, toolbar, home indicator. */
+#abPanel .ab-ios { display: none; }
+#abPanel.phone.ios .ab-ios { display: block; position: absolute; z-index: 3; left: calc(50% - var(--fw, 393px) / 2 + var(--fx, 0px)); top: calc(50% - var(--fh, 852px) / 2);
+  width: var(--pw, 393px); height: var(--psh, 852px); transform: scale(var(--ps, 1)); transform-origin: 0 0; border-radius: calc(var(--fr, 30px) / var(--ps, 1)); overflow: hidden; pointer-events: none;
+  font: 400 17px/1 -apple-system, "SF Pro Text", var(--font-sans, system-ui), sans-serif; -webkit-font-smoothing: antialiased; }
+#abPanel.flip .ab-ios { opacity: 0; }
+#abPanel .ios-sb { position: absolute; left: 0; right: 0; top: 0; height: 59px; background: var(--iostint, #000); color: var(--iosfg, #fff); transition: background-color .25s; }
+#abPanel .ios-time { position: absolute; left: 0; width: 132px; top: 19px; text-align: center; font-weight: 600; font-size: 17px; letter-spacing: -.02em; }
+#abPanel .ios-island { position: absolute; left: 50%; top: 11px; width: 125px; height: 37px; margin-left: -62.5px; border-radius: 19px; background: #000; }
+#abPanel .ios-ind { position: absolute; right: 0; width: 132px; top: 20px; display: flex; justify-content: center; align-items: center; gap: 6px; }
+#abPanel .ios-ind svg { height: 12px; width: auto; fill: currentColor; stroke: none; }
+#abPanel .ios-ind .ios-bat { height: 13px; }
+#abPanel .ios-ind .ios-bat rect:first-child { stroke: currentColor; stroke-width: 1; }
+#abPanel .ios-tb { position: absolute; left: 0; right: 0; bottom: 0; height: 134px; box-sizing: border-box; padding: 8px 12px 0; background: rgba(28,28,30,.96); box-shadow: inset 0 .5px 0 rgba(255,255,255,.14); color: #fff; }
+#abPanel .ios-url { position: relative; height: 48px; border-radius: 14px; background: #3a3a3c; display: flex; align-items: center; justify-content: center; }
+#abPanel .ios-aa { position: absolute; left: 14px; font-weight: 600; font-size: 17px; } #abPanel .ios-aa small { font-size: 12px; }
+#abPanel .ios-host { max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; }
+#abPanel .ios-host.ph { color: rgba(235,235,245,.6); }
+#abPanel .ios-row { display: flex; justify-content: space-between; align-items: center; height: 44px; margin-top: 2px; padding: 0 8px; }
+#abPanel .ios-btn { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: none; color: #0a84ff; }
+#abPanel button.ios-btn { pointer-events: auto; cursor: pointer; }
+#abPanel button.ios-btn:disabled { color: rgba(235,235,245,.3); cursor: default; }
+#abPanel .ios-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+#abPanel .ios-url .ios-rl { position: absolute; right: 2px; color: #fff; } #abPanel .ios-url .ios-rl svg { width: 19px; height: 19px; }
+#abPanel .ios-home { position: absolute; left: 50%; bottom: 8px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: #fff; }
+@media (prefers-color-scheme: light) {
+  #abPanel .ios-tb { background: rgba(249,249,249,.96); box-shadow: inset 0 .5px 0 rgba(0,0,0,.18); color: #000; }
+  #abPanel .ios-url { background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.12); } #abPanel .ios-url .ios-rl { color: #000; }
+  #abPanel .ios-host.ph { color: rgba(60,60,67,.6); } #abPanel button.ios-btn:disabled { color: rgba(60,60,67,.3); } #abPanel .ios-home { background: #000; }
+}
+
+/* Home Screen app (.app, browser.js appMode): no Safari bars. black-translucent pages (.tl) run under a see-through status bar (white text);
+   others start below a bar tinted like the page. The home indicator floats over the page. Phone button shows the app button beside it. */
+#abPanel .ab-app { display: none; }
+#abPanel.phone.ios:not(.ph):not(.and) .ab-app { display: grid; }
+#abPanel .ab-app.on { color: var(--accent, #4A8FE8); background: color-mix(in srgb, var(--accent, #4A8FE8) 14%, transparent); }
+#abPanel .ios-home2 { display: none; }
+#abPanel.app .ios-tb { display: none; }
+#abPanel.app .ios-home2 { display: block; z-index: 2; background: var(--iosfg, #fff); opacity: .9; }
+#abPanel.app.tl .ios-sb { background: transparent; color: #fff; text-shadow: 0 0 1px rgba(0,0,0,.25); }
+
+/* Preview site button + toast */
+#abPanel .ab-prev.busy { opacity: .5; pointer-events: none; animation: abprev 1s ease-in-out infinite; }
+@keyframes abprev { 50% { transform: scale(.85); } }
+#abPanel .ab-toast { position: absolute; left: 50%; bottom: 14px; transform: translate(-50%, 8px); max-width: 80%; padding: 8px 14px; border-radius: 99px; background: rgba(20,20,30,.92); color: #fff; font: 600 12px/1.3 system-ui, sans-serif; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 5; }
+#abPanel .ab-toast.on { opacity: 1; transform: translate(-50%, 0); }
+#abPanel .ab-toast.bad { background: #8a2030; }
+@media (prefers-reduced-motion: reduce) { #abPanel .ab-prev.busy { animation: none; } #abPanel .ab-toast { transition: none; } }
