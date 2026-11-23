@@ -22,7 +22,7 @@
   const say = (t, bad) => { $('msg').textContent = t || ''; $('msg').className = bad ? 'bad' : t ? 'good' : ''; };
   const MODES = {
     signin: { title: 'Sign in', sub: 'Use your UnderGlow account.', go: 'Sign in', pass: 'current-password', links: [['signup', 'Create an account'], ['forgot', 'Forgot password?']] },
-    signup: { title: 'Create your account', sub: 'Use the same account in the UnderGlow app.', go: 'Sign up', pass: 'new-password', links: [['signin', 'Already have an account? Sign in']] },
+    signup: { title: 'Create your account', sub: 'One account for the website and the UnderGlow app.', go: 'Create my account', perks: true, pass: 'new-password', links: [['signin', 'Already have an account? Sign in']] },
     forgot: { title: 'Reset your password', sub: "We'll email you a link.", go: 'Send reset link', noPass: true, links: [['signin', 'Back to sign in']] },
     confirm: { title: 'Check your email', sub: 'Open the link we sent you to finish creating your account.', go: 'Resend email', noPass: true, links: [['signin', 'Back to sign in']] },
     recovery: { title: 'Choose a new password', sub: 'At least 10 characters.', go: 'Save password', pass: 'new-password', noEmail: true, links: [] },
@@ -30,14 +30,14 @@
   let mode = 'signin';
   function show(m) {
     mode = m; const c = MODES[m]; say('');
-    $('form').hidden = false; $('out').hidden = true; $('title').textContent = c.title; $('sub').textContent = c.sub; $('go').textContent = c.go;
+    $('form').hidden = false; $('out').hidden = true; $('perks').hidden = !c.perks; $('next').hidden = true; $('title').textContent = c.title; $('sub').textContent = c.sub; $('go').textContent = c.go;
     $('emailRow').hidden = !!c.noEmail; $('passRow').hidden = !!c.noPass; $('password').value = ''; if (c.pass) $('password').autocomplete = c.pass;
     $('links').replaceChildren(...c.links.map(([to, text]) => { const a = document.createElement('a'); a.href = '?mode=' + to; a.textContent = text; a.onclick = e => { e.preventDefault(); history.replaceState(null, '', '?mode=' + to); show(to); }; return a; }));
     (c.noEmail ? $('password') : $('email')).focus();
   }
   function signedIn(s) {
     say(''); $('form').hidden = true; $('out').hidden = false; $('links').replaceChildren();
-    $('title').textContent = "You're signed in"; $('sub').textContent = s.email || '';
+    $('perks').hidden = true; $('next').hidden = false; $('title').textContent = "You're in. Welcome!"; $('sub').textContent = s.email || '';
   }
   $('form').onsubmit = async e => {
     e.preventDefault(); const email = $('email').value.trim(), password = $('password').value, c = MODES[mode];

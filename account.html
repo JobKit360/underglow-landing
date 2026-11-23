@@ -14,16 +14,19 @@
   <a class="brand" href="index.html"><img src="logo.svg" alt="" width="34" height="34">UnderGlow</a>
   <h1 id="title">Sign in</h1>
   <p id="sub" class="dim"></p>
+  <ul class="perks" id="perks" hidden><li>Free and quick, about a minute</li><li>One account for the app and this site</li><li>We never share your email</li></ul>
   <form id="form" novalidate>
     <label id="emailRow">Email<input id="email" type="email" autocomplete="email" required></label>
     <label id="passRow">Password<input id="password" type="password" minlength="10" required></label>
-    <button class="btn" id="go" type="submit">Sign in</button>
+    <button class="btn big" id="go" type="submit">Sign in</button>
   </form>
   <p id="msg" role="status" aria-live="polite"></p>
+  <div class="next" id="next" hidden><b>Next: get the app</b><p>UnderGlow runs on your Windows computer. Install it, then sign in with this same account.</p><a class="small-link" id="download" href="https://github.com/JobKit360/underglow-releases/releases/latest">Get the app for Windows</a></div>
   <button class="btn ghost" id="out" type="button" hidden>Sign out</button>
   <p class="links" id="links"></p>
   <p class="fine">By creating an account you agree to the <a href="terms.html">Terms</a> and the <a href="privacy.html">Privacy</a> notes.</p>
 </main>
 <script src="auth.js"></script>
+<script src="download.js"></script>
 </body>
 </html>
