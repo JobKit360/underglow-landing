@@ -1,5 +1,5 @@
 // Live preview on the landing page. Each screen is the REAL UnderGlow app (website/app/, built from the app's own files by
-// website/tools/build-demo-app.mjs) playing a short made-up story: sample projects, bots and agents only. Plain JS, no libraries, no tracking.
+// website/tools/build-demo-app.mjs) playing a short made-up story: sample projects and agents only. Plain JS, no libraries, no tracking.
 // Previews load ahead of time, nearest to the screen first, a few at a time, and then stay loaded (a still skeleton shows until each is ready);
 // reduced motion shows still screens.
 (function () {
@@ -13,13 +13,13 @@
   // view = the part of the 1440 x 900 app window to show (x, y, w, h). Rows use a tighter crop for the side panels so they stay readable.
   var FULL = [0, 0, 1440, 900], SIDE = [0, 48, 640, 850];
   var SC = {
-    page: { label: 'Agents and bots', icon: I('<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>'), cap: 'A lead bot pinned to the left column, with agents joining the grid as they get jobs. Sample data.', view: FULL },
-    bot: { label: 'Bot chat', icon: I('<path d="M4 5h16v11H9l-5 4z"/>'), cap: 'Ask a bot in plain words. It starts an agent, and the agent appears on the grid. Sample data.', view: FULL },
+    page: { label: 'Agents', icon: I('<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>'), cap: 'Your lead agent pinned to the left column, with more agents joining the grid as they get jobs. Sample data.', view: FULL },
+    bot: { label: 'Agent chat', icon: I('<path d="M4 5h16v11H9l-5 4z"/>'), cap: 'Ask an agent in plain words. It starts more agents, and they appear on the grid. Sample data.', view: FULL },
     workflow: { label: 'Workflow', icon: I('<circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7 7l4 9M17 7l-4 9"/>'), cap: 'An example workflow: a change moves from the agents to a test build and on to the live site, and waits at a gate for your yes. You set up your own steps and gates.', view: FULL, rowView: SIDE },
     map: { label: 'Code map', icon: I('<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.3 11l7.4-4M8.3 13l7.4 4"/>'), cap: 'Blue dots are files an agent is reading, yellow ones are being edited. Sample project.', view: FULL, rowView: SIDE },
     workbox: { label: 'Workbox', icon: I('<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>'), cap: 'An agent’s own machine: it runs the tests, opens the page and shows you its screen. Expand it in the app for full screen.', view: FULL },
     roadmap: { label: 'Roadmap', icon: I('<path d="M5 5h14v4H5zM5 11h9v4H5zM5 17h12v2H5z"/>'), cap: 'Cards move along as the work gets done, from To do to Complete.', view: FULL, rowView: SIDE },
-    phone: { label: 'Phone', icon: I('<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>'), cap: 'The same app in your phone’s browser, on your Wi-Fi or privately over Tailscale.', view: [0, 0, 390, 844], phone: true }
+    phone: { label: 'Phone', icon: I('<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>'), cap: 'The same app in your phone’s browser, so you can check in from anywhere.', view: [0, 0, 390, 844], phone: true }
   };
 
   // Loads the frames a few at a time, nearest to the viewport first. The very first frame goes alone so the files every frame shares
@@ -135,7 +135,7 @@
 
   function init() {
     var hero = d.getElementById('heroDemo');
-    if (hero) { mount(hero, ['page', 'workflow', 'map', 'workbox', 'roadmap', 'phone'], { tabs: true, auto: true, dur: 28, title: 'UnderGlow · Storefront' }); }
+    if (hero) { mount(hero, ['page', 'workflow', 'map', 'workbox', 'roadmap', 'phone'], { tabs: true, auto: true, dur: 28, title: 'UnderGlow · Sample project' }); }
     [].forEach.call(d.querySelectorAll('[data-demo]'), function (h) { mount(h, [h.getAttribute('data-demo')], { title: h.getAttribute('data-title'), row: true }); });
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', init); else init();
