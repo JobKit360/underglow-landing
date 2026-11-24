@@ -117,7 +117,7 @@
     }
   };
 
-  /* ---------- workbox: a bot's own Linux screen ---------- */
+  /* ---------- workbox: an agent's own machine ---------- */
   S.workbox = async function () {
     await D.booted(); if (D.still) { return; }
     await sleep(600); var tog = D.until(function () { return $('.bpane .bt-ptog'); }, 6000); (await tog).click(); await sleep(700);
@@ -127,7 +127,7 @@
       resetAll(); await sleep(3000);
       await userSays('btest', chatIn, 'Run the shop tests and open the cart page.');
       D.setBot('btest', { status: 'working' }); await sleep(900);
-      await botSay('btest', 'Running all 21 tests in my Linux box, then opening the cart page so you can watch.');
+      await botSay('btest', 'Running all 21 tests on my own machine, then opening the cart page so you can watch.');
       D.setBot('btest', { status: 'idle', lastLine: 'All 21 tests passed.' });
       await sleep(4500);
       var big = $('.bpane [data-x="expand"]'); if (big && !big.hidden) { big.click(); await sleep(6500); var shut = $('.wbx-full .wbx-nb'); if (shut) shut.click(); }
