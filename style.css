@@ -213,3 +213,5 @@ input:focus { outline: none; background: rgba(255,255,255,.06); box-shadow: inse
 .top nav a { white-space: nowrap; } @media (max-width: 400px) { .top nav { gap: 10px; } .top nav .btn.small { padding: 0 13px; font-size: 13px; } .brand { font-size: 16px; } }
 .hero h1 .grad{display:block}
 .band { -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent); }
+.step.tool::before { content: none; display: none; }
+.mini .row2 .bar { flex: 1; }
