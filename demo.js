@@ -1,6 +1,7 @@
 // Live preview on the landing page. Each screen is the REAL UnderGlow app (website/app/, built from the app's own files by
 // website/tools/build-demo-app.mjs) playing a short made-up story: sample projects, bots and agents only. Plain JS, no libraries, no tracking.
-// Each preview loads only while it is on screen and is dropped when you scroll away; reduced motion shows still screens.
+// Previews load ahead of time, nearest to the screen first, a few at a time, and then stay loaded (a still skeleton shows until each is ready);
+// reduced motion shows still screens.
 (function () {
   'use strict';
   var d = document;
@@ -20,6 +21,31 @@
     roadmap: { label: 'Roadmap', icon: I('<path d="M5 5h14v4H5zM5 11h9v4H5zM5 17h12v2H5z"/>'), cap: 'Cards move along as the work gets done, from To do to Complete.', view: FULL, rowView: SIDE },
     phone: { label: 'Phone', icon: I('<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>'), cap: 'The same app in your phone’s browser, on your Wi-Fi or privately over Tailscale.', view: [0, 0, 390, 844], phone: true }
   };
+
+  // Loads the frames a few at a time, nearest to the viewport first. The very first frame goes alone so the files every frame shares
+  // (scripts, styles, fonts) are downloaded once and the others reuse them from the browser cache.
+  var Q = [], active = 0, firstDone = false, FAR = 2;
+  function dist(it) {
+    var r = it.node.getBoundingClientRect(), vh = window.innerHeight || 800;
+    return (r.bottom < 0 ? -r.bottom : r.top > vh ? r.top - vh : 0) + it.pen;
+  }
+  function pump() {
+    if (d.hidden) return;
+    while (Q.length) {
+      var max = firstDone ? 2 : 1, best = -1, bd = 1e9, i;
+      for (i = 0; i < Q.length; i++) { var dd = dist(Q[i]); if (dd < bd) { bd = dd; best = i; } }
+      var urgent = bd < (window.innerHeight || 800) * FAR; // something is close to the screen: it gets a slot even if the queue is busy
+      if (active >= max + (urgent && firstDone ? 1 : 0)) return;
+      var it = Q.splice(best, 1)[0]; active++; run(it);
+    }
+  }
+  function run(it) {
+    var done = false, fin = function () { if (done) return; done = true; active--; firstDone = true; setTimeout(pump, 200); };
+    it.start(fin); setTimeout(fin, 12000); // never block the queue for long
+  }
+  function enqueue(node, pen, start) { Q.push({ node: node, pen: pen || 0, start: start }); pump(); }
+  window.addEventListener('scroll', function () { if (Q.length) pump(); }, { passive: true });
+  d.addEventListener('visibilitychange', pump);
 
   function mount(host, keys, o) {
     o = o || {}; host.innerHTML = '';
@@ -60,15 +86,20 @@
       if (cur && SC[cur].phone) { var ph = Math.min(640, Math.max(h - 60, 520)); ph = Math.min(ph, (w - 28) * SC[cur].view[3] / SC[cur].view[2]); h = Math.max(h, ph + 60); }
       stage.style.height = Math.round(h) + 'px';
     }
-    function unload(k) { var p = P[k]; if (p && p.frame) { p.frame.src = 'about:blank'; p.frame.remove(); p.frame = null; } }
-    function loadOne(k) {
-      var p = paneFor(k); if (p.frame) return; var s = SC[k]; layout(k);
+    var queued = {};
+    // Put a scene in the loading queue (pen = how much later than its position it may be loaded). Once loaded it is kept.
+    function loadOne(k, pen) {
+      var p = paneFor(k); if (p.frame || queued[k]) return; queued[k] = 1; layout(k);
+      enqueue(host, pen, function (fin) { startFrame(k, fin); });
+    }
+    function startFrame(k, fin) {
+      var p = paneFor(k), s = SC[k]; if (p.frame) { fin(); return; } layout(k);
       var frame = el('iframe', 'ug-app'); frame.setAttribute('title', 'UnderGlow app preview: ' + s.label); frame.setAttribute('tabindex', '-1'); frame.setAttribute('aria-hidden', 'true');
       frame.style.setProperty('--vw', (s.phone ? s.view[2] : 1440) + 'px'); frame.style.setProperty('--vh', (s.phone ? s.view[3] : 900) + 'px');
-      frame.addEventListener('load', function () { setTimeout(function () { if (p.frame === frame) frame.classList.add('on'); }, 900); });
+      frame.addEventListener('load', function () { fin(); setTimeout(function () { if (p.frame === frame) frame.classList.add('on'); }, 450); });
       frame.src = 'app/index.html?scene=' + k + '&v=' + VER + (reduce ? '&still=1' : ''); p.view.appendChild(frame); p.frame = frame; fit(k);
     }
-    function load() { if (!vis || d.hidden) return; if (tabMode) { loadOne(cur); setTimeout(function () { keys.forEach(loadOne); }, 500); } else { unload(cur); loadOne(cur); } }
+    function load() { if (tabMode) { loadOne(cur, 0); keys.forEach(function (x, i) { if (x !== cur) loadOne(x, 700 + i * 300); }); } else loadOne(cur, 0); }
     function show(k) {
       if (k === cur) { load(); return; }
       var prev = cur; cur = k; cap.textContent = SC[k].cap; sizeStage();
@@ -77,7 +108,7 @@
       if (tabMode) {
         var idx = keys.indexOf(k), pi = prev ? keys.indexOf(prev) : idx;
         keys.forEach(function (x) { var p = paneFor(x); if (x === k) { p.pane.style.setProperty('--dx', (idx >= pi ? 28 : -28) + 'px'); p.pane.classList.add('act'); } else if (p.pane.classList.contains('act')) { p.pane.style.setProperty('--dx', (idx >= pi ? -28 : 28) + 'px'); p.pane.classList.remove('act'); } });
-        if (vis && !d.hidden) { loadOne(k); fit(k); }
+        loadOne(k, -100000); fit(k); pump();
         return;
       }
       load();
@@ -88,11 +119,11 @@
       b.addEventListener('click', function () { locked = true; show(k); }); b.addEventListener('animationend', function () { if (!locked) next(); });
     });
     if ('ResizeObserver' in window) new ResizeObserver(function () { sizeStage(); fit(); }).observe(stage); else window.addEventListener('resize', function () { fit(); });
-    function sync() { ug.classList.toggle('paused', !vis || d.hidden); if (tabMode) { if (vis && !d.hidden) load(); return; } if (vis && !d.hidden) { if (!P[cur] || !P[cur].frame) load(); } else unload(cur); }
+    function sync() { ug.classList.toggle('paused', !vis || d.hidden); }
     if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { vis = es[0].isIntersecting; sync(); }, { threshold: .15 }).observe(ug);
     d.addEventListener('visibilitychange', sync);
     ug.addEventListener('pointerenter', function () { ug.classList.add('paused'); }); ug.addEventListener('pointerleave', function () { ug.classList.toggle('paused', !vis); });
-    show(keys[0]);
+    show(keys[0]); keys.forEach(function (k) { layout(k); }); load(); // the skeleton shows at once, the live scene follows
     return ug;
   }
 

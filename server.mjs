@@ -7,10 +7,14 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.txt': 'text/plain; charset=utf-8', '.woff2': 'font/woff2', '.json': 'application/json; charset=utf-8', '.webp': 'image/webp' };
+// small in-memory cache of gzipped files, so repeat requests cost no CPU
+const GZ = new Map();
+const COMPRESSIBLE = new Set(['.html', '.css', '.js', '.svg', '.json', '.txt']);
 const sha = (s) => crypto.createHash('sha256').update(String(s)).digest();
 
 function authorized(req) {
@@ -48,8 +52,23 @@ http.createServer((req, res) => {
     res.writeHead(404, { ...base, 'Content-Type': 'text/plain; charset=utf-8' });
     return res.end('Not found');
   }
+  const st = fs.statSync(file);
+  const cached = open && !process.env.NO_CACHE;
+  const headers = { ...base, 'Content-Type': TYPES[ext], Vary: 'Accept-Encoding' };
+  if (cached) {
+    // the demo app and fonts rarely change and are loaded by many frames: let the browser keep them for an hour (and reuse them while it refreshes)
+    if (inApp || ext === '.woff2') headers['Cache-Control'] = 'public, max-age=3600, stale-while-revalidate=86400';
+    headers.ETag = '"' + st.size.toString(36) + '-' + Math.round(st.mtimeMs).toString(36) + '"';
+    if (req.headers['if-none-match'] === headers.ETag) { res.writeHead(304, headers); return res.end(); }
+  }
   let body = fs.readFileSync(file);
   if (ext === '.html' && !open) body = Buffer.from(body.toString('utf8').replace('<head>', '<head>\n<meta name="robots" content="noindex, nofollow">'));
-  res.writeHead(200, { ...base, 'Content-Type': TYPES[ext] });
+  if (COMPRESSIBLE.has(ext) && /\bgzip\b/.test(req.headers['accept-encoding'] || '') && body.length > 800) {
+    const key = file + ':' + st.mtimeMs + ':' + open;
+    let gz = GZ.get(key); if (!gz) { gz = zlib.gzipSync(body, { level: 6 }); if (GZ.size > 400) GZ.clear(); GZ.set(key, gz); }
+    body = gz; headers['Content-Encoding'] = 'gzip';
+  }
+  headers['Content-Length'] = body.length;
+  res.writeHead(200, headers);
   res.end(req.method === 'HEAD' ? undefined : body);
 }).listen(Number(process.env.PORT) || 10000, '0.0.0.0');
