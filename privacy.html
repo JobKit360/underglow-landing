@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co https://api.github.com; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'self'">
 <title>Privacy · UnderGlow</title>
 <meta name="description" content="How UnderGlow handles your account details and your projects.">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
@@ -11,7 +11,7 @@
 <script src="site.js"></script>
 </head>
 <body>
-<header class="top"><a class="brand" href="index.html"><img src="logo.svg" alt="" width="34" height="34">UnderGlow</a><nav aria-label="Main"><a href="account.html?mode=signin">Sign in</a><a class="btn small" href="account.html?mode=signup">Create your account</a></nav></header>
+<header class="top"><a class="brand" href="index.html"><img src="logo.svg" alt="" width="34" height="34">UnderGlow</a><nav aria-label="Main"><span class="btn small" aria-disabled="true">Coming soon</span></nav></header>
 <main class="wrap doc">
   <h1>Privacy</h1>
   <p class="meta">Draft for the early beta. Last updated 23 November 2026.</p>
@@ -22,7 +22,7 @@
 
   <h2>What we keep about you</h2>
   <ul>
-    <li><strong>Account:</strong> your email address and a securely stored (hashed) password, kept by our sign-in provider, Supabase.</li>
+    <li><strong>Account:</strong> your email address and a securely stored (hashed) password, kept by our sign-in provider.</li>
     <li><strong>Plan status:</strong> which plan or access your account has, so the app knows what to unlock.</li>
     <li><strong>Payments:</strong> if paid plans are offered, payment is handled by Stripe. We do not see or store your full card number.</li>
     <li><strong>Emails:</strong> we send sign-in and account emails (such as confirming your address or resetting a password) through an email provider.</li>
@@ -31,15 +31,14 @@
   <h2>Services the app and this website talk to</h2>
   <table>
     <tr><th>Service</th><th>Why</th></tr>
-    <tr><td>Supabase</td><td>Sign-in and account records, from this website and the app</td></tr>
-    <tr><td>GitHub</td><td>Checking for the latest version and downloading the installer and updates</td></tr>
+    <tr><td>Sign-in provider</td><td>Sign-in and account records, from the app</td></tr>
     <tr><td>Anthropic (Claude)</td><td>Your agents run through Claude Code on your own Claude account. What an agent reads from your project to do its job is sent to that service under their terms and privacy policy, not ours</td></tr>
     <tr><td>Stripe</td><td>Payments, if you buy a plan</td></tr>
     <tr><td>Tailscale (optional)</td><td>Only if you choose it to connect your own devices privately. UnderGlow does not set it up for you without asking</td></tr>
   </table>
 
   <h2>This website</h2>
-  <p>This website has no advertising and no analytics or tracking scripts, and sets no cookies. When you sign in on the account page, a sign-in token is stored in your browser's local storage so you stay signed in; "Sign out" removes it. Our host may keep ordinary server logs (such as IP address and page requested) for security and reliability.</p>
+  <p>This website has no advertising and no analytics or tracking scripts, and sets no cookies. Our host may keep ordinary server logs (such as IP address and page requested) for security and reliability.</p>
 
   <h2>Using UnderGlow from another computer or phone</h2>
   <p>When you open your PC from another device, the connection goes straight between your devices, over your local network or Tailscale. Use a secure link where the app offers one. Plain http over shared Wi-Fi is not encrypted, so avoid it on networks you do not trust.</p>

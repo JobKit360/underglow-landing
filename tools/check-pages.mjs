@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 
 const base = (process.argv[2] || 'http://127.0.0.1:8475').replace(/\/$/, '');
-const pages = ['index.html', 'account.html?mode=signup', 'account.html?mode=signin', 'terms.html', 'privacy.html', 'credits.html'];
+const pages = ['index.html', 'terms.html', 'privacy.html', 'credits.html'];
 const CHROME = ['C:/Program Files/Google/Chrome/Application/chrome.exe', '/usr/bin/google-chrome', '/usr/bin/chromium'].find((p) => fs.existsSync(p));
 const port = 9300 + Math.floor(Math.random() * 500), dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ugc-'));
 const proc = spawn(CHROME, ['--headless=new', '--disable-gpu', `--remote-debugging-port=${port}`, `--user-data-dir=${dir}`, 'about:blank'], { stdio: 'ignore' });

@@ -6,7 +6,7 @@ Served by `server.mjs` (Render web service, free plan). Locked until launch.
 - Launch: set `LANDING_PUBLIC=1` (removes the gate and noindex). Then consider a paid plan (free plan sleeps after 15 min idle; first visit takes ~30 s).
 - `locked/` is the placeholder published by the old static site `underglow-landing` so its onrender.com URL stays closed.
 
-Pages: `index.html` (home), `terms.html`, `privacy.html`, `credits.html` (third-party credits), `account.html` (sign in/up). `site.js` = scroll animations (respects reduced motion, no tracking). The server also serves `/terms` etc. without `.html`.
+Pages: `index.html` (home), `terms.html`, `privacy.html`, `credits.html` (third-party credits). `site.js` = scroll animations (respects reduced motion, no tracking). The server also serves `/terms` etc. without `.html`.
 Legal pages are plain-language drafts: have a lawyer review them and add real contact details before launch.
 Preview inside UnderGlow: use the built-in Preview site (serves the `website/` folder of the agent's own folder; a branch worktree is not served, see docs notes).
 

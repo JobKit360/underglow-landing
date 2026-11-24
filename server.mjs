@@ -39,6 +39,8 @@ http.createServer((req, res) => {
   let p;
   try { p = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch { res.writeHead(400, base); return res.end(); }
   if (p === '/app') p = '/app/';
+  // showcase mode: no sign-up/sign-in page and no download is served
+  if (/^\/(?:account|auth|download)(?:\.(?:html|js))?\/?$/i.test(p)) { res.writeHead(404, { ...base, 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('Not found'); }
   if (p.endsWith('/')) p += 'index.html';
   // only the site's own top-level files with an allowed extension; never server code, package files or locked/
   let name = p.replace(/^\/+/, '');
