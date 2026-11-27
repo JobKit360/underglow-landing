@@ -14,7 +14,7 @@
     const btn = f.querySelector('button'); btn.disabled = true; msg.textContent = 'Saving...';
     try {
       const r = await fetch(URL_, { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-        body: JSON.stringify({ email, would_pay: d.get('would_pay') || null, tool: (d.get('tool') || '').trim() || null, source }) });
+        body: JSON.stringify({ email, would_pay: d.get('would_pay') || null, tool: (d.get('tool') || '').trim() || null, source, note: d.get('deposit_intent') === '1' ? 'deposit: yes' : null }) });
       if (r.ok || r.status === 409) { f.innerHTML = '<p style="text-align:center;font-size:1.2em">You are on the list. We will email you when your spot opens.</p>'; }
       else { msg.textContent = 'Something went wrong. Please try again.'; btn.disabled = false; }
     } catch { msg.textContent = 'Network problem. Please try again.'; btn.disabled = false; }

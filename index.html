@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co; base-uri 'none'; form-action 'self'">
-<title>UnderGlow: run many AI coding agents at once, in control, on Windows</title>
+<title>UnderGlow: AI coding agents that keep working when your laptop is closed</title>
 <meta name="description" content="Stop juggling terminals. UnderGlow shows every AI coding agent on one screen, so you can run many at once, set up your own workflow, and stay in control. Built for Windows.">
 <meta name="theme-color" content="#07070f">
 <meta property="og:title" content="UnderGlow: stop juggling terminals. See every agent at once.">
@@ -27,9 +27,9 @@
 <main id="main">
   <div class="hero-bg" aria-hidden="true"><i class="glow a" data-speed=".12"></i><i class="glow b" data-speed=".2"></i><i class="glow c" data-speed=".08"></i></div>
   <div class="wrap hero">
-    <span class="tag"><i></i>Built for Windows. Works with the AI agents you already use.</span>
-    <h1>Stop juggling terminals. <span class="grad">See every agent at once.</span></h1>
-    <p class="lead">Run as many AI coding agents as you want, side by side, and stay in control of what they do. Works with Claude Code, Codex and other agents you already use.</p>
+    <span class="tag"><i></i>Windows, Mac and Linux. Works with the AI agents you already use.</span>
+    <h1>Your agents keep working when your laptop is closed. <span class="grad">Approve from your phone.</span></h1>
+    <p class="lead">Run Claude Code, Codex and other agents side by side on managed cloud computers we set up for you. No terminal, no server to build. You log in with your own AI account; we charge for the computers, not the tokens. Windows, Mac and Linux.</p>
     <div class="cta"><a class="btn big" href="#waitlist">Join the waitlist</a><a class="btn big ghost" href="#demo">See it in action</a></div>
     <p class="note">Early access is opening soon. Waitlist members get in first.</p>
     <ul class="proof"><li>Every agent gets its own machine</li><li>Add a gate wherever you want one</li><li><span class="win"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zM11.5 4.3L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>Built for Windows</span></li></ul>
@@ -91,13 +91,22 @@
 
   <section id="pricing" class="wrap center-t">
     <p class="eyebrow reveal">Pricing</p>
-    <h2 class="big reveal">One simple plan, everything included</h2>
-    <p class="sub reveal">UnderGlow is $24.99 a month or $250 a year. You also need your own AI plan, such as Claude, for the agents themselves.</p>
-    <div class="price">
-      <div class="plan reveal"><h3>Monthly</h3><div class="p">$24.99 <small>/ month</small></div><p>Flexible. Cancel whenever you like.</p><ul><li>Every feature included</li><li>Updates as we improve it</li></ul><a class="btn ghost" href="#waitlist">Join the waitlist</a></div>
-      <div class="plan hot reveal"><span class="badge">Best value</span><h3>Yearly</h3><div class="p">$250 <small>/ year</small></div><p>That is two months free compared to monthly.</p><ul><li>Every feature included</li><li>Updates as we improve it</li></ul><a class="btn" href="#waitlist">Join the waitlist</a></div>
+    <h2 class="big reveal">Free on your computer. Pay only for the cloud.</h2>
+    <p class="sub reveal">You bring your own Claude or ChatGPT login. We charge for the hosted computers and phone access, never for tokens.</p>
+    <div class="price three">
+      <div class="plan reveal"><h3>Local</h3><div class="p">Free</div><p>Run agents on your own PC.</p><ul><li>Many agents on one screen</li><li>Your own gates and board</li></ul><a class="btn ghost" href="#waitlist">Join the waitlist</a></div>
+      <div class="plan hot reveal"><span class="badge">Most popular</span><h3>Connected</h3><div class="p">$29 <small>/ month</small></div><p>Cloud computers plus your phone.</p><ul><li>Agents keep working with your laptop closed</li><li>Approve and steer from your phone</li><li>Computers set up for you</li></ul><a class="btn" href="#waitlist">Reserve my spot</a></div>
+      <div class="plan reveal"><h3>Pro</h3><div class="p">$59 <small>/ month</small></div><p>More hours for heavy use.</p><ul><li>Everything in Connected</li><li>Roughly double the cloud hours</li><li>Early say on new features</li></ul><a class="btn ghost" href="#waitlist">Reserve my spot</a></div>
     </div>
-    <p class="fineprint reveal">Plans are not open yet. Pricing shown is the planned launch price, and waitlist members hear first.</p>
+    <p class="fineprint reveal">Launch prices are planned and may change. Nothing is charged today. Reserving a spot is a refundable deposit you can cancel any time.</p>
+  </section>
+
+  <section class="wrap">
+    <p class="eyebrow reveal">Who it is for</p>
+    <div class="facts reveal">
+      <div><h3>For you if</h3><ul><li>You use Claude Code or Codex and want more than one agent working</li><li>You want it set up for you, with no terminal or server to build</li><li>You want to check in and approve from your phone</li></ul></div>
+      <div><h3>Not for you if</h3><ul><li>You love living in tmux and a VPS you built yourself</li><li>You only ever run one agent for a few minutes</li></ul></div>
+    </div>
   </section>
 
   <section class="wrap">
@@ -116,14 +125,15 @@
       <form id="wl" class="wl" novalidate>
         <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email">
         <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <fieldset><legend>What would you happily pay each month for this?</legend>
+        <fieldset><legend>What would you pay each month for cloud computers plus phone control?</legend>
           <label><input type="radio" name="would_pay" value="under15">Under $15</label>
           <label><input type="radio" name="would_pay" value="15-25">$15 to $25</label>
           <label><input type="radio" name="would_pay" value="25-50">$25 to $50</label>
           <label><input type="radio" name="would_pay" value="50-100">$50 to $100</label>
           <label><input type="radio" name="would_pay" value="not_sure">Not sure yet</label>
         </fieldset>
-        <input type="text" name="tool" maxlength="200" placeholder="Which AI coding tools do you use today? (optional)" aria-label="Tools you use">
+        <input type="text" name="tool" maxlength="200" placeholder="What would you switch from? (tmux, a VPS, Conductor...) (optional)" aria-label="Tools you use">
+        <label><input type="checkbox" name="deposit_intent" value="1">I would put down a small refundable deposit to reserve my spot</label>
         <button class="btn big" type="submit">Join the waitlist</button>
         <p id="wlmsg" role="status" aria-live="polite"></p>
       </form>

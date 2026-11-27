@@ -6,3 +6,4 @@
 .wl .hp{position:absolute;left:-9999px;height:0;opacity:0}
 .wl button{justify-self:stretch;cursor:pointer}
 #wlmsg{min-height:1.4em;text-align:center;margin:0}
+.price.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:980px;margin:28px auto 0}
