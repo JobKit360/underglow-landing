@@ -1,0 +1,8 @@
+.wl{max-width:520px;margin:24px auto 0;display:grid;gap:14px;text-align:left}
+.wl input[type=email],.wl input[type=text]{width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:inherit;font:inherit}
+.wl fieldset{border:0;padding:0;margin:0;display:grid;gap:8px}
+.wl legend{margin-bottom:6px;font-weight:600}
+.wl label{display:flex;gap:10px;align-items:center;cursor:pointer}
+.wl .hp{position:absolute;left:-9999px;height:0;opacity:0}
+.wl button{justify-self:stretch;cursor:pointer}
+#wlmsg{min-height:1.4em;text-align:center;margin:0}

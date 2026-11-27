@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co; base-uri 'none'; form-action 'self'">
 <title>UnderGlow: run many AI coding agents at once, in control, on Windows</title>
 <meta name="description" content="Stop juggling terminals. UnderGlow shows every AI coding agent on one screen, so you can run many at once, set up your own workflow, and stay in control. Built for Windows.">
 <meta name="theme-color" content="#07070f">
@@ -13,6 +13,7 @@
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="demo.css">
+<link rel="stylesheet" href="waitlist.css">
 <link rel="preload" href="app/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="app/fonts/symbols.woff2" as="font" type="font/woff2" crossorigin>
 <script src="site.js"></script>
@@ -21,7 +22,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <a class="brand" href="index.html"><img src="logo.svg" alt="" width="34" height="34">UnderGlow</a>
-  <nav aria-label="Main"><a class="hide-s" href="#features">Features</a><a class="hide-s" href="#how">Your workflow</a><a class="hide-s" href="#pricing">Pricing</a><span class="btn small" aria-disabled="true">Coming soon</span></nav>
+  <nav aria-label="Main"><a class="hide-s" href="#features">Features</a><a class="hide-s" href="#how">Your workflow</a><a class="hide-s" href="#pricing">Pricing</a><a class="btn small" href="#waitlist">Join the waitlist</a></nav>
 </header>
 <main id="main">
   <div class="hero-bg" aria-hidden="true"><i class="glow a" data-speed=".12"></i><i class="glow b" data-speed=".2"></i><i class="glow c" data-speed=".08"></i></div>
@@ -29,8 +30,8 @@
     <span class="tag"><i></i>Built for Windows. Works with the AI agents you already use.</span>
     <h1>Stop juggling terminals. <span class="grad">See every agent at once.</span></h1>
     <p class="lead">Run as many AI coding agents as you want, side by side, and stay in control of what they do. Works with Claude Code, Codex and other agents you already use.</p>
-    <div class="cta"><span class="btn big" aria-disabled="true">Coming soon</span><a class="btn big ghost" href="#demo">See it in action</a></div>
-    <p class="note">Coming soon.</p>
+    <div class="cta"><a class="btn big" href="#waitlist">Join the waitlist</a><a class="btn big ghost" href="#demo">See it in action</a></div>
+    <p class="note">Early access is opening soon. Waitlist members get in first.</p>
     <ul class="proof"><li>Every agent gets its own machine</li><li>Add a gate wherever you want one</li><li><span class="win"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zM11.5 4.3L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>Built for Windows</span></li></ul>
 
     <div class="shotwrap" id="demo"><div id="heroDemo"></div></div>
@@ -84,7 +85,7 @@
       <div class="step tool reveal"><h3>Your own steps and gates</h3><p>Set up the steps your work goes through. Add a gate that waits for your yes wherever you want one, or leave it out.</p><div class="mini" aria-hidden="true"><div class="row2"><span class="ok">✓</span> Test version passed</div><div class="gate"><b>Your gate: waits for you</b><span>✓</span></div></div></div>
       <div class="step tool reveal"><h3>Your own board</h3><p>Keep your work on a board you organise yourself. Agents add tasks and move them along, and so can you.</p><div class="mini" aria-hidden="true"><div class="row2">To do <div class="bar"><i></i></div></div><div class="row2">In progress <div class="bar"><i></i></div></div><div class="row2">Complete <div class="bar"><i></i></div></div></div></div>
     </div>
-    <div class="cta reveal mt"><span class="btn big" aria-disabled="true">Coming soon</span></div>
+    <div class="cta reveal mt"><a class="btn big" href="#waitlist">Join the waitlist</a></div>
   </section>
   </div>
 
@@ -93,10 +94,10 @@
     <h2 class="big reveal">One simple plan, everything included</h2>
     <p class="sub reveal">UnderGlow is $24.99 a month or $250 a year. You also need your own AI plan, such as Claude, for the agents themselves.</p>
     <div class="price">
-      <div class="plan reveal"><h3>Monthly</h3><div class="p">$24.99 <small>/ month</small></div><p>Flexible. Cancel whenever you like.</p><ul><li>Every feature included</li><li>Updates as we improve it</li></ul><span class="btn ghost" aria-disabled="true">Coming soon</span></div>
-      <div class="plan hot reveal"><span class="badge">Best value</span><h3>Yearly</h3><div class="p">$250 <small>/ year</small></div><p>That is two months free compared to monthly.</p><ul><li>Every feature included</li><li>Updates as we improve it</li></ul><span class="btn" aria-disabled="true">Coming soon</span></div>
+      <div class="plan reveal"><h3>Monthly</h3><div class="p">$24.99 <small>/ month</small></div><p>Flexible. Cancel whenever you like.</p><ul><li>Every feature included</li><li>Updates as we improve it</li></ul><a class="btn ghost" href="#waitlist">Join the waitlist</a></div>
+      <div class="plan hot reveal"><span class="badge">Best value</span><h3>Yearly</h3><div class="p">$250 <small>/ year</small></div><p>That is two months free compared to monthly.</p><ul><li>Every feature included</li><li>Updates as we improve it</li></ul><a class="btn" href="#waitlist">Join the waitlist</a></div>
     </div>
-    <p class="fineprint reveal">Plans are not open yet. Pricing shown is the planned launch price.</p>
+    <p class="fineprint reveal">Plans are not open yet. Pricing shown is the planned launch price, and waitlist members hear first.</p>
   </section>
 
   <section class="wrap">
@@ -108,18 +109,33 @@
     </div>
   </section>
 
-  <section class="wrap">
+  <section class="wrap" id="waitlist">
     <div class="final reveal">
-      <h2>Ready to see every agent at once?</h2>
-      <p>UnderGlow is coming soon. Put your first agents to work the day it opens.</p>
-      <div class="cta"><span class="btn big" aria-disabled="true">Coming soon</span></div>
+      <h2>Get early access</h2>
+      <p>Join the waitlist. No spam: one email when your spot opens.</p>
+      <form id="wl" class="wl" novalidate>
+        <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email">
+        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <fieldset><legend>What would you happily pay each month for this?</legend>
+          <label><input type="radio" name="would_pay" value="under15">Under $15</label>
+          <label><input type="radio" name="would_pay" value="15-25">$15 to $25</label>
+          <label><input type="radio" name="would_pay" value="25-50">$25 to $50</label>
+          <label><input type="radio" name="would_pay" value="50-100">$50 to $100</label>
+          <label><input type="radio" name="would_pay" value="not_sure">Not sure yet</label>
+        </fieldset>
+        <input type="text" name="tool" maxlength="200" placeholder="Which AI coding tools do you use today? (optional)" aria-label="Tools you use">
+        <button class="btn big" type="submit">Join the waitlist</button>
+        <p id="wlmsg" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </section>
+
 </main>
 <footer>
   <nav aria-label="Footer"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="credits.html">Credits and licences</a></nav>
   <div>© <span id="year">2026</span> UnderGlow. Product and company names mentioned belong to their owners.</div>
 </footer>
 <script src="demo.js"></script>
+<script src="waitlist.js"></script>
 </body>
 </html>
