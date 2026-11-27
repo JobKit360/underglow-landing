@@ -27,15 +27,15 @@
 <main id="main">
   <div class="hero-bg" aria-hidden="true"><i class="glow a" data-speed=".12"></i><i class="glow b" data-speed=".2"></i><i class="glow c" data-speed=".08"></i></div>
   <div class="wrap hero">
-    <span class="tag"><i></i>Starts on Windows, with Mac and Linux to follow. Works with the AI agents you already use.</span>
+    <span class="tag"><i></i>In development: join the waitlist for early access. Windows, Mac and Linux.</span>
     <h1>Your agents keep working when your laptop is closed. <span class="grad">Approve from your phone.</span></h1>
-    <p class="lead">Run Claude Code, Codex and other agents side by side on managed cloud computers we set up for you. No terminal, no server to build. You log in with your own AI account; we charge for the computers, not the tokens.</p>
+    <p class="lead">We are building UnderGlow: run Claude Code, Codex and other agents side by side on cloud computers we set up for you, linked to your own devices with Tailscale built in. No terminal, no server to build. You log in with your own AI account; we charge for the computers, not the tokens.</p>
     <form class="wl wl-hero" data-wl novalidate>
       <div class="wl-row"><input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email"><input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn big" type="submit">Get early access</button></div>
       <p class="wlmsg" role="status" aria-live="polite">Free to join. One email when your spot opens. No spam.</p>
     </form>
     <p class="note"><a href="#demo">See it in action</a></p>
-    <ul class="proof"><li>Works with any model</li><li>Set up for you, no server to build</li><li>Approve from your phone</li><li><span class="win"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zM11.5 4.3L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>Built for Windows</span></li></ul>
+    <ul class="proof"><li>Works with any model</li><li>Tailscale built in</li><li>Approve from your phone</li><li><span class="win"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zM11.5 4.3L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>Built for Windows</span></li></ul>
 
     <div class="shotwrap" id="demo"><div id="heroDemo"></div></div>
   </div>
@@ -46,7 +46,7 @@
     <p class="sub reveal">You can run several agents today with tmux, worktrees and a rented server. Then it is your job to keep it all alive.</p>
     <div class="facts reveal">
       <div><h3>Doing it yourself</h3><ul><li>Rent and secure a server, set up remote access</li><li>Keep terminals and sessions alive, hunt for who is stuck</li><li>Agents trip over each other's files and ports</li><li>Tied to your desk to approve anything</li></ul></div>
-      <div><h3>With UnderGlow</h3><ul><li>Every agent gets its own cloud computer, ready to go</li><li>One screen shows every agent and what it is doing</li><li>A code map shows what each one changed</li><li>Your phone gets the question, you tap approve</li></ul></div>
+      <div><h3>With UnderGlow (what we are building)</h3><ul><li>Every agent gets its own cloud computer, ready to go</li><li>One screen shows every agent and what it is doing</li><li>A code map shows what each one changed</li><li>Your phone gets the question, you tap approve</li></ul></div>
     </div>
   </section>
 
@@ -63,7 +63,7 @@
   <section id="features" class="wrap">
     <p class="eyebrow reveal">What you will get</p>
     <h2 class="big reveal">Hand off the work. <span class="grad">Stay in control.</span></h2>
-    <p class="sub reveal">This is the product we are building. The screens below are the real app running on sample data. Join the waitlist to get in first.</p>
+    <p class="sub reveal">This is what we are building. The screens below are the real app on sample data; the cloud and phone parts are in development. Join the waitlist to get in first.</p>
     <div class="rows">
       <div class="row reveal"><div class="copy"><h3>Close your laptop. The work keeps going</h3><p>Every agent runs on its own cloud computer that we set up for you, and it works with any model, not just one. Start a job, shut the lid, and come back to finished work. No server to build, no terminal to learn.</p><ul><li>Its own computer for every agent</li><li>Runs code, opens a browser, tests your app</li><li>Watch its screen any time</li></ul></div><div data-demo="workbox" data-title="UnderGlow · Cloud computer"></div></div>
       <div class="row reveal"><div class="copy"><h3>Approve from your phone</h3><p>Your agent hits a question or a change that needs your yes. You get it on your phone, tap approve, and it carries on. Nothing to install: it opens in your phone browser.</p><ul><li>Answer agents from anywhere</li><li>Approve or hold back with one tap</li><li>Same account, same projects</li></ul></div><div data-demo="phone" data-title="UnderGlow · On your phone"></div></div>
@@ -102,16 +102,26 @@
   </section>
   </div>
 
+  <section class="wrap" id="tailscale">
+    <p class="eyebrow reveal">Secure by design</p>
+    <h2 class="big reveal">Tailscale, <span class="grad">built in.</span></h2>
+    <p class="sub reveal">UnderGlow is built with Tailscale, so your laptop, your phone and your agents' cloud computers link up over a private encrypted network. No ports to open, no VPN to set up, no server to harden.</p>
+    <div class="facts reveal">
+      <div><h3>Private by default</h3><ul><li>Your agents' computers are never open to the public internet</li><li>Only your own devices can reach them</li></ul></div>
+      <div><h3>Nothing to configure</h3><ul><li>Sign in once and your devices find each other</li><li>Works across Windows, Mac and Linux</li></ul></div>
+    </div>
+  </section>
+
   <section id="pricing" class="wrap center-t">
     <p class="eyebrow reveal">Pricing</p>
     <h2 class="big reveal">Free on your computer. Pay only for the cloud.</h2>
     <p class="sub reveal">You bring your own Claude or ChatGPT login. We charge for the hosted computers and phone access, never for tokens.</p>
     <div class="price two">
       <div class="plan reveal"><h3>Local</h3><div class="p">Free</div><p>Run agents on your own PC.</p><ul><li>Many agents on one screen</li><li>Your own gates and board</li></ul><a class="btn ghost" href="#waitlist">Join the waitlist</a></div>
-      <div class="plan hot reveal"><h3>Connected</h3><div class="p">$39 <small>/ month</small></div><p>Cloud computers plus your phone.</p><ul><li>Agents keep working with your laptop closed</li><li>Approve and steer from your phone</li><li>Computers set up for you</li></ul><a class="btn" href="#waitlist">Join the waitlist</a></div>
+      <div class="plan hot reveal"><h3>Connected</h3><div class="p">$39 <small>/ month</small></div><p>Cloud computers plus your phone.</p><ul><li>Agents keep working with your laptop closed</li><li>Approve and steer from your phone</li><li>Computers set up for you</li><li>Tailscale private networking built in</li></ul><a class="btn" href="#waitlist">Join the waitlist</a></div>
 
     </div>
-    <p class="fineprint reveal">Launch prices are planned and may change. Nothing is charged today. Join the waitlist to hear first.</p>
+    <p class="fineprint reveal">Planned prices, subject to change. Nothing is for sale or charged today. Join the waitlist to hear first.</p>
   </section>
 
   <section class="wrap">
@@ -126,8 +136,8 @@
     <p class="eyebrow reveal">Good to know</p>
     <h2 class="big reveal">Honest answers, up front</h2>
     <div class="facts reveal">
-      <div><h3>What you need</h3><ul><li>The UnderGlow app, built for Windows today</li><li>Your own AI plan for the agents, such as Claude</li><li>An internet connection, so agents can reach their machines</li><li>You choose which projects your agents work on</li></ul></div>
-      <div><h3>We are in early beta</h3><ul><li>New things arrive often and screens still change</li><li>Agents can make mistakes, so set up the checks you want before anything goes live</li><li>Phone use is a web view of the app, not a separate app</li></ul></div>
+      <div><h3>What you need</h3><ul><li>The UnderGlow app for Windows, Mac or Linux</li><li>Your own AI plan for the agents, such as Claude</li><li>An internet connection, so agents can reach their machines</li><li>You choose which projects your agents work on</li></ul></div>
+      <div><h3>We are early</h3><ul><li>The cloud computers and phone approvals are still being built, so dates are not set</li><li>Screens still change</li><li>Agents can make mistakes, so set up the checks you want before anything goes live</li><li>Phone use is a web view of the app, not a separate app</li></ul></div>
     </div>
   </section>
 
@@ -137,7 +147,7 @@
     <div class="facts reveal">
       <div><h3>Do I need my own AI account?</h3><ul><li>Yes. You log in with your own Claude, ChatGPT or other account. We charge for the computers, not the tokens.</li></ul></div>
       <div><h3>Why pay when this is free to DIY?</h3><ul><li>You are paying for the setup and upkeep: machines ready in a click, phone approvals, and one screen to watch it all.</li></ul></div>
-      <div><h3>When does it open?</h3><ul><li>Early access is rolling out. Waitlist members get in first, in the order they joined.</li></ul></div>
+      <div><h3>When does it open?</h3><ul><li>We are building it now. Waitlist members get early access first, in the order they joined, and your answers help us decide what to build first.</li></ul></div>
       <div><h3>What does it cost?</h3><ul><li>Running on your own PC is free. Cloud computers plus phone access are planned at $39 a month.</li></ul></div>
     </div>
   </section>
