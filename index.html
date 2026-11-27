@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co; base-uri 'none'; form-action 'self'">
 <title>UnderGlow: AI coding agents that keep working when your laptop is closed</title>
-<meta name="description" content="Stop juggling terminals. UnderGlow shows every AI coding agent on one screen, so you can run many at once, set up your own workflow, and stay in control. Built for Windows.">
+<meta name="description" content="Cloud computers for your AI coding agents, set up for you. They keep working with your laptop closed, and you approve from your phone. Works with any model. Join the waitlist.">
 <meta name="theme-color" content="#07070f">
 <meta property="og:title" content="UnderGlow: stop juggling terminals. See every agent at once.">
-<meta property="og:description" content="Run many AI coding agents side by side, build your own workflow, and stay in control. Built for Windows.">
+<meta property="og:description" content="Cloud computers for your AI coding agents, set up for you. Approve from your phone.">
 <meta property="og:type" content="website">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
@@ -30,19 +30,32 @@
     <span class="tag"><i></i>Starts on Windows, with Mac and Linux to follow. Works with the AI agents you already use.</span>
     <h1>Your agents keep working when your laptop is closed. <span class="grad">Approve from your phone.</span></h1>
     <p class="lead">Run Claude Code, Codex and other agents side by side on managed cloud computers we set up for you. No terminal, no server to build. You log in with your own AI account; we charge for the computers, not the tokens.</p>
-    <div class="cta"><a class="btn big" href="#waitlist">Join the waitlist</a><a class="btn big ghost" href="#demo">See it in action</a></div>
-    <p class="note">Early access is opening soon. Waitlist members get in first.</p>
-    <ul class="proof"><li>Every agent gets its own machine</li><li>Add a gate wherever you want one</li><li><span class="win"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zM11.5 4.3L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>Built for Windows</span></li></ul>
+    <form class="wl wl-hero" data-wl novalidate>
+      <div class="wl-row"><input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email"><input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn big" type="submit">Get early access</button></div>
+      <p class="wlmsg" role="status" aria-live="polite">Free to join. One email when your spot opens. No spam.</p>
+    </form>
+    <p class="note"><a href="#demo">See it in action</a></p>
+    <ul class="proof"><li>Works with any model</li><li>Set up for you, no server to build</li><li>Approve from your phone</li><li><span class="win"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zM11.5 4.3L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>Built for Windows</span></li></ul>
 
     <div class="shotwrap" id="demo"><div id="heroDemo"></div></div>
   </div>
+
+  <section class="wrap" id="why">
+    <p class="eyebrow reveal">Why UnderGlow</p>
+    <h2 class="big reveal">Running agents is free. <span class="grad">Babysitting them is not.</span></h2>
+    <p class="sub reveal">You can run several agents today with tmux, worktrees and a rented server. Then it is your job to keep it all alive.</p>
+    <div class="facts reveal">
+      <div><h3>Doing it yourself</h3><ul><li>Rent and secure a server, set up remote access</li><li>Keep terminals and sessions alive, hunt for who is stuck</li><li>Agents trip over each other's files and ports</li><li>Tied to your desk to approve anything</li></ul></div>
+      <div><h3>With UnderGlow</h3><ul><li>Every agent gets its own cloud computer, ready to go</li><li>One screen shows every agent and what it is doing</li><li>A code map shows what each one changed</li><li>Your phone gets the question, you tap approve</li></ul></div>
+    </div>
+  </section>
 
   <section class="wrap" id="numbers">
     <div class="stats">
       <div class="stat reveal"><b>1 screen</b><span>for every agent you run</span></div>
       <div class="stat reveal"><b>Your gates</b><span>approve wherever you choose</span></div>
-      <div class="stat reveal"><b>Own machine</b><span>for every agent, built in</span></div>
-      <div class="stat reveal"><b>Phone</b><span>check in from anywhere</span></div>
+      <div class="stat reveal"><b>Any model</b><span>Claude, Codex and more</span></div>
+      <div class="stat reveal"><b>Phone</b><span>approve from anywhere</span></div>
     </div>
   </section>
 
@@ -52,7 +65,7 @@
     <h2 class="big reveal">Hand off the work. <span class="grad">Stay in control.</span></h2>
     <p class="sub reveal">This is the product we are building. The screens below are the real app running on sample data. Join the waitlist to get in first.</p>
     <div class="rows">
-      <div class="row reveal"><div class="copy"><h3>Close your laptop. The work keeps going</h3><p>Every agent runs on its own cloud computer that we set up for you. Start a job, shut the lid, and come back to finished work. No server to build, no terminal to learn.</p><ul><li>Its own computer for every agent</li><li>Runs code, opens a browser, tests your app</li><li>Watch its screen any time</li></ul></div><div data-demo="workbox" data-title="UnderGlow · Cloud computer"></div></div>
+      <div class="row reveal"><div class="copy"><h3>Close your laptop. The work keeps going</h3><p>Every agent runs on its own cloud computer that we set up for you, and it works with any model, not just one. Start a job, shut the lid, and come back to finished work. No server to build, no terminal to learn.</p><ul><li>Its own computer for every agent</li><li>Runs code, opens a browser, tests your app</li><li>Watch its screen any time</li></ul></div><div data-demo="workbox" data-title="UnderGlow · Cloud computer"></div></div>
       <div class="row reveal"><div class="copy"><h3>Approve from your phone</h3><p>Your agent hits a question or a change that needs your yes. You get it on your phone, tap approve, and it carries on. Nothing to install: it opens in your phone browser.</p><ul><li>Answer agents from anywhere</li><li>Approve or hold back with one tap</li><li>Same account, same projects</li></ul></div><div data-demo="phone" data-title="UnderGlow · On your phone"></div></div>
       <div class="row reveal"><div class="copy"><h3>Run a whole team of agents</h3><p>Give each agent a job and watch them all at once, on one screen. Claude Code, Codex and others side by side. Step in, redirect or stop any of them in a click.</p><ul><li>One chat per agent, all visible</li><li>See each step as it happens</li><li>Stop or steer any agent</li></ul></div><div data-demo="bot" data-title="UnderGlow · Agent chat"></div></div>
       <div class="row reveal"><div class="copy"><h3>Gates exactly where you want them</h3><p>Lay out your own steps, from your agents to a test version to your live site, and put a gate on any step that waits for your yes. Or use none. It is your workflow.</p><ul><li>Add or remove gates any time</li><li>A clear record of what was approved</li><li>Click a step to see what it does</li></ul></div><div data-demo="workflow" data-title="UnderGlow · Workflow"></div></div>
@@ -118,11 +131,22 @@
     </div>
   </section>
 
+  <section class="wrap" id="faq">
+    <p class="eyebrow reveal">Questions</p>
+    <h2 class="big reveal">Straight answers</h2>
+    <div class="facts reveal">
+      <div><h3>Do I need my own AI account?</h3><ul><li>Yes. You log in with your own Claude, ChatGPT or other account. We charge for the computers, not the tokens.</li></ul></div>
+      <div><h3>Why pay when this is free to DIY?</h3><ul><li>You are paying for the setup and upkeep: machines ready in a click, phone approvals, and one screen to watch it all.</li></ul></div>
+      <div><h3>When does it open?</h3><ul><li>Early access is rolling out. Waitlist members get in first, in the order they joined.</li></ul></div>
+      <div><h3>What does it cost?</h3><ul><li>Running on your own PC is free. Cloud computers plus phone access are planned at $39 a month.</li></ul></div>
+    </div>
+  </section>
+
   <section class="wrap" id="waitlist">
     <div class="final reveal">
-      <h2>Get early access</h2>
+      <h2>Be first in when it opens</h2>
       <p>Join the waitlist. No spam: one email when your spot opens.</p>
-      <form id="wl" class="wl" novalidate>
+      <form id="wl" class="wl" data-wl novalidate>
         <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email">
         <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <fieldset><legend>What would you pay each month for cloud computers plus phone control?</legend>

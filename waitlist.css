@@ -8,3 +8,8 @@
 #wlmsg{min-height:1.4em;text-align:center;margin:0}
 .price.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:980px;margin:28px auto 0}
 .price.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;max-width:720px;margin:28px auto 0}
+.wl-hero{max-width:560px;margin:26px auto 0}
+.wl-row{display:flex;gap:10px;flex-wrap:wrap}
+.wl-row input[type=email]{flex:1 1 240px}
+.wl-row .btn{flex:0 0 auto}
+.wlmsg{text-align:center;margin:8px 0 0;opacity:.8;font-size:.95em}
