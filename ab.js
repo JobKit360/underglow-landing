@@ -2,9 +2,9 @@
 (function () {
   var V = {
     A: 'AI helpers that<br><span class="grad">do the work for you.</span>',
-    B: 'Put the AI you pay for<br><span class="grad">to work.</span>',
+    B: 'Hand off the busywork<br><span class="grad">to AI helpers.</span>',
     C: 'Your own AI team.<br><span class="grad">No coding.</span>',
-    D: 'AI helpers on the plan<br><span class="grad">you already pay for.</span>'
+    D: 'Your inbox, invoices and errands.<br><span class="grad">Handled.</span>'
   };
   var keys = 'ABCD', q = new URLSearchParams(location.search).get('v'), k = 'ug_v', v;
   try { v = (q && V[q]) ? q : localStorage.getItem(k); } catch (e) {}
