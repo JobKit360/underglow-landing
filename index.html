@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co; base-uri 'none'; form-action 'self'">
-<title>UnderGlow: AI coding agents that keep working when your laptop is closed</title>
-<meta name="description" content="Run your AI coding agents on a computer you leave on, and check in from your laptop or phone anywhere. Tailscale built in. Works with any model. Join the waitlist.">
+<title>UnderGlow: AI bots with their own computer, any model</title>
+<meta name="description" content="UnderGlow bots get a Workbox, their own machine to run code, open a browser and test your app. Works with any model. Plus your coding agents on one screen. Join the waitlist.">
 <meta name="theme-color" content="#07070f">
-<meta property="og:title" content="UnderGlow: close your laptop, your agents keep working.">
-<meta property="og:description" content="Run agents on your own always-on computer. Reach them from anywhere, Tailscale built in.">
+<meta property="og:title" content="UnderGlow: bots with their own computer. Any model.">
+<meta property="og:description" content="Each bot gets a Workbox to run code, browse and test your app. Pick any model. Join the waitlist.">
 <meta property="og:type" content="website">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
@@ -29,28 +29,29 @@
   <div class="wrap hero hero2">
     <div class="h2-copy">
       <span class="tag"><i></i>In development &middot; Windows, Mac and Linux</span>
-      <h1>Close your laptop.<br><span class="grad">Your agents keep working.</span></h1>
-      <p class="lead">UnderGlow runs your AI coding agents and bots on a computer you leave on. See them all on one screen and steer them from any of your devices.</p>
+      <h1>Bots with their<br><span class="grad">own computer.</span></h1>
+      <p class="lead">We are building bots that each get a Workbox: their own machine to run code, open a browser and test your app while you do something else. Like GrokBot, but you pick the model. Your coding agents live on the same screen.</p>
       <form class="wl wl-hero" data-wl novalidate>
         <div class="wl-row"><input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email"><input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn big" type="submit">Get early access</button></div>
         <p class="wlmsg" role="status" aria-live="polite">Free to join. One email when your spot opens.</p>
       </form>
-      <ul class="proof"><li>Works with any model</li><li>Tailscale built in</li><li>Your computer, your code</li></ul>
+      <ul class="proof"><li>Any model: Claude, GPT, Gemini, local</li><li>Watch its screen any time</li><li>Tailscale built in</li></ul>
     </div>
     <div class="h2-vis" aria-hidden="true">
       <div class="hw">
-        <div class="hw-bar"><i></i><i></i><i></i><span>UnderGlow &middot; Host: office PC</span><em>Running</em></div>
-        <div class="hw-body">
-          <div class="hw-sec">Agents</div>
-          <div class="hw-row"><b class="dot w"></b><span>Pixel</span><small>Making the cart remember items</small><em class="st w">Working</em></div>
-          <div class="hw-row"><b class="dot t"></b><span>Nova</span><small>Fixed the checkout total</small><em class="st t">Waiting test</em></div>
-          <div class="hw-row"><b class="dot d"></b><span>Atlas</span><small>Updated the docs</small><em class="st d">Done</em></div>
-          <div class="hw-sec">Bots</div>
-          <div class="hw-row"><b class="dot w"></b><span>Tester</span><small>Testing the app in its Workbox</small><em class="st w">Working</em></div>
-          <div class="hw-row"><b class="dot i"></b><span>Chief of Staff</span><small>Handed the cart job to Pixel</small><em class="st i">Idle</em></div>
+        <div class="hw-bar"><i></i><i></i><i></i><span>Workbox &middot; Tester</span><em>Live</em></div>
+        <div class="wb-screen">
+          <div class="wb-url">localhost:3000/checkout</div>
+          <div class="wb-page"><b></b><b class="s"></b><b class="s"></b><div class="wb-btn">Pay $42.00</div><div class="wb-cursor"></div></div>
+          <div class="wb-log"><span>&check; Cart keeps items after refresh</span><span>&check; Total matches line items</span><span class="run">&#9679; Trying an expired card&hellip;</span></div>
         </div>
       </div>
-      <div class="hw-links"><span>Laptop linked</span><span>Phone linked</span><span>via Tailscale</span></div>
+      <div class="hw hw-mini">
+        <div class="hw-sec">Your bots</div>
+        <div class="hw-row"><b class="dot w"></b><span>Tester</span><small>Testing checkout</small><em class="md">Claude</em></div>
+        <div class="hw-row"><b class="dot w"></b><span>Researcher</span><small>Comparing payment APIs</small><em class="md">GPT</em></div>
+        <div class="hw-row"><b class="dot i"></b><span>Docs</span><small>Waiting for the next job</small><em class="md">Gemini</em></div>
+      </div>
     </div>
   </div>
 

@@ -41,3 +41,14 @@
 .hw-links span{font-size:.78rem;padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);opacity:.85}
 @media(max-width:860px){.hero.hero2{grid-template-columns:1fr;gap:34px}.hw-row{grid-template-columns:10px 80px 1fr auto}}
 .hero2 h1 .grad{display:inline-block;padding-bottom:.12em}
+.wb-screen{padding:12px;display:grid;gap:10px}
+.wb-url{font-size:.72rem;opacity:.6;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.05)}
+.wb-page{position:relative;display:grid;gap:8px;padding:16px;border-radius:10px;background:#f4f5fb}
+.wb-page b{height:12px;border-radius:4px;background:#d5d8ea;width:60%}.wb-page b.s{width:85%;height:8px;background:#e3e5f1}
+.wb-btn{justify-self:start;margin-top:4px;padding:7px 14px;border-radius:8px;background:#5b5bf0;color:#fff;font-size:.78rem;font-weight:600}
+.wb-cursor{position:absolute;left:96px;bottom:12px;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:14px solid #111;transform:rotate(-30deg);animation:wbc 3.2s ease-in-out infinite}
+@keyframes wbc{0%,100%{transform:translate(30px,-30px) rotate(-30deg)}50%{transform:translate(0,0) rotate(-30deg)}}
+@media(prefers-reduced-motion:reduce){.wb-cursor{animation:none}}
+.wb-log{display:grid;gap:4px;font-size:.76rem}.wb-log span{opacity:.8;color:#34d399}.wb-log .run{color:#60a5fa}
+.hw-mini{padding:4px 10px 10px}
+.md{font-style:normal;font-size:.68rem;padding:3px 8px;border-radius:99px;background:rgba(160,170,255,.12);color:#c7cbff}
