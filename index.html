@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co; base-uri 'none'; form-action 'self'">
-<title>UnderGlow: AI bots with their own computer, any model</title>
-<meta name="description" content="UnderGlow bots get a Workbox, their own machine to run code, open a browser and test your app. Works with any model. Plus your coding agents on one screen. Join the waitlist.">
+<title>UnderGlow: AI helpers that do the work for you, on the AI plan you already have</title>
+<meta name="description" content="UnderGlow turns the ChatGPT, Claude or Gemini plan you already pay for into AI helpers that do real tasks for you, each on its own computer. No coding. Join the waitlist.">
 <meta name="theme-color" content="#07070f">
-<meta property="og:title" content="UnderGlow: bots with their own computer. Any model.">
-<meta property="og:description" content="Each bot gets a Workbox to run code, browse and test your app. Pick any model. Join the waitlist.">
+<meta property="og:title" content="UnderGlow: AI helpers that do the work for you">
+<meta property="og:description" content="Put the AI you already pay for to work. Each helper gets its own computer. No coding. Join the waitlist.">
 <meta property="og:type" content="website">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
@@ -22,156 +22,115 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <a class="brand" href="index.html"><img src="logo.svg" alt="" width="34" height="34">UnderGlow</a>
-  <nav aria-label="Main"><a class="hide-s" href="#features">Features</a><a class="hide-s" href="#how">Your workflow</a><a class="hide-s" href="#pricing">Pricing</a><a class="btn small" href="#waitlist">Join the waitlist</a></nav>
+  <nav aria-label="Main"><a class="hide-s" href="#jobs">Ideas</a><a class="hide-s" href="#how">How it works</a><a class="hide-s" href="#pricing">Pricing</a><a class="btn small" href="#waitlist">Join the waitlist</a></nav>
 </header>
 <main id="main">
   <div class="hero-bg" aria-hidden="true"><i class="glow a" data-speed=".12"></i><i class="glow b" data-speed=".2"></i><i class="glow c" data-speed=".08"></i></div>
   <div class="wrap hero hero2">
     <div class="h2-copy">
-      <span class="tag"><i></i>In development &middot; Windows, Mac and Linux</span>
-      <h1>Bots with their<br><span class="grad">own computer.</span></h1>
-      <p class="lead">We are building bots that each get a Workbox: their own machine to run code, open a browser and test your app while you do something else. Like GrokBot, but you pick the model. Your coding agents live on the same screen.</p>
+      <span class="tag"><i></i>Early access &middot; we are building it now</span>
+      <h1 id="h1">AI helpers that<br><span class="grad">do the work for you.</span></h1>
+      <script src="ab.js"></script>
+      <p class="lead">UnderGlow turns the ChatGPT, Claude or Gemini plan you already pay for into helpers that get real jobs done: research, writing, checking your website, filling in spreadsheets. Each one has its own computer, so it works while you get on with your day. No coding.</p>
       <form class="wl wl-hero" data-wl novalidate>
         <div class="wl-row"><input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email"><input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn big" type="submit">Get early access</button></div>
         <p class="wlmsg" role="status" aria-live="polite">Free to join. One email when your spot opens.</p>
       </form>
-      <ul class="proof"><li>Any model: Claude, GPT, Gemini, local</li><li>Watch its screen any time</li><li>Tailscale built in</li></ul>
+      <p class="wlcount" data-wlcount hidden></p>
+      <ul class="proof"><li>Uses the AI plan you already have</li><li>No coding</li><li>Watch your helpers work</li></ul>
     </div>
     <div class="h2-vis" aria-hidden="true">
       <div class="hw">
-        <div class="hw-bar"><i></i><i></i><i></i><span>Workbox &middot; Tester</span><em>Live</em></div>
+        <div class="hw-bar"><i></i><i></i><i></i><span>Researcher&rsquo;s computer</span><em>Live</em></div>
         <div class="wb-screen">
-          <div class="wb-term">
-            <span><i>$</i> git pull</span>
-            <span><i>$</i> npm test</span>
-            <span class="ok">48 passed, 0 failed</span>
-            <span><i>$</i> npm run dev<em class="wb-caret"></em></span>
+          <div class="wb-sheet">
+            <div class="wb-sh h"><span>Supplier</span><span>Price</span><span>Delivery</span></div>
+            <div class="wb-sh"><span>Northwind</span><span>$4.20</span><span>3 days</span></div>
+            <div class="wb-sh"><span>Bluebird Co</span><span>$3.85</span><span>5 days</span></div>
+            <div class="wb-sh"><span>Acme Supply</span><span>$4.05</span><span>2 days</span></div>
+            <div class="wb-sh new"><span>Harbor Goods</span><span>$3.90</span><span>&hellip;</span></div>
           </div>
-          <div class="wb-log"><span>&check; Pulled Pixel's latest changes</span><span>&check; All tests pass</span><span class="run">&#9679; Opening the app in a browser&hellip;</span></div>
+          <div class="wb-log"><span>&check; Opened 5 supplier websites</span><span>&check; Copied prices into your sheet</span><span class="run">&#9679; Writing you a short summary&hellip;</span></div>
         </div>
       </div>
       <div class="hw hw-mini">
-        <div class="hw-sec">Your bots</div>
-        <div class="hw-row"><b class="dot w"></b><span>Tester</span><small>Checking Pixel's work</small><em class="md">Claude</em></div>
-        <div class="hw-row"><b class="dot w"></b><span>Researcher</span><small>Reading the API docs</small><em class="md">GPT</em></div>
-        <div class="hw-row"><b class="dot i"></b><span>Docs</span><small>Waiting for the next job</small><em class="md">Gemini</em></div>
+        <div class="hw-sec">Your helpers</div>
+        <div class="hw-row"><b class="dot w"></b><span>Researcher</span><small>Comparing supplier prices</small><em class="md">ChatGPT</em></div>
+        <div class="hw-row"><b class="dot w"></b><span>Writer</span><small>Drafting this week&rsquo;s newsletter</small><em class="md">Claude</em></div>
+        <div class="hw-row"><b class="dot d"></b><span>Site checker</span><small>Your website looks fine today</small><em class="md">Gemini</em></div>
       </div>
     </div>
-  </div>
-
-  <div class="wrap hero"><p class="note"><a href="#demo">See the app in action</a>. Sample data.</p>
-    <div class="shotwrap" id="demo"><div id="heroDemo"></div></div>
   </div>
 
   <section class="wrap" id="why">
     <p class="eyebrow reveal">Why UnderGlow</p>
-    <h2 class="big reveal">Running agents is free. <span class="grad">Babysitting them is not.</span></h2>
-    <p class="sub reveal">You can run several agents today with tmux, a VPN and remote desktop. Then it is your job to wire it up and keep it alive.</p>
+    <h2 class="big reveal">You pay for AI. <span class="grad">You still do the work.</span></h2>
+    <p class="sub reveal">A chat window answers questions. Then you copy, paste, click and check everything yourself. UnderGlow helpers do the whole job.</p>
     <div class="facts reveal">
-      <div><h3>Doing it yourself</h3><ul><li>Set up a VPN, port forwarding or remote desktop</li><li>Keep terminals and sessions alive, hunt for who is stuck</li><li>Agents trip over each other's files and ports</li><li>Tied to your desk to approve anything</li></ul></div>
-      <div><h3>With UnderGlow (what we are building)</h3><ul><li>Install on your host, sign in on your laptop and phone, done</li><li>One screen shows every agent and what it is doing</li><li>A code map shows what each one changed</li><li>Your phone gets the question, you tap approve</li></ul></div>
+      <div><h3>AI today</h3><ul><li>You type, it answers, you do the rest</li><li>It cannot open websites or apps for you</li><li>Close the tab and the work stops</li><li>Setting up &ldquo;AI agents&rdquo; means code and servers</li></ul></div>
+      <div><h3>With UnderGlow (what we are building)</h3><ul><li>Give a helper a job in plain words</li><li>It uses its own computer: browser, files, spreadsheets</li><li>It keeps going while you do something else</li><li>Install the app, sign in to your AI plan, done</li></ul></div>
     </div>
   </section>
 
-  <section class="wrap" id="numbers">
-    <div class="stats">
-      <div class="stat reveal"><b>1 screen</b><span>for every agent you run</span></div>
-      <div class="stat reveal"><b>Tailscale</b><span>built in, nothing to set up</span></div>
-      <div class="stat reveal"><b>Any model</b><span>Claude, Codex and more</span></div>
-      <div class="stat reveal"><b>Phone</b><span>approve from anywhere</span></div>
+  <section class="wrap" id="jobs">
+    <p class="eyebrow reveal">Ideas</p>
+    <h2 class="big reveal">Jobs you could hand off</h2>
+    <div class="grid gap-t">
+      <article class="reveal"><h3>Research</h3><p>&ldquo;Compare the 10 best-rated suppliers and put their prices in a sheet.&rdquo;</p></article>
+      <article class="reveal"><h3>Writing</h3><p>&ldquo;Draft this week&rsquo;s newsletter from my notes.&rdquo;</p></article>
+      <article class="reveal"><h3>Website checks</h3><p>&ldquo;Every morning, check my site works and tell me if anything broke.&rdquo;</p></article>
+      <article class="reveal"><h3>Lists and leads</h3><p>&ldquo;Find local businesses that might need my service and list their websites.&rdquo;</p></article>
+      <article class="reveal"><h3>Building things</h3><p>&ldquo;Make me a simple booking page and test that it works.&rdquo;</p></article>
+      <article class="reveal"><h3>Busywork</h3><p>&ldquo;Tidy this spreadsheet and sum up these PDFs.&rdquo;</p></article>
     </div>
   </section>
 
   <div class="band" id="features-band">
   <section id="features" class="wrap">
     <p class="eyebrow reveal">What you will get</p>
-    <h2 class="big reveal">Hand off the work. <span class="grad">Stay in control.</span></h2>
-    <p class="sub reveal">This is what we are building. The screens below are the real app on sample data; connecting your computers and phone is in development. Join the waitlist to get in first.</p>
+    <h2 class="big reveal">Hand off the work. <span class="grad">Stay in charge.</span></h2>
+    <p class="sub reveal">This is what we are building. The screens below use sample data. Join the waitlist to get in first.</p>
     <div class="rows">
-      <div class="row reveal"><div class="copy"><h3>Close your laptop. The work keeps going</h3><p>Your agents run on your host: a desktop, a spare PC or a home server you leave on. Start a job, shut your laptop, and come back to finished work. Claude Code, Codex and others side by side on one screen.</p><ul><li>Runs on a computer you own</li><li>Any model, side by side</li><li>Stop or steer any agent in a click</li></ul></div><div data-demo="page" data-title="UnderGlow · Agents"></div></div>
-      <div class="row reveal"><div class="copy"><h3>Approve from your phone</h3><p>An agent has a question or finished work for you. You see it on your phone, answer or approve, and it carries on. Nothing to install on the phone: it opens in your browser.</p><ul><li>Answer agents from anywhere</li><li>Approve or hold back with one tap</li><li>Same projects as your desk</li></ul></div><div data-demo="phone" data-title="UnderGlow · On your phone"></div></div>
-      <div class="row reveal"><div class="copy"><h3>Bots with their own Workbox</h3><p>On the Connected plan, your bots, the helpers that take on longer jobs, get a Workbox: their own machine to run code, open a browser and test your app. Watch its screen from UnderGlow.</p><ul><li>Runs code and tests your app</li><li>Opens a real browser</li><li>Watch its screen any time</li></ul></div><div data-demo="workbox" data-title="UnderGlow · Workbox"></div></div>
-      <div class="row reveal"><div class="copy"><h3>See what every agent changed</h3><p>Your project appears as a map of connected files. Watch agents read (blue) and change (yellow) things as they move, so review is quick and nothing surprises you.</p><ul><li>See how the code connects</li><li>Spot where work is happening</li><li>Hover any dot to see its file</li></ul></div><div data-demo="map" data-title="UnderGlow · Code map"></div></div>
-      <div class="row reveal"><div class="copy"><h3>A board your agents keep updated</h3><p>To do, In progress, Waiting test, Complete. Agents add tasks and move them along as they work, so you always know what is next.</p><ul><li>Cards follow the agent doing them</li><li>Click or drag to move things yourself</li><li>Always see what is next</li></ul></div><div data-demo="roadmap" data-title="UnderGlow · Board"></div></div>
+      <div class="row reveal"><div class="copy"><h3>Every helper gets its own computer</h3><p>On the Connected plan, each helper gets a Workbox: a computer of its own where it opens websites, uses files and checks its work. You can watch its screen any time.</p><ul><li>Opens a real browser</li><li>Works on files and sheets</li><li>Watch it work, any time</li></ul></div><div data-demo="workbox" data-title="UnderGlow · Workbox"></div></div>
+      <div class="row reveal"><div class="copy"><h3>Say yes from your phone</h3><p>When a helper needs your OK or has finished, you see it on your phone. Tap approve and it carries on.</p><ul><li>Answer from anywhere</li><li>Approve with one tap</li><li>Nothing extra to install</li></ul></div><div data-demo="phone" data-title="UnderGlow · On your phone"></div></div>
+      <div class="row reveal"><div class="copy"><h3>One list of everything going on</h3><p>To do, in progress, done. Helpers add tasks and tick them off as they go, so you always know where things stand.</p><ul><li>See who is doing what</li><li>Move things around yourself</li><li>Nothing falls through the cracks</li></ul></div><div data-demo="roadmap" data-title="UnderGlow · Board"></div></div>
     </div>
   </section>
   </div>
-
-  <section class="wrap">
-    <p class="eyebrow reveal">And there is more</p>
-    <h2 class="big reveal">Built for people who run many agents</h2>
-    <div class="grid gap-t">
-      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div><h3>Windows, Mac and Linux</h3><p>Pick whichever computer you want as your host, and reach it from the others.</p></article>
-      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7 7l4 9M17 7l-4 9M7.5 6h9"/></svg></div><h3>Many agents at once</h3><p>Some agents write code, others take on longer jobs. Run as many as you like and see them all together.</p></article>
-      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div><h3>Your code stays yours</h3><p>UnderGlow runs on your own computer. We do not host your code or your agents.</p></article>
-      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.3 11l7.4-4M8.3 13l7.4 4"/></svg></div><h3>Know what changed</h3><p>The code map shows which parts of your project each agent touched.</p></article>
-      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4M7 10l2 2-2 2M12 14h4"/></svg></div><h3>Workbox for bots</h3><p>Bots get their own machine to run code, open a browser and test your app, then show you its screen.</p></article>
-      <article class="reveal"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 5h14v4H5zM5 11h9v4H5zM5 17h12v2H5z"/></svg></div><h3>A shared to-do list</h3><p>You and your agents add and tick off tasks in one place, so nothing gets lost between sessions.</p></article>
-    </div>
-  </section>
 
   <div class="band alt">
   <section id="how" class="wrap">
-    <p class="eyebrow reveal">Your tools, your way</p>
-    <h2 class="big reveal">Your workflow, your rules</h2>
-    <p class="sub reveal">UnderGlow gives you the tools. You decide how to use them. There is no set process to follow.</p>
+    <p class="eyebrow reveal">How it works</p>
+    <h2 class="big reveal">Three steps, no coding</h2>
     <div class="steps">
-      <div class="step tool reveal"><h3>As many agents as you like</h3><p>Start as many agents as your work needs. Each gets its own chat, and you see all of them on one screen.</p><div class="mini" aria-hidden="true"><div class="row2"><span class="pill-lite">Working</span> Agent one</div><div class="row2"><span class="pill-lite">Working</span> Agent two</div><div class="row2"><span class="ok">✓</span> Agent three, done</div></div></div>
-      <div class="step tool reveal"><h3>Your host, your devices</h3><p>Pick a computer to be the host and leave it on. Sign in on your laptop and phone, and Tailscale links them to it.</p><div class="mini" aria-hidden="true"><div class="row2"><span class="ok">✓</span> Host: office PC</div><div class="row2"><span class="ok">✓</span> Laptop linked</div><div class="row2"><span class="ok">✓</span> Phone linked</div></div></div>
-      <div class="step tool reveal"><h3>Your own board</h3><p>Keep your work on a board you organise yourself. Agents add tasks and move them along, and so can you.</p><div class="mini" aria-hidden="true"><div class="row2">To do <div class="bar"><i></i></div></div><div class="row2">In progress <div class="bar"><i></i></div></div><div class="row2">Complete <div class="bar"><i></i></div></div></div></div>
+      <div class="step tool reveal"><h3>1. Install UnderGlow</h3><p>A normal app for Windows, with Mac and Linux planned. Put it on a computer you leave on.</p></div>
+      <div class="step tool reveal"><h3>2. Sign in to your AI</h3><p>Use the ChatGPT, Claude or Gemini plan you already pay for. We never charge for AI use.</p></div>
+      <div class="step tool reveal"><h3>3. Give it a job</h3><p>Describe what you want in plain words. Watch it work, or check back later.</p></div>
     </div>
-    <div class="cta reveal mt"><a class="btn big" href="#waitlist">Join the waitlist</a></div>
+    <div class="cta reveal mt"><a class="btn big" href="#waitlist">Get early access</a></div>
   </section>
   </div>
 
-  <section class="wrap" id="tailscale">
-    <p class="eyebrow reveal">Secure by design</p>
-    <h2 class="big reveal">Tailscale, <span class="grad">built in.</span></h2>
-    <p class="sub reveal">UnderGlow is built with Tailscale, so your host, your laptop and your phone link up over a private encrypted network. No ports to open, no VPN to set up.</p>
-    <div class="facts reveal">
-      <div><h3>Private by default</h3><ul><li>Your host is not opened up to the public internet</li><li>Only your own devices can reach them</li></ul></div>
-      <div><h3>Nothing to configure</h3><ul><li>Sign in once and your devices find each other</li><li>Works across Windows, Mac and Linux</li></ul></div>
-    </div>
-  </section>
-
   <section id="pricing" class="wrap center-t">
     <p class="eyebrow reveal">Pricing</p>
-    <h2 class="big reveal">Free on one computer. Pay to connect them.</h2>
-    <p class="sub reveal">You bring your own Claude or ChatGPT login. We charge for connecting your computers and phone, never for tokens.</p>
+    <h2 class="big reveal">Start free. Pay for helpers.</h2>
+    <p class="sub reveal">You bring your own AI plan. We never charge for AI use.</p>
     <div class="price two">
-      <div class="plan reveal"><h3>Local</h3><div class="p">Free</div><p>Agents on one computer.</p><ul><li>Many agents on one screen</li><li>Code map and board</li></ul><a class="btn ghost" href="#waitlist">Join the waitlist</a></div>
-      <div class="plan hot reveal"><h3>Connected</h3><div class="p">$39 <small>/ month</small></div><p>Bots, plus your host, laptop and phone linked.</p><ul><li>Bots with their own Workbox</li><li>Agents keep working with your laptop closed</li><li>Approve and steer from your phone</li><li>Tailscale private networking built in</li><li>No VPN or port forwarding to set up</li></ul><a class="btn" href="#waitlist">Join the waitlist</a></div>
-
+      <div class="plan reveal"><h3>Free</h3><div class="p">$0</div><p>AI tasks on your own computer.</p><ul><li>Run AI tasks on one computer</li><li>See everything on one screen</li></ul><a class="btn ghost" href="#waitlist">Join the waitlist</a></div>
+      <div class="plan hot reveal"><h3>Connected</h3><div class="p">$39 <small>/ month</small></div><p>Helpers that work on their own.</p><ul><li>Helpers with their own computer</li><li>They keep working while you are away</li><li>Approve from your phone</li><li>Private, secure connection built in (with Tailscale)</li></ul><a class="btn" href="#waitlist">Join the waitlist</a></div>
     </div>
-    <p class="fineprint reveal">Planned prices, subject to change. Nothing is for sale or charged today. Join the waitlist to hear first.</p>
-  </section>
-
-  <section class="wrap">
-    <p class="eyebrow reveal">Who it is for</p>
-    <div class="facts reveal">
-      <div><h3>For you if</h3><ul><li>You use Claude Code or Codex and want more than one agent working</li><li>You want to reach your agents from anywhere without wiring up a VPN</li><li>You want to check in and approve from your phone</li></ul></div>
-      <div><h3>Not for you if</h3><ul><li>You love living in tmux and a VPS you built yourself</li><li>You only ever run one agent for a few minutes</li></ul></div>
-    </div>
-  </section>
-
-  <section class="wrap">
-    <p class="eyebrow reveal">Good to know</p>
-    <h2 class="big reveal">Honest answers, up front</h2>
-    <div class="facts reveal">
-      <div><h3>What you need</h3><ul><li>A computer to be your host, one you can leave on</li><li>The UnderGlow app for Windows, Mac or Linux</li><li>Your own AI plan for the agents, such as Claude</li><li>An internet connection on your host and devices</li><li>You choose which projects your agents work on</li></ul></div>
-      <div><h3>We are early</h3><ul><li>Connecting your computers and phone approvals are still being built, so dates are not set</li><li>Screens still change</li><li>Agents can make mistakes, so set up the checks you want before anything goes live</li><li>Phone use is a web view of the app, not a separate app</li></ul></div>
-    </div>
+    <p class="fineprint reveal">Planned prices, subject to change. Nothing is for sale or charged today.</p>
   </section>
 
   <section class="wrap" id="faq">
     <p class="eyebrow reveal">Questions</p>
     <h2 class="big reveal">Straight answers</h2>
     <div class="facts reveal">
-      <div><h3>Do I need my own AI account?</h3><ul><li>Yes. You log in with your own Claude, ChatGPT or other account. We never charge for tokens.</li></ul></div>
-      <div><h3>Why pay when this is free to DIY?</h3><ul><li>You are paying for the connection: your host, laptop and phone linked securely with Tailscale built in, phone approvals, and one screen for every agent.</li></ul></div>
-      <div><h3>Do you host my code?</h3><ul><li>No. UnderGlow runs on a computer you own, and your code stays on your machines.</li></ul></div>
-      <div><h3>When does it open?</h3><ul><li>We are building it now. Waitlist members get early access first, in the order they joined, and your answers help us decide what to build first.</li></ul></div>
-      <div><h3>What does it cost?</h3><ul><li>Agents on one computer are free. Bots plus connecting your host, laptop and phone are planned at $39 a month.</li></ul></div>
+      <div><h3>Do I need to know how to code?</h3><ul><li>No. You describe jobs in plain words. That is the whole point.</li></ul></div>
+      <div><h3>Do I need my own AI plan?</h3><ul><li>Yes: ChatGPT, Claude, Gemini or similar. UnderGlow puts it to work. We never charge for AI use.</li></ul></div>
+      <div><h3>Is it ready?</h3><ul><li>Not yet. We are building it now. Waitlist members get in first, in the order they joined.</li></ul></div>
+      <div><h3>Is my stuff private?</h3><ul><li>UnderGlow runs on a computer you own. We do not host your files.</li></ul></div>
+      <div><h3>Can it make mistakes?</h3><ul><li>Yes, like any AI. You choose what helpers can do and approve anything important.</li></ul></div>
     </div>
   </section>
 
@@ -182,16 +141,17 @@
       <form id="wl" class="wl" data-wl novalidate>
         <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email">
         <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <fieldset><legend>What would you pay each month to reach your agents from your laptop and phone?</legend>
+        <fieldset><legend>Optional: what would you pay each month for helpers that do work for you?</legend>
           <label><input type="radio" name="would_pay" value="under15">Under $15</label>
           <label><input type="radio" name="would_pay" value="15-25">$15 to $25</label>
           <label><input type="radio" name="would_pay" value="25-50">$25 to $50</label>
           <label><input type="radio" name="would_pay" value="50-100">$50 to $100</label>
           <label><input type="radio" name="would_pay" value="not_sure">Not sure yet</label>
         </fieldset>
-        <input type="text" name="tool" maxlength="200" placeholder="What would you switch from? (tmux, a VPS, Conductor...) (optional)" aria-label="Tools you use">
+        <input type="text" name="tool" maxlength="200" placeholder="Optional: what is the first job you would hand off?" aria-label="First job you would hand off">
         <button class="btn big" type="submit">Join the waitlist</button>
         <p id="wlmsg" role="status" aria-live="polite"></p>
+        <p class="wlcount" data-wlcount hidden></p>
       </form>
     </div>
   </section>

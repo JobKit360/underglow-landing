@@ -57,3 +57,11 @@
 .wb-caret{display:inline-block;width:7px;height:13px;margin-left:4px;vertical-align:-2px;background:#c7cbff;animation:wbk 1s steps(1) infinite}
 @keyframes wbk{50%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.wb-caret{animation:none}}
+.wb-sheet{border-radius:10px;overflow:hidden;background:#f4f5fb;color:#1b1d2e;font-size:.76rem}
+.wb-sh{display:grid;grid-template-columns:1.4fr 1fr 1fr;padding:7px 12px;border-bottom:1px solid #e1e3f0}
+.wb-sh.h{font-weight:700;background:#e6e8f6}
+.wb-sh.new{background:#e9e8ff;animation:wbn 2.4s ease-in-out infinite}
+@keyframes wbn{50%{background:#f4f5fb}}
+@media(prefers-reduced-motion:reduce){.wb-sh.new{animation:none}}
+.wlcount{margin:10px 0 0;font-size:.85rem;opacity:.75}
+#jobs article p{opacity:.8;font-style:italic}
