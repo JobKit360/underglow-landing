@@ -1,13 +1,14 @@
-// Headline A/B test: sticky random variant per visitor (?v=A|B|C forces one). Runs right after the h1 so there is no flash.
+// Headline A/B test: sticky random variant per visitor (?v=A|B|C|D forces one). Runs right after the h1 so there is no flash.
 (function () {
   var V = {
     A: 'AI helpers that<br><span class="grad">do the work for you.</span>',
     B: 'Put the AI you pay for<br><span class="grad">to work.</span>',
-    C: 'Your own AI team.<br><span class="grad">No coding.</span>'
+    C: 'Your own AI team.<br><span class="grad">No coding.</span>',
+    D: 'AI helpers on the plan<br><span class="grad">you already pay for.</span>'
   };
-  var q = new URLSearchParams(location.search).get('v'), k = 'ug_v', v;
+  var keys = 'ABCD', q = new URLSearchParams(location.search).get('v'), k = 'ug_v', v;
   try { v = (q && V[q]) ? q : localStorage.getItem(k); } catch (e) {}
-  if (!V[v]) v = 'ABC'[Math.floor(Math.random() * 3)];
+  if (!V[v]) v = keys[Math.floor(Math.random() * keys.length)];
   try { localStorage.setItem(k, v); } catch (e) {}
   window.UG_VARIANT = v;
   var h = document.getElementById('h1'); if (h) h.innerHTML = V[v];

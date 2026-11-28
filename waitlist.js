@@ -3,7 +3,10 @@
   const KEY = 'sb_publishable_LCj5aMTnYa_i92t-gcL7cg_p8viWvyO';
   const H = { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' };
   const q = new URLSearchParams(location.search);
-  const source = (q.get('utm_source') || q.get('ref') || document.referrer.split('/')[2] || 'direct').slice(0, 80);
+  // Channel = utm_source (or ?ref=), else 'direct'. Referrer host is kept separately so both can be counted.
+  const channel = (q.get('utm_source') || q.get('ref') || 'direct').slice(0, 40);
+  const refHost = ((document.referrer.split('/')[2] || '-').replace(/^www\./, '')).slice(0, 40);
+  const source = channel + '|r:' + refHost;
   const variant = window.UG_VARIANT || '-';
 
   // One page view per visit (per tab session), to measure conversion by headline and source. No cookies, no personal data.
@@ -31,7 +34,7 @@
       const btn = f.querySelector('button'); btn.disabled = true; msg.textContent = 'Saving...';
       try {
         const r = await fetch(BASE + 'waitlist', { method: 'POST', headers: { ...H, Prefer: 'return=minimal' },
-          body: JSON.stringify({ email, would_pay: d.get('would_pay') || null, tool: (d.get('tool') || '').trim() || null, source: source + '|v' + variant }) });
+          body: JSON.stringify({ email, would_pay: d.get('would_pay') || null, tool: (d.get('tool') || '').trim() || null, source: channel + '|v' + variant + '|r:' + refHost }) });
         if (r.ok || r.status === 409) {
           document.querySelectorAll('form[data-wl]').forEach((x) => { x.innerHTML = '<p style="text-align:center;font-size:1.15em">You are on the list. We will email you when your spot opens.</p>'; });
         } else { msg.textContent = 'Something went wrong. Please try again.'; btn.disabled = false; }
