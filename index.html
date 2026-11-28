@@ -26,17 +26,29 @@
 </header>
 <main id="main">
   <div class="hero-bg" aria-hidden="true"><i class="glow a" data-speed=".12"></i><i class="glow b" data-speed=".2"></i><i class="glow c" data-speed=".08"></i></div>
-  <div class="wrap hero">
-    <span class="tag"><i></i>In development: join the waitlist for early access. Windows, Mac and Linux.</span>
-    <h1>Your agents keep working when your laptop is closed. <span class="grad">Approve from your phone.</span></h1>
-    <p class="lead">We are building UnderGlow: run Claude Code, Codex and other agents side by side on cloud computers we set up for you, linked to your own devices with Tailscale built in. No terminal, no server to build. You log in with your own AI account; we charge for the computers, not the tokens.</p>
-    <form class="wl wl-hero" data-wl novalidate>
-      <div class="wl-row"><input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email"><input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn big" type="submit">Get early access</button></div>
-      <p class="wlmsg" role="status" aria-live="polite">Free to join. One email when your spot opens. No spam.</p>
-    </form>
-    <p class="note"><a href="#demo">See it in action</a></p>
-    <ul class="proof"><li>Works with any model</li><li>Tailscale built in</li><li>Approve from your phone</li><li><span class="win"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zM11.5 4.3L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>Built for Windows</span></li></ul>
+  <div class="wrap hero hero2">
+    <div class="h2-copy">
+      <span class="tag"><i></i>In development &middot; Windows, Mac and Linux</span>
+      <h1>Close your laptop.<br><span class="grad">Your agents keep working.</span></h1>
+      <p class="lead">Cloud computers for your AI coding agents, set up for you. Approve their work from your phone.</p>
+      <form class="wl wl-hero" data-wl novalidate>
+        <div class="wl-row"><input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email"><input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn big" type="submit">Get early access</button></div>
+        <p class="wlmsg" role="status" aria-live="polite">Free to join. One email when your spot opens.</p>
+      </form>
+      <ul class="proof"><li>Works with any model</li><li>Tailscale built in</li><li>You pay for the computers, not tokens</li></ul>
+    </div>
+    <div class="h2-phone" aria-hidden="true">
+      <div class="phone"><div class="notch"></div>
+        <div class="pn-head">UnderGlow<span>now</span></div>
+        <div class="pn-card"><b>Pixel finished</b><p>Cart now remembers items after a reload. All 18 tests pass.</p><div class="pn-btns"><i class="ok">Approve</i><i>Hold back</i></div></div>
+        <div class="pn-card dim"><b>Nova is working</b><p>Fixing the checkout total&hellip;</p></div>
+        <div class="pn-card dim"><b>Tester is working</b><p>Running the cloud browser&hellip;</p></div>
+        <div class="pn-foot">Laptop closed &middot; 3 agents running</div>
+      </div>
+    </div>
+  </div>
 
+  <div class="wrap hero"><p class="note"><a href="#demo">See the app in action</a>. Sample data.</p>
     <div class="shotwrap" id="demo"><div id="heroDemo"></div></div>
   </div>
 
