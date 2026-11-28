@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ncqgxouiekxpiqxnmdwo.supabase.co; base-uri 'none'; form-action 'self'">
-<title>UnderGlow: your own AI team, on your own computer</title>
-<meta name="description" content="UnderGlow is a desktop app for your own team of AI bots: give each one a name, a job and a schedule. Routines run on their own, stay quiet unless something matters, and nothing important happens without your OK. Join the waitlist.">
+<title>UnderGlow: AI builds it, you test it right in the app</title>
+<meta name="description" content="UnderGlow is a desktop app where AI agents build your app or website. Every change comes with a test link. Try it in the built-in browser, then approve it or send it back. $20 a month. Join the waitlist.">
 <meta name="theme-color" content="#07070f">
-<meta property="og:title" content="UnderGlow: your own AI team, on your own computer">
-<meta property="og:description" content="Bots with names, jobs and schedules. Quiet unless it matters. Nothing important happens without your OK.">
+<meta property="og:title" content="UnderGlow: AI builds it, you test it right in the app">
+<meta property="og:description" content="Every change comes with a test link. Try it in the built-in browser, then approve or deny. $20 a month.">
 <meta property="og:type" content="website">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
@@ -22,120 +22,66 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <a class="brand" href="index.html"><img src="logo.svg" alt="" width="34" height="34">UnderGlow</a>
-  <nav aria-label="Main"><a class="hide-s" href="#jobs">Your team</a><a class="hide-s" href="#how">How it works</a><a class="hide-s" href="#pricing">Pricing</a><a class="btn small" href="#waitlist">Join the waitlist</a></nav>
+  <nav aria-label="Main"><a class="hide-s" href="#how">How it works</a><a class="hide-s" href="#pricing">Pricing</a><a class="btn small" href="#waitlist">Join the waitlist</a></nav>
 </header>
 <main id="main">
   <div class="hero-bg" aria-hidden="true"><i class="glow a" data-speed=".12"></i><i class="glow b" data-speed=".2"></i><i class="glow c" data-speed=".08"></i></div>
   <div class="wrap hero hero2">
     <div class="h2-copy">
       <span class="tag"><i></i>Early access &middot; we are building it now</span>
-      <h1 id="h1">Your own AI team,<br><span class="grad">on your own computer.</span></h1>
+      <h1 id="h1">Your AI builds it.<br><span class="grad">You test it right here.</span></h1>
       <script src="ab.js"></script>
-      <p class="lead">For freelancers, founders and small agencies with work that repeats every week. Give each AI helper a name, a job and a schedule: weekly reports, quiet monitoring, drafts, invoice reminders. They stay quiet unless something matters, and nothing goes out without your OK.</p>
+      <p class="lead">UnderGlow is a desktop app where AI agents build your app or website. When a change is ready, you get a test link. Open it in the built-in browser, click around, then approve it or send it back.</p>
       <form class="wl wl-hero" data-wl novalidate>
         <div class="wl-row"><input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email"><input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn big" type="submit">Join the waitlist</button></div>
-        <p class="wlmsg" role="status" aria-live="polite">Free to join. Spots open in the order people join. One email when yours is ready.</p>
+        <p class="wlmsg" role="status" aria-live="polite">Free to join. One email when your spot opens.</p>
       </form>
       <p class="wlcount" data-wlcount hidden></p>
-      <ul class="proof"><li>Uses the AI account you already have</li><li>One flat price for the app</li><li>Nothing sends without your OK</li></ul>
+      <ul class="proof"><li>A test link for every change</li><li>Built-in browser</li><li>$20 a month, one plan</li></ul>
     </div>
     <div class="h2-vis" aria-hidden="true">
       <div class="hw">
-        <div class="hw-bar"><i></i><i></i><i></i><span>Researcher&rsquo;s computer</span><em>Live</em></div>
+        <div class="hw-bar"><i></i><i></i><i></i><span>UnderGlow &middot; Test</span><em>Ready to test</em></div>
         <div class="wb-screen">
-          <div class="wb-sheet">
-            <div class="wb-sh h"><span>Competitor</span><span>Price</span><span>This week</span></div>
-            <div class="wb-sh"><span>Northwind</span><span>$4.20</span><span>Price up</span></div>
-            <div class="wb-sh"><span>Bluebird Co</span><span>$3.85</span><span>New plan</span></div>
-            <div class="wb-sh"><span>Acme Supply</span><span>$4.05</span><span>No change</span></div>
-            <div class="wb-sh new"><span>Harbor Goods</span><span>$3.90</span><span>&hellip;</span></div>
-          </div>
-          <div class="wb-log"><span>&check; Checked 5 competitor websites</span><span>&check; Noted what changed since last week</span><span class="run">&#9679; Writing you a short summary&hellip;</span></div>
+          <div class="wb-log"><span>&check; Built the new signup page</span><span class="run">&#9679; Test link ready: try it below</span></div>
+          <div class="wb-url">Signup page &middot; test link</div>
+          <div class="wb-page"><b></b><b class="s"></b><b class="s"></b><span class="wb-btn">Create account</span><i class="wb-cursor"></i></div>
+          <div class="tl-act"><span class="ok">Approve</span><span>Send it back</span></div>
         </div>
       </div>
-      <div class="hw hw-mini">
-        <div class="hw-sec">Your team</div>
-        <div class="hw-row"><b class="dot w"></b><span>Researcher</span><small>Weekly competitor report</small><em class="md">Mon 9:00</em></div>
-        <div class="hw-row"><b class="dot d"></b><span>Invoice chaser</span><small>3 reminders drafted, waiting for your OK</small><em class="md">Fri 10:00</em></div>
-        <div class="hw-row"><b class="dot t"></b><span>Site watcher</span><small>All good. Staying quiet.</small><em class="st t">Daily</em></div>
-      </div>
     </div>
-  </div>
-
-  <section class="wrap" id="jobs">
-    <p class="eyebrow reveal">Your AI team</p>
-    <h2 class="big reveal">Bots with names, jobs <span class="grad">and schedules.</span></h2>
-    <p class="sub reveal">For solo pros, freelancers, founders and small agencies. Set each helper up once with a job and a schedule, and it keeps going. A few examples:</p>
-    <div class="grid gap-t">
-      <article class="reveal"><h3>Researcher</h3><p>&ldquo;Every Monday, send me a short report on what my competitors changed.&rdquo;</p></article>
-      <article class="reveal"><h3>Client reporter</h3><p>&ldquo;Every Friday, draft each client&rsquo;s weekly update from my notes and files.&rdquo; (You approve before it is sent.)</p></article>
-      <article class="reveal"><h3>Marketer</h3><p>&ldquo;Draft three posts a week from my notes. I&rsquo;ll approve them.&rdquo;</p></article>
-      <article class="reveal"><h3>Invoice chaser</h3><p>&ldquo;Draft friendly reminders for unpaid invoices.&rdquo; (You approve before anything is sent.)</p></article>
-      <article class="reveal"><h3>Site watcher</h3><p>&ldquo;Check my website every morning. Stay quiet unless it breaks.&rdquo;</p></article>
-      <article class="reveal"><h3>Follow-ups</h3><p>&ldquo;Every Thursday, list the leads and clients I haven&rsquo;t followed up with and draft notes.&rdquo; (You approve first.)</p></article>
-    </div>
-  </section>
-
-  <section class="wrap" id="why">
-    <p class="eyebrow reveal">Why UnderGlow</p>
-    <h2 class="big reveal">AI answers questions. <span class="grad">You still do the work.</span></h2>
-    <p class="sub reveal">A chat window answers questions. Then you copy, paste, click and check everything yourself. UnderGlow helpers do the whole job.</p>
-    <div class="facts reveal">
-      <div><h3>AI today</h3><ul><li>You type, it answers, you do the rest</li><li>It cannot open websites or apps for you</li><li>Close the tab and the work stops</li><li>Setting up &ldquo;AI agents&rdquo; means code and servers</li></ul></div>
-      <div><h3>With UnderGlow (what we are building)</h3><ul><li>Give a helper a job in plain words</li><li>It uses its own computer: browser, files, spreadsheets</li><li>It keeps going while you do something else</li><li>It drafts, you approve before anything is sent</li></ul></div>
-    </div>
-  </section>
-
-
-  <div class="band" id="features-band">
-  <section id="features" class="wrap">
-    <p class="eyebrow reveal">What you will get</p>
-    <h2 class="big reveal">Hand off the work. <span class="grad">Stay in charge.</span></h2>
-    <p class="sub reveal">This is what we are building. The pictures below are examples. Join the waitlist to get in first.</p>
-    <div class="rows">
-      <div class="row reveal"><div class="copy"><h3>Connected helpers get their own computer</h3><p>On the Connected plan, each helper gets a Workbox: a computer of its own where it opens websites, uses files and checks its work. You can watch its screen any time.</p><ul><li>Opens a real browser</li><li>Works on files and sheets</li><li>Watch it work, any time</li></ul></div><div class="hw mock" aria-hidden="true"><div class="hw-bar"><i></i><i></i><i></i><span>Workbox &middot; Writer</span><em>Live</em></div>
-          <div class="wb-screen"><div class="wb-mail"><b>To:</b> accounts@harborgoods.com<br><b>Subject:</b> Friendly reminder: invoice #1042<br><br>Hi Sam, just a quick note that invoice #1042 for $480 was due last Friday. Here is the link to pay&hellip;</div>
-          <div class="wb-log"><span>&check; Found 3 unpaid invoices in your sheet</span><span>&check; Drafted 3 reminders</span><span class="run">&#9679; Waiting for your OK before sending</span></div></div></div></div>
-      <div class="row reveal"><div class="copy"><h3>One list of everything going on</h3><p>To do, in progress, done. Helpers add tasks and tick them off as they go, so you always know where things stand.</p><ul><li>See who is doing what</li><li>Move things around yourself</li><li>Nothing falls through the cracks</li></ul></div><div class="hw mock" aria-hidden="true"><div class="hw-bar"><i></i><i></i><i></i><span>Your list</span></div>
-          <div class="bd"><div><h4>To do</h4><p>Plan next week&rsquo;s posts</p><p>Update price list</p></div><div><h4>Doing</h4><p class="w">Invoice reminders<small>Writer</small></p></div><div><h4>Done</h4><p class="d">Supplier prices<small>Researcher</small></p><p class="d">Website check<small>Site checker</small></p></div></div></div></div>
-    </div>
-  </section>
   </div>
 
   <div class="band alt">
   <section id="how" class="wrap">
     <p class="eyebrow reveal">How it works</p>
-    <h2 class="big reveal">Three steps, no coding</h2>
+    <h2 class="big reveal">Build, test, approve. <span class="grad">All in one app.</span></h2>
     <div class="steps">
-      <div class="step tool reveal"><h3>1. Install UnderGlow</h3><p>A normal app for Windows, with Mac and Linux planned. Then connect the AI account you already have. There is almost nothing to set up.</p></div>
-      <div class="step tool reveal"><h3>2. Choose what it can use</h3><p>Pick which accounts and files each helper may touch. Nothing sends without your OK.</p></div>
-      <div class="step tool reveal"><h3>3. Give it a job</h3><p>Describe what you want in plain words. Watch it work, or check back later.</p></div>
+      <div class="step tool reveal"><h3>Ask for a change</h3><p>Tell an agent what to build or fix, in plain words. It works on your project, on your computer.</p></div>
+      <div class="step tool reveal"><h3>Get a test link</h3><p>When it is done, you get a link. It opens in the browser built into UnderGlow, so there is nothing else to open or set up.</p></div>
+      <div class="step tool reveal"><h3>Approve or deny</h3><p>Click around and try it. If it works, approve it. If not, send it back with a note and the agent fixes it.</p></div>
     </div>
-    <div class="cta reveal mt"><a class="btn big" href="#waitlist">Join the waitlist</a></div>
   </section>
   </div>
 
   <section id="pricing" class="wrap center-t">
     <p class="eyebrow reveal">Pricing</p>
-    <h2 class="big reveal">Start free. Pay for helpers.</h2>
-    <p class="sub reveal">You pay for the software only. One flat monthly price, no credits, no usage fees.</p>
-    <div class="price two">
-      <div class="plan reveal"><h3>Free</h3><div class="p">$0</div><p>AI tasks on your own computer.</p><ul><li>Run AI tasks on one computer</li><li>See everything on one screen</li></ul><a class="btn ghost" href="#waitlist">Join the waitlist</a></div>
-      <div class="plan hot reveal"><h3>Connected</h3><div class="p">$39 <small>/ month</small></div><p>Helpers that work on their own.</p><ul><li>Helpers with their own computer</li><li>They keep working while you are away</li><li>Approve each step before it happens</li></ul><a class="btn" href="#waitlist">Join the waitlist</a></div>
+    <h2 class="big reveal">One plan. $20 a month.</h2>
+    <p class="sub reveal">Everything included. You pay for the app only: no credits, no usage fees. It uses the AI account you already have.</p>
+    <div class="price one">
+      <div class="plan hot reveal"><h3>UnderGlow</h3><div class="p">$20 <small>/ month</small></div><ul><li>AI agents that build in your project</li><li>A test link for every change</li><li>Built-in browser to try it</li><li>Approve or send back in one click</li></ul><a class="btn" href="#waitlist">Join the waitlist</a></div>
     </div>
-    <p class="fineprint reveal">Planned prices, subject to change. Nothing is for sale or charged today.</p>
+    <p class="fineprint reveal">Planned price, subject to change. Nothing is for sale or charged today.</p>
   </section>
 
   <section class="wrap" id="faq">
     <p class="eyebrow reveal">Questions</p>
     <h2 class="big reveal">Straight answers</h2>
     <div class="facts reveal">
-      <div><h3>Do I need to know how to code?</h3><ul><li>No. You describe jobs in plain words. That is the whole point.</li></ul></div>
-      <div><h3>Which AI does it use?</h3><ul><li>It uses the AI account you already have. You stay in control of that account.</li></ul></div>
-      <div><h3>Will I get surprise bills?</h3><ul><li>No. We plan one flat monthly price with no credit system, and you will see exactly what is included before you pay anything.</li></ul></div>
       <div><h3>Is it ready?</h3><ul><li>Not yet. We are building it now. Waitlist members get in first, in the order they joined.</li></ul></div>
-      <div><h3>Is my stuff private?</h3><ul><li>UnderGlow runs on a computer you own. We do not host your files.</li></ul></div>
-      <div><h3>Can it send or buy things without me?</h3><ul><li>Not by default. Helpers draft and prepare, and you approve before anything is sent or paid. AI can make mistakes, so you stay in charge.</li></ul></div>
+      <div><h3>Which AI does it use?</h3><ul><li>It uses the AI account you already have. You stay in control of that account.</li></ul></div>
+      <div><h3>Does anything change without me?</h3><ul><li>No. You test each change and decide: approve it or send it back.</li></ul></div>
+      <div><h3>Where do my files live?</h3><ul><li>On your own computer. We do not host your projects.</li></ul></div>
     </div>
   </section>
 
@@ -146,14 +92,14 @@
       <form id="wl" class="wl" data-wl novalidate>
         <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email">
         <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <fieldset><legend>Optional: what would you pay each month for helpers that do work for you?</legend>
+        <fieldset><legend>Optional: what would you pay each month for this?</legend>
           <label><input type="radio" name="would_pay" value="under15">Under $15</label>
           <label><input type="radio" name="would_pay" value="15-25">$15 to $25</label>
           <label><input type="radio" name="would_pay" value="25-50">$25 to $50</label>
           <label><input type="radio" name="would_pay" value="50-100">$50 to $100</label>
           <label><input type="radio" name="would_pay" value="not_sure">Not sure yet</label>
         </fieldset>
-        <input type="text" name="tool" maxlength="200" placeholder="Optional: what is the first job you would hand off?" aria-label="First job you would hand off">
+        <input type="text" name="tool" maxlength="200" placeholder="Optional: what would you build first?" aria-label="What would you build first">
         <button class="btn big" type="submit">Join the waitlist</button>
         <p id="wlmsg" role="status" aria-live="polite"></p>
         <p class="wlcount" data-wlcount hidden></p>
